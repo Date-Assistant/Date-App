@@ -6,7 +6,9 @@ else
     RESPONSE="false" 
 fi
 if [ "${RESPONSE}" = "true" ]; then
-	echo "Arabbitmq-server is running... Wait for status"
+	echo "Checking rabbitmq-server services"
+	sleep 3
+	echo "Rabbitmq-server is running... Wait for status"
 	sleep 5
 	systemctl status rabbitmq-server
 else

@@ -5,6 +5,8 @@ else
     RESPONSE="false" 
 fi
 if [ "${RESPONSE}" = "true" ]; then
+	echo "Checking front-end services"
+	sleep 3
 	echo "Apache2 is running... Wait for status"
 	sleep 5
 	systemctl status apache2

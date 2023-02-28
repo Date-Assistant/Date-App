@@ -5,6 +5,8 @@ else
     RESPONSE="false" 
 fi
 if [ "${RESPONSE}" = "true" ]; then
+	echo "Checking database services"
+	sleep 3
 	echo "MariaDB is running... Wait for status"
 	sleep 5
 	systemctl status mariadb
