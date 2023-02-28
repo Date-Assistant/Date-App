@@ -34,7 +34,7 @@ fi
 
 
 # database-server
-HOST2=10.0.0.218
+HOST2=10.0.0.207
 ping -q -w 3 -i2 $HOST2 2>&1 >/dev/null
 OFFLINE2=$?
 if [ $OFFLINE2 -eq 1 ];
