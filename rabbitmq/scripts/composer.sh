@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sh /home/it490admin/Projects/Date-App/rabbitmq/scripts/start-up.sh
+
 COUNT=0
 # backend-server
 HOST=10.0.0.108

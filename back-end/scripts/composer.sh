@@ -1,4 +1,5 @@
 #!/bin/bash
+sh /home/it490admin/Projects/Date-App/back-end/scripts/start-up.sh
 
 COUNT=0
 # database-server
