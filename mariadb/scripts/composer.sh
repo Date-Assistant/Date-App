@@ -13,7 +13,7 @@ then
 else
 	echo "Back End Device is online...Wait"
 	sleep 2
-	ssh -t it490admin@10.0.0.108 "sh /home/it490admin/Projects/Date-App/back-end/scripts/start-up.sh"
+	ssh -t it490admin@$HOST "sh /home/it490admin/Projects/Date-App/back-end/scripts/start-up.sh"
 fi
 
 
@@ -29,7 +29,7 @@ then
 else
 	echo "Front End Device is online...Wait"
 	sleep 2
-	ssh -t it490admin@10.0.0.156 "sh /home/it490admin/Projects/Date-App/front-end/scripts/start-up.sh"
+	ssh -t it490admin@$HOST1 "sh /home/it490admin/Projects/Date-App/front-end/scripts/start-up.sh"
 fi
 
 
@@ -44,7 +44,7 @@ then
 else
 	echo "RabbitMQ Device is online...Wait"
 	sleep 2
-	ssh -t it490admin@10.0.0.218 "sh /home/it490admin/Projects/Date-App/rabbitmq/scripts/start-up.sh"
+	ssh -t it490admin@$HOST2 "sh /home/it490admin/Projects/Date-App/rabbitmq/scripts/start-up.sh"
 fi
 
 if [ $COUNT -eq 1 ]; then
