@@ -44,7 +44,7 @@ then
 else
 	echo "Database Device is online...Wait"
 	sleep 2
-	ssh -t it490admin@$HOST2 "sh /home/it490admin/Projects/Date-App/rabbitmq/scripts/start-up.sh"
+	ssh -t it490admin@$HOST2 "sh /home/it490admin/Projects/Date-App/mariadb/scripts/start-up.sh"
 fi
 
 if [ $COUNT -eq 1 ]; then
