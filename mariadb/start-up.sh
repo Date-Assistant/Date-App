@@ -2,11 +2,17 @@ STATUS="$(systemctl is-active mariadb)"
 if [ "${STATUS}" = "active" ]; then
     RESPONSE="true"
 else 
-    RESPONSE="false"
-    exit 1  
+    RESPONSE="false" 
 fi
 if [ "${RESPONSE}" = "true" ]; then
-    sudo systemctl status mariadb
+	echo "MariaDB is running... Wait for status"
+	sleep 5
+	sudo systemctl status mariadb
 else
-    sudo systemctl enable mariadb
-    sudo systemctl start mariadb
+	echo "MariaDB is not running. Enabling now"
+	sleep 5
+	sudo systemctl enable mariadb
+	sudo systemctl start mariadb
+	sudo systemctl status mariadb
+
+fi
