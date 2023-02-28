@@ -2,7 +2,7 @@
 
 # backend-server
 
-ssh -t it490admin@10.0.0.108 "sh /home/it490admin/Projects/Date-App/back-end/scripts/start-up.sh"
+ssh -t it490admin@10.0.0.108 "sh /home/it490admin/Project/Date-App/back-end/scripts/start-up.sh"
 
 # frontend-server
 
