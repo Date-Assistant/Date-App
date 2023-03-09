@@ -9,12 +9,12 @@ if [ "${RESPONSE}" = "true" ]; then
 	sleep 3
 	echo "Apache2 is running... Wait for status"
 	sleep 5
-	systemctl status apache2
+	echo "password" | sudo systemctl status apache2
 else
 	echo "Apache2 is not running. Enabling now"
 	sleep 5
-	systemctl enable apache2
-	systemctl start apache2
-	systemctl status apache2
+	echo "password" | sudo systemctl enable apache2
+	echo "password" | sudo systemctl start apache2
+	echo "password" | sudo systemctl status apache2
 
 fi
