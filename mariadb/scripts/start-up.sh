@@ -9,7 +9,8 @@ if [ "${RESPONSE}" = "true" ]; then
 	sleep 3
 	echo "MariaDB is running... Wait for status"
 	sleep 5
-	echo "password" | sudo systemctl status mariadb
+	echo "password" | su - it490admin
+	systemctl status mariadb
 else
 	echo "MariaDB is not running. Enabling now"
 	sleep 5
