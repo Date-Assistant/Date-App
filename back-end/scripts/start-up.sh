@@ -14,8 +14,8 @@ if [ "${RESPONSE}" = "true" ]; then
 else
 	echo "Apache2 is not running. Enabling now"
 	sleep 5
-    echo "password" | su - it490admin
-    apt install -y apache2
+	echo "password" | su - it490admin
+	apt install -y apache2
 	systemctl enable apache2
 	systemctl start apache2
 	systemctl status apache2
