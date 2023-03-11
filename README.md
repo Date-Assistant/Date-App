@@ -13,9 +13,9 @@
 * ![Fedora](https://img.shields.io/badge/Fedora-294172?style=for-the-badge&logo=fedora&logoColor=white)
 
 <!-- CONTACT -->
-## Creators 
-* [![LinkedIn][linkedin-shield]][linkedin-url] **Lap Le**
-* [![LinkedIn][linkedin-shield]][linkedin-url-brian] **Brian Gomez**
+## Creators Brian & Lap
+* [![LinkedIn][linkedin-shield]][linkedin-url-brian]
+* [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
