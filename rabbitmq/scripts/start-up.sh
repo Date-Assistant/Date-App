@@ -10,13 +10,16 @@ if [ "${RESPONSE}" = "true" ]; then
 	sleep 3
 	echo "Rabbitmq-server is running... Wait for status"
 	sleep 5
-	echo "password" | sudo systemctl status rabbitmq-server
+	echo "password" | su - it490admin
+	systemctl status rabbitmq-server
 else
 	echo "rabbitmq-server is not running. Enabling now"
 	sleep 5
-	echo "password" | sudo systemctl enable rabbitmq-server
-	echo "password" | sudo systemctl start rabbitmq-server
-	echo "password" | sudo systemctl status rabbitmq-server
+	echo "password" | su - it490admin
+	apt install -y rabbitmq-server
+	systemctl enable rabbitmq-server
+	systemctl start rabbitmq-server
+	systemctl status rabbitmq-server
 
 fi
 
