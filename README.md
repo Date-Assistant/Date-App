@@ -13,7 +13,7 @@
 * ![Fedora](https://img.shields.io/badge/Fedora-294172?style=for-the-badge&logo=fedora&logoColor=white)
 
 <!-- CONTACT -->
-## Creators Brian & Lap
+## Creators: _Brian & Lap_
 * [![LinkedIn][linkedin-shield]][linkedin-url-brian]
 * [![LinkedIn][linkedin-shield]][linkedin-url]
 
