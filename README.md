@@ -1,7 +1,7 @@
 # Date-App
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-#### This is a full-stack application for our IT-490 Project using eventbriteAPI
+#### This is a full-stack application for our IT-490 Project using various APIs
 
 ### Built With
 * ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)
