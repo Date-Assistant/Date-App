@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, url_for, flash, redirect
 import pika
 import sys
 import json
-sys.path.append('../../plugins/')
+sys.path.insert(1,'../../plugins/')
 import plugins.Receive as receive
 import plugins.Send as send
 
