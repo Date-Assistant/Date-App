@@ -24,7 +24,39 @@ def main():
     db_receive = Receive.recieve(ip_addr,port,username,password,vhost,db_queue,db_routing_key,db_exchange_type)
     backend_data = {}
     result = db_receive.receive_from_backend(db_queue,backend_data)
-    print(result)
+    fname = ''
+    lname = ''
+    email = ''
+    passwd = ''
+    phone = ''
+    address = ''
+    zip = 0
+    receive_emails = 0
+
+    for x in result:
+        if(x == 'first_name'):
+            fname = result[x]
+        elif(x == 'last_name'):
+            lname = result[x]
+        elif(x == 'email'):
+            email = result[x]
+        elif(x == 'password'):
+            passwd = result[x]
+        elif(x == 'phone'):
+            phone = result[x]
+        elif(x == 'address'):
+            address = result[x]
+        elif(x == 'zip_code'):
+            zip = int(result[x])
+        elif(x == 'receive_emails'):
+            if(result[x] == 'on'):
+                receive_emails = 1
+            else:
+                receive_emails = 0
+        cursor.execute("INSERT INTO users (fname,lname,email,password,phone,address,zipcode,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s);" % (fname,lname,email,passwd,phone,address,zip,receive_emails))
+        mariadb_connection.commit()
+    
+            
 
 if __name__ == '__main__':
     try:
