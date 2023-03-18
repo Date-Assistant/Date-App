@@ -1,5 +1,10 @@
 from flask import Flask, render_template, request, url_for, flash, redirect
 import pika
+import sys
+import json
+sys.path.append('../../plugins/')
+from plugins.Send import send
+from plugins.Receive import receive
 
 app = Flask(__name__)
 
@@ -8,16 +13,16 @@ messages = [{'title': 'Message One',
             {'title': 'Message Two',
              'content': 'Message Two Content'}
             ]
-'''
-credentials = pika.PlainCredentials('thebigrabbit','it490')
-parameters = pika.ConnectionParameters('10.0.0.218',5672,'cherry_broker',credentials)
 
-connection = pika.BlockingConnection(parameters)
-
-channel = connection.channel()
-
-channel.queue_declare(queue='This is register send test')
-'''
+username = 'thebigrabbit'
+password = 'it490'
+ip_addr = '10.0.0.218'
+port = 5672
+vhost = 'cherry_broker'
+queue= 'hello'
+exchange = ''
+exchange_type = 'direct'
+routing_key = 'hello'
 
 @app.route('/')
 def index():
@@ -71,7 +76,12 @@ def register():
         }
 
         # Print the form data
-        print(user_data)
+	try:
+		front_end_register = send(ip_addr,port,username,password,vhost,exchange,queue,routing_key,exchange_type)
+		json_user_data = json.dumps(user_data)
+		front_end_register.send_message(json_user_data)
+	except BaseException:
+		print("error")
 
         # TODO: Add code to store the data in a database or message queue
 
