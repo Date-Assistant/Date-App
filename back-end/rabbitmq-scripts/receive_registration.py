@@ -16,7 +16,11 @@ routing_key = 'hello'
 
 def main():
 		backend_receive = Receive.recieve(ip_addr,port,username,password,vhost,queue,routing_key,exchange_type)
-		backend_receive.receive_from_frontend(queue)
+		frontend_data = {}
+		result = backend_receive.receive_from_frontend(queue,frontend_data)
+		for x in result:
+                      if(x == "first_name"):
+                            print("your first name is: " + result[x])
 
 if __name__ == '__main__':
     try:

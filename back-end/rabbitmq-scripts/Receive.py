@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import pika
+import json
 
 class recieve:
       def __init__(self,ip_addr,port,username,password,vhost,queue,routing_key,exchange_type):
@@ -14,18 +15,41 @@ class recieve:
             self.credentials = pika.PlainCredentials(self.username, self.password)
             self.connection = pika.BlockingConnection(pika.ConnectionParameters(self.ip_addr, self.port, self.vhost, self.credentials))
             self.channel = self.connection.channel()
+   
 
       
-      def receive_from_frontend(self,queue):
+      def receive_from_frontend(self,queue,copyDict):
          # create receive_registration.py that subscribes to same exchange and routing key from /register route in myapp.py
          self.channel.queue_declare(queue=self.queue)
+         self.copyDict = copyDict
+
+         def get_dict(dict,otherDict):
+            for key, value in dict.items():
+               otherDict[key] = value
+            return otherDict
 
          def callback(ch, method, properties, body):
-            print(" [x] Received %r " % body)
+            global bodyResult
+            bodyResult = body
+            x = bodyResult.decode('utf-8','strict')
+            callback_dict = { 'frontend' : x}
+            global newDict
+            newDict = json.loads(callback_dict['frontend'])
+            for key, value in newDict.items():
+               self.copyDict[key] = value
+            print('consumed')
+            self.connection.close()
+            
 
          self.channel.basic_consume(queue=self.queue,
          on_message_callback=callback,
          auto_ack=True)
 
+
          print(' [*] Waiting for messages.')
          self.channel.start_consuming()
+
+         return self.copyDict
+         
+
+         
