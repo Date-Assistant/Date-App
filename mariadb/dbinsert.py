@@ -37,7 +37,7 @@ def main():
     for x in result:
         if(x == 'first_name'):
             fname = result[x]
-            if(temp.has_key('first_name')):
+            if(temp['first_name'] in temp):
                 pass
             elif(temp['first_name'] == fname):
                 pass
@@ -45,7 +45,7 @@ def main():
                 temp['first_name'] = fname
         elif(x == 'last_name'):
             lname = result[x]
-            if(temp.has_key('last_name')):
+            if(temp['last_name'] in temp):
                 pass
             elif(temp['last_name'] == lname):
                 pass
@@ -53,7 +53,7 @@ def main():
                 temp['last_name'] = lname
         elif(x == 'email'):
             email = result[x]
-            if(temp.has_key('email')):
+            if(temp['email'] in temp):
                 pass
             elif(temp['email'] == email):
                 pass
@@ -61,7 +61,7 @@ def main():
                 temp['email'] = email
         elif(x == 'password'):
             passwd = result[x]
-            if(temp.has_key('password')):
+            if(temp['password'] in temp):
                 pass
             elif(temp['password'] == passwd):
                 pass
@@ -69,7 +69,7 @@ def main():
                 temp['password'] = passwd
         elif(x == 'phone'):
             phone = result[x]
-            if(temp.has_key('phone')):
+            if(temp['phone'] in temp):
                 pass
             elif(temp['phone'] == phone):
                 pass
@@ -77,7 +77,7 @@ def main():
                 temp['phone'] = phone
         elif(x == 'address'):
             address = result[x]
-            if(temp.has_key('address')):
+            if(temp['address'] in temp):
                 pass
             elif(temp['address'] == address):
                 pass
@@ -85,7 +85,7 @@ def main():
                 temp['address'] = address
         elif(x == 'zip_code'):
             zip = result[x]
-            if(temp.has_key('zip_code')):
+            if(temp['zip_code'] in temp):
                 pass
             elif(temp['zip_code'] == zip):
                 pass
@@ -96,14 +96,14 @@ def main():
                 receive_emails = 'on'
             else:
                 receive_emails = 'off'
-            if(temp.has_key('receive_emails')):
+            if(temp['receive_emails'] in temp):
                 pass
             elif(temp['receive_emails'] == receive_emails):
                 pass
             else:
                 temp['receive_emails'] = receive_emails
         sqlInsert = "INSERT INTO users (fname,lname,email,password,phone,address,zipcode,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-        infoTuple = (temp['firstname'],temp['last_name'],temp['email'],temp['password'],temp['phone'],temp['address'],temp['zip_code'],temp['receive_emails'])
+        infoTuple = (temp['first_name'],temp['last_name'],temp['email'],temp['password'],temp['phone'],temp['address'],temp['zip_code'],temp['receive_emails'])
         cursor.execute(sqlInsert,infoTuple)
         mariadb_connection.commit()
     
