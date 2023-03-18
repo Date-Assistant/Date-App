@@ -1,172 +1,76 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <style>
-        * {
-	box-sizing: border-box;
-}
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-body {
-	background-color: black;
-	color: black;
-	margin: 0;
-}
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-.container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 100vh;
-}
-
-.card {
-	background-color: transparent;
-	padding: 20px;
-	max-width: 800px;
-	text-align: center;
-}
-
-form {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-label{
-	display: block;
-	margin-bottom: 5px;
-	text-align: left;
-    background-color: transparent;
-    color: #ff6ec7;;
-	text-shadow: 0 0 10px #ff6ec7, 0 0 20px #ff6ec7, 0 0 30px #ff6ec7, 0 0 40px #ff6ec7, 0 0 50px #ff6ec7, 0 0 60px #ff6ec7, 0 0 70px #ff6ec7;
-}
-
-.card h1 {
-background-color: transparent;
-    color: #ff6ec7;;
-	text-shadow: 0 0 10px #ff6ec7, 0 0 20px #ff6ec7, 0 0 30px #ff6ec7, 0 0 40px #ff6ec7, 0 0 50px #ff6ec7, 0 0 60px #ff6ec7, 0 0 70px #ff6ec7;
-    padding-top: -5%;
-}
-
-input[type=text], input[type=email], input[type=tel], input[type=password] {
-	padding: 10px;
-	border: none;
-	border-radius: 5px;
-	background-color: #f2f2f2;
-	margin-bottom: 10px;
-}
-
-input[type=checkbox] {
-	display: none;
-}
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 24px;
-  margin: 10px;
-}
-
-.switch input {
-  display: none;
-}
-
-.label {
-  display: inline-block;
-  margin-right: 10px;
-  font-size: 14px;
-  color: white;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-  border-radius: 24px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 2px;
-  bottom: 2px;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: green;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-input[type=submit] {
-	background-color: #4CAF50;
-	color: white;
-	/*padding: 12px 20px;*/
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	margin-bottom: 10px;
-}
-
-input[type=submit]:hover {
-	background-color: #45a049;
-}
-
-@media screen and (max-width: 600px) {
-	.card {
-		width: 50%;
-    }}
-    </style>
-	<title>Registration Form</title>
+  <title>Register - Date Planning App</title>
 </head>
 <body>
-	<div class="container">
-		<div class="card">
-			<h1>Join the DateFam</h1>
-			<form action="{{ url_for('register') }}" method="post">
-				<label for="fname">First Name</label>
-				<input type="text" id="fname" name="fname" required>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 mt-5">
+        <h1 class="text-center">Join the DateFam</h1>
+        <form action="{{ url_for('signin') }}" method="post">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="fname">First Name</label>
+              <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="lname">Last Name</label>
+              <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" class="form-control" id="phone" name="phone" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" name="address" placeholder="123 Main St" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="zip">Zip Code</label>
+              <input type="text" class="form-control" id="zip" name="zip" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="email-toggle">Receive Email Alerts?</label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="email-toggle" name="email-toggle">
+                <label class="form-check-label" for="email-toggle">
+                  Yes, please send me email alerts.
+                </label>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block mt-3">Register</button>
+        </form>
+        <div class="text-center mt-3">
+          <span>Already have an account?</span> <a href="{{ url_for('signin') }}">Sign in here</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
-				<label for="lname">Last Name</label>
-				<input type="text" id="lname" name="lname" required>
-
-				<label for="email">Email</label>
-				<input type="email" id="email" name="email" required>
-
-				<label for="phone">Phone Number</label>
-				<input type="tel" id="phone" name="phone" required>
-
-				<label for="address">Address</label>
-				<input type="text" id="address" name="address" required>
-
-				<label for="zip">Zip Code</label>
-				<input type="text" id="zip" name="zip" required>
-
-				<label for="email-toggle">Receive Emails</label>
-				<label class="switch">
-					<input type="checkbox" id="email-toggle" name="email-toggle">
-					<span class="slider"></span>
-				</label>
-
-				<input type="submit" value="Submit">
-			</form>
-		</div>
-	</div>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
