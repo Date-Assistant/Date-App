@@ -2,9 +2,8 @@ from flask import Flask, render_template, request, url_for, flash, redirect
 import pika
 import sys
 import json
-sys.path.insert(1,'../../plugins/')
-import plugins.Receive as receive
-import plugins.Send as send
+import Receive
+import Send
 
 app = Flask(__name__)
 
@@ -14,8 +13,8 @@ messages = [{'title': 'Message One',
              'content': 'Message Two Content'}
             ]
 
-username = 'thebigrabbit'
-password = 'it490'
+username = 'brian'
+password = 'password'
 ip_addr = '10.0.0.218'
 port = 5672
 vhost = 'cherry_broker'
@@ -77,7 +76,7 @@ def register():
 
         # Print the form data
         try:
-            front_end_register = send(ip_addr,port,username,password,vhost,exchange,queue,routing_key,exchange_type)
+            front_end_register = Send.send(ip_addr,port,username,password,vhost,exchange,queue,routing_key,exchange_type)
             json_user_data = json.dumps(user_data)
             front_end_register.send_message(json_user_data)
         except BaseException:
