@@ -29,27 +29,9 @@ def index():
 
 # ...
 
-@app.route('/create/', methods=('GET', 'POST'))
-def create():
-        if request.method == 'POST':
-            title = request.form['title']
-            content = request.form['content']
-
-            if not title:
-                flash('Title is required!')
-            elif not content:
-                flash('Content is required!')
-            else:
-                messages.append({'title': title, 'content': content})
-                '''
-                channel.basic_publish(exchange='',
-                routing_key='This is register send test',
-                body = '%s : %s' % (title,content))
-                connection.close()
-                '''
-                return redirect(url_for('index'))
-
-        return render_template('create.html')
+@app.route('/signin/', methods=('GET', 'POST'))
+def signin():
+    return render_template('signin.html')
 
 @app.route('/register/', methods=('GET', 'POST'))
 def register():
