@@ -32,29 +32,78 @@ def main():
     address = ''
     zip = ''
     receive_emails = ''
+    temp = {}
 
     for x in result:
         if(x == 'first_name'):
             fname = result[x]
+            if(temp.has_key('first_name')):
+                pass
+            elif(temp['first_name'] == fname):
+                pass
+            else:
+                temp['first_name'] = fname
         elif(x == 'last_name'):
             lname = result[x]
+            if(temp.has_key('last_name')):
+                pass
+            elif(temp['last_name'] == lname):
+                pass
+            else:
+                temp['last_name'] = lname
         elif(x == 'email'):
             email = result[x]
+            if(temp.has_key('email')):
+                pass
+            elif(temp['email'] == email):
+                pass
+            else:
+                temp['email'] = email
         elif(x == 'password'):
             passwd = result[x]
+            if(temp.has_key('password')):
+                pass
+            elif(temp['password'] == passwd):
+                pass
+            else:
+                temp['password'] = passwd
         elif(x == 'phone'):
             phone = result[x]
+            if(temp.has_key('phone')):
+                pass
+            elif(temp['phone'] == phone):
+                pass
+            else:
+                temp['phone'] = phone
         elif(x == 'address'):
             address = result[x]
+            if(temp.has_key('address')):
+                pass
+            elif(temp['address'] == address):
+                pass
+            else:
+                temp['address'] = address
         elif(x == 'zip_code'):
             zip = result[x]
+            if(temp.has_key('zip_code')):
+                pass
+            elif(temp['zip_code'] == zip):
+                pass
+            else:
+                temp['zip_code'] = zip
         elif(x == 'receive_emails'):
             if(result[x] == 'on'):
                 receive_emails = 'on'
             else:
                 receive_emails = 'off'
+            if(temp.has_key('receive_emails')):
+                pass
+            elif(temp['receive_emails'] == receive_emails):
+                pass
+            else:
+                temp['receive_emails'] = receive_emails
         sqlInsert = "INSERT INTO users (fname,lname,email,password,phone,address,zipcode,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-        infoTuple = (fname,lname,email,passwd,phone,address,zip,receive_emails)
+        infoTuple = (temp['firstname'],temp['last_name'],temp['email'],temp['password'],temp['phone'],temp['address'],temp['zip_code'],temp['receive_emails'])
         cursor.execute(sqlInsert,infoTuple)
         mariadb_connection.commit()
     
