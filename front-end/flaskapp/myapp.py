@@ -41,6 +41,7 @@ def register():
         lname = request.form['lname']
         email = request.form['email']
         phone = request.form['phone']
+        passwd = request.form['password']
         address = request.form['address']
         zip = request.form['zip']
         email_toggle = request.form.get('email-toggle', 'off')
@@ -50,7 +51,7 @@ def register():
             'first_name': fname,
             'last_name': lname,
             'email': email,
-            'password' : password,
+            'password' : passwd,
             'phone': phone,
             'address': address,
             'zip_code': zip,
