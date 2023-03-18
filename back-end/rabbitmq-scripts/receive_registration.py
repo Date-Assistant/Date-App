@@ -2,8 +2,8 @@ import pika
 import sys
 import json
 sys.path.append('../../plugins/')
-from plugins.Send import send
-from plugins.Receive import receive
+import plugins.Receive as receive
+import plugins.Send as send
 
 username = 'thebigrabbit'
 password = 'it490'

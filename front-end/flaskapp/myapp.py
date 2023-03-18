@@ -3,8 +3,8 @@ import pika
 import sys
 import json
 sys.path.append('../../plugins/')
-from plugins.Send import send
-from plugins.Receive import receive
+import plugins.Receive as receive
+import plugins.Send as send
 
 app = Flask(__name__)
 
@@ -76,12 +76,12 @@ def register():
         }
 
         # Print the form data
-	try:
-		front_end_register = send(ip_addr,port,username,password,vhost,exchange,queue,routing_key,exchange_type)
-		json_user_data = json.dumps(user_data)
-		front_end_register.send_message(json_user_data)
-	except BaseException:
-		print("error")
+        try:
+            front_end_register = send(ip_addr,port,username,password,vhost,exchange,queue,routing_key,exchange_type)
+            json_user_data = json.dumps(user_data)
+            front_end_register.send_message(json_user_data)
+        except BaseException:
+            print("error")
 
         # TODO: Add code to store the data in a database or message queue
 
