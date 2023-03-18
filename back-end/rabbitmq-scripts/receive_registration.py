@@ -14,10 +14,10 @@ exchange = ''
 front_end_exchange_type = 'direct'
 front_end_routing_key = 'hello'
 
-db_queue= 'hello'
+db_queue= 'dbqueue'
 exchange = ''
 db_exchange_type = 'direct'
-db_routing_key = 'hello'
+db_routing_key = 'dbqueue'
 
 def main():
     backend_receive = Receive.recieve(ip_addr,port,username,password,vhost,front_end_queue,front_end_routing_key,front_end_exchange_type)
