@@ -32,12 +32,12 @@ def main():
     address = ''
     zip = ''
     receive_emails = ''
-    temp = {}
+    temp = {'first_name': '','last_name':'','email':'','password':'','phone':'','address':'','zip_code':'','receive_emails':''}
 
     for x in result:
         if(x == 'first_name'):
             fname = result[x]
-            if(temp['first_name'] in temp):
+            if('first_name' in temp and temp['first_name'] == fname):
                 pass
             elif(temp['first_name'] == fname):
                 pass
@@ -45,7 +45,7 @@ def main():
                 temp['first_name'] = fname
         elif(x == 'last_name'):
             lname = result[x]
-            if(temp['last_name'] in temp):
+            if('last_name' in temp and temp['last_name'] == lname):
                 pass
             elif(temp['last_name'] == lname):
                 pass
@@ -53,7 +53,7 @@ def main():
                 temp['last_name'] = lname
         elif(x == 'email'):
             email = result[x]
-            if(temp['email'] in temp):
+            if(temp['email'] in temp and temp['email'] == email):
                 pass
             elif(temp['email'] == email):
                 pass
@@ -61,7 +61,7 @@ def main():
                 temp['email'] = email
         elif(x == 'password'):
             passwd = result[x]
-            if(temp['password'] in temp):
+            if('password' in temp and temp['password'] == passwd):
                 pass
             elif(temp['password'] == passwd):
                 pass
@@ -69,7 +69,7 @@ def main():
                 temp['password'] = passwd
         elif(x == 'phone'):
             phone = result[x]
-            if(temp['phone'] in temp):
+            if('phone' in temp and temp['phone'] == phone):
                 pass
             elif(temp['phone'] == phone):
                 pass
@@ -77,7 +77,7 @@ def main():
                 temp['phone'] = phone
         elif(x == 'address'):
             address = result[x]
-            if(temp['address'] in temp):
+            if('address'in temp and temp['address'] == address):
                 pass
             elif(temp['address'] == address):
                 pass
@@ -85,7 +85,7 @@ def main():
                 temp['address'] = address
         elif(x == 'zip_code'):
             zip = result[x]
-            if(temp['zip_code'] in temp):
+            if('zip_code' in temp and temp['zip_code'] == zip):
                 pass
             elif(temp['zip_code'] == zip):
                 pass
@@ -96,7 +96,7 @@ def main():
                 receive_emails = 'on'
             else:
                 receive_emails = 'off'
-            if(temp['receive_emails'] in temp):
+            if('receive_emails' in temp and temp['receive_emails'] == receive_emails):
                 pass
             elif(temp['receive_emails'] == receive_emails):
                 pass
