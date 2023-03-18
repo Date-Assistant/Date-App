@@ -50,6 +50,7 @@ def register():
             'first_name': fname,
             'last_name': lname,
             'email': email,
+            'password' : password,
             'phone': phone,
             'address': address,
             'zip_code': zip,
