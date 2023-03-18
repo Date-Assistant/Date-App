@@ -30,8 +30,8 @@ def main():
     passwd = ''
     phone = ''
     address = ''
-    zip = 0
-    receive_emails = 0
+    zip = ''
+    receive_emails = ''
 
     for x in result:
         if(x == 'first_name'):
@@ -47,14 +47,14 @@ def main():
         elif(x == 'address'):
             address = result[x]
         elif(x == 'zip_code'):
-            print(type(result[x]))
+            zip = result[x]
         elif(x == 'receive_emails'):
             if(result[x] == 'on'):
-                receive_emails = 1
+                receive_emails = 'on'
             else:
-                receive_emails = 0
-        sqlInsert = "INSERT INTO users (fname,lname,email,password,phone,address,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s)"
-        infoTuple = (fname,lname,email,passwd,phone,address,receive_emails)
+                receive_emails = 'off'
+        sqlInsert = "INSERT INTO users (fname,lname,email,password,phone,address,zipcode,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+        infoTuple = (fname,lname,email,passwd,phone,address,zip,receive_emails)
         cursor.execute(sqlInsert,infoTuple)
         mariadb_connection.commit()
     
