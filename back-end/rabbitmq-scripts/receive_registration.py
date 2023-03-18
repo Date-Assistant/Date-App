@@ -20,7 +20,7 @@ db_exchange_type = 'direct'
 db_routing_key = 'hello'
 
 def main():
-    backend_receive = Receive.recieve(ip_addr,port,username,password,vhost,front_end_queue,routing_key,front_end_exchange_type)
+    backend_receive = Receive.recieve(ip_addr,port,username,password,vhost,front_end_queue,front_end_routing_key,front_end_exchange_type)
     frontend_data = {}
     result = backend_receive.receive_from_frontend(front_end_queue,frontend_data)
     back_end_to_db = Send.send(ip_addr,port,username,password,vhost,exchange,db_queue,db_routing_key,db_exchange_type)
