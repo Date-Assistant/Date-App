@@ -102,10 +102,10 @@ def main():
                 pass
             else:
                 temp['receive_emails'] = receive_emails
-        sqlInsert = "INSERT INTO users (fname,lname,email,password,phone,address,zipcode,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-        infoTuple = (temp['first_name'],temp['last_name'],temp['email'],temp['password'],temp['phone'],temp['address'],temp['zip_code'],temp['receive_emails'])
-        cursor.execute(sqlInsert,infoTuple)
-        mariadb_connection.commit()
+    sqlInsert = "INSERT INTO users (fname,lname,email,password,phone,address,zipcode,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+    infoTuple = (temp['first_name'],temp['last_name'],temp['email'],temp['password'],temp['phone'],temp['address'],temp['zip_code'],temp['receive_emails'])
+    cursor.execute(sqlInsert,infoTuple)
+    mariadb_connection.commit()
     
             
 
