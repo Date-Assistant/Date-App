@@ -22,7 +22,7 @@ class recieve:
          # create receive_registration.py that subscribes to same exchange and routing key from /register route in myapp.py
          self.exchange = exchange
          self.channel.exchange_declare(exchange=self.exchange, exchange_type=self.exchange_type,passive=True)
-         result = channel.queue_declare(queue=self.queue,exclusive=True)
+         result = self.channel.queue_declare(queue=self.queue,exclusive=True)
          queue_name = result.method.queue
 
          self.channel.queue_bind(
