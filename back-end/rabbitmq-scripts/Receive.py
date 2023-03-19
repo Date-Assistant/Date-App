@@ -9,7 +9,6 @@ class recieve:
             self.username = username
             self.password = password
             self.vhost = vhost
-            self.exchange_type = exchange_type
             self.routing_key = routing_key
             self.exchange = exchange
             self.queue = queue
