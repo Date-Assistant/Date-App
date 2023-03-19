@@ -9,17 +9,16 @@ if [ "${RESPONSE}" = "true" ]; then
 	sleep 3
 	echo "MariaDB is running... Wait for status"
 	sleep 5
-<<<<<<< HEAD
-	echo "password" | systemctl status mariadb
-=======
 	echo "password" | su - it490admin
-	systemctl status mariadb
->>>>>>> 1bd168f995d9ca9c594be9965d9f94c12b65eaaf
+	sudo systemctl status mariadb
 else
 	echo "MariaDB is not running. Enabling now"
 	sleep 5
+	echo "password" | su - it490admin
+	sudo apt update
+	sudo apt install -y mariadb-server
 	echo "password" | sudo systemctl enable mariadb
 	echo "password" | sudo systemctl start mariadb
-	echo "password" | sudo systemctl status mariadb
+	sudo systemctl status mariadb
 
 fi
