@@ -10,12 +10,11 @@ ip_addr = '10.0.0.218'
 port = 5672
 vhost = 'cherry_broker'
 front_end_queue= 'hello'
-exchange = ''
+exchange = 'fe2be'
 front_end_exchange_type = 'direct'
 front_end_routing_key = 'hello'
 
 db_queue= 'dbqueue'
-exchange = ''
 db_exchange_type = 'direct'
 db_routing_key = 'dbqueue'
 
