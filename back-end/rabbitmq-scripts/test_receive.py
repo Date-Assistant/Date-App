@@ -3,13 +3,15 @@ import pika, sys
 
 def main():
     credentials = pika.PlainCredentials('brian','password')
-    parameters = pika.ConnectionParameters('10.241.51.24',5672,'cherry_broker',credentials)
+    parameters = pika.ConnectionParameters('10.0.0.218',5672,'cherry_broker',credentials)
 
     connection = pika.BlockingConnection(parameters)
 
     channel = connection.channel()
 
-    channel.queue_declare(queue='front-end')
+    result = channel.queue_declare(queue='other', exclusive=True)
+    queue_name = result.method.queue
+    channel.queue_bind(exchange='fe2be', queue=queue_name, routing_key='test112')
 
     def callback(ch, method, properties, body):
         print(" [x] Received %r " % body)
@@ -20,7 +22,7 @@ def main():
             file1.write(x.decode('utf-8','strict') + "\n ")
         file1.close()
 
-    channel.basic_consume(queue='front-end',
+    channel.basic_consume(queue='other',
     on_message_callback=callback,
     auto_ack=True)
 

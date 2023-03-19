@@ -3,7 +3,7 @@ import pika
 
 
 class send:
-        def __init__(self,ip_addr,port,username,password,vhost,exchange,routing_key,exchange_type):
+        def __init__(self,ip_addr,port,username,password,vhost,exchange,routing_key):
           self.ip_addr = ip_addr
           self.port = port
           self.username = username
