@@ -11,9 +11,9 @@ password = 'password'
 ip_addr = '10.0.0.218'
 port = 5672
 vhost = 'cherry_broker'
-be_received_queue = 'data_received'
+be_received_queue = 'be2db'
 be_received_exchange = 'be2db'
-routing_key = 'dbqueue'
+routing_key = 'be2db'
 
 
 mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306',database='IT490')

@@ -9,6 +9,7 @@ class recieve:
             self.username = username
             self.password = password
             self.vhost = vhost
+            self.exchange_type = exchange_type
             self.routing_key = routing_key
             self.exchange = exchange
             self.queue = queue
@@ -19,8 +20,7 @@ class recieve:
 
       
       def receive_from_backend(self,copyDict):
-         self.channel.queue_declare(queue=self.queue, exclusive=True)
-         self.channel.queue_bind(exchange=self.exchange, queue=self.queue, routing_key=self.routing_key)
+         self.channel.queue_declare(queue=self.queue)
          self.copyDict = copyDict
 
          def get_dict(dict,otherDict):
@@ -38,7 +38,6 @@ class recieve:
             for key, value in newDict.items():
                self.copyDict[key] = value
             print('consumed')
-            self.connection.close()
             
 
          self.channel.basic_consume(queue=self.queue,
