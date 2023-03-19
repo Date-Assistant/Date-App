@@ -16,15 +16,10 @@ class recieve:
             self.credentials = pika.PlainCredentials(self.username, self.password)
             self.connection = pika.BlockingConnection(pika.ConnectionParameters(self.ip_addr, self.port, self.vhost, self.credentials))
             self.channel = self.connection.channel()
-   
-
       
       def receive_from_frontend(self,copyDict):
-         # create receive_registration.py that subscribes to same exchange and routing key from /register route in myapp.py
-         self.channel.exchange_declare(exchange=self.exchange, exchange_type=self.exchange_type)
-         result = self.channel.queue_declare(queue=self.queue, exclusive=True)
-         queue_name = result.method.queue
-         self.channel.queue_bind(exchange=self.exchange, queue=queue_name, routing_key=self.routing_key)
+         self.channel.queue_declare(queue=self.queue, exclusive=True)
+         self.channel.queue_bind(exchange=self.exchange, queue=self.queue, routing_key=self.routing_key)
          self.copyDict = copyDict
 
          def get_dict(dict,otherDict):
@@ -45,7 +40,7 @@ class recieve:
             self.connection.close()
             
 
-         self.channel.basic_consume(queue=queue_name,
+         self.channel.basic_consume(queue=self.queue,
          on_message_callback=callback,
          auto_ack=True)
 

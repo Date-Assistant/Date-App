@@ -20,11 +20,8 @@ class recieve:
 
       
       def receive_from_backend(self,copyDict):
-         # create receive_registration.py that subscribes to same exchange and routing key from /register route in myapp.py
-         self.channel.exchange_declare(exchange=self.exchange, exchange_type=self.exchange_type)
-         result = self.channel.queue_declare(queue=self.queue, exclusive=True)
-         queue_name = result.method.queue
-         self.channel.queue_bind(exchange=self.exchange, queue=queue_name, routing_key=self.routing_key)
+         self.channel.queue_declare(queue=self.queue, exclusive=True)
+         self.channel.queue_bind(exchange=self.exchange, queue=self.queue, routing_key=self.routing_key)
          self.copyDict = copyDict
 
          def get_dict(dict,otherDict):
