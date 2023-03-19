@@ -12,7 +12,7 @@ vhost = 'cherry_broker'
 exchange_type = 'direct'
 queues_to_declare = {'register': 'registration_received'}
 routing_keys = {'front_end':'registration_form','db':'dbqueue'}
-exchanges = {'frontend':'be2fe','database':'be2db'}
+exchanges = {'frontend':'fe2be','database':'be2db'}
 
 def main():
     registration_receive = Receive.recieve(ip_addr,port,username,password,vhost,exchanges['frontend'],queues_to_declare['register'],routing_keys['front_end'],exchange_type)
