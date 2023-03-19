@@ -19,7 +19,6 @@ class send:
 
         def send_message(self, message):
           # self.channel.exchange_declare(exchange='', exchange_type='fanout')
-          self.message = message
-          self.channel.basic_publish(exchange=self.exchange, routing_key=self.routing_key, body=self.message)
+          self.channel.basic_publish(exchange=self.exchange, routing_key=self.routing_key, body=message)
           self.connection.close()
           print(f"Sent message: {self.message}")

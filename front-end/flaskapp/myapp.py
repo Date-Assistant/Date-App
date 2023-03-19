@@ -19,8 +19,8 @@ ip_addr = '10.0.0.218'
 port = 5672
 vhost = 'cherry_broker'
 exchange = 'fe2be'
-exchange_type = 'direct'
-routing_keys = {'register':'registration_rec'}
+exchange_type = 'fanout'
+routing_key = 'fe2be'
 
 
 
@@ -61,7 +61,7 @@ def register():
 
         # Print the form data
         try:
-            front_end_register = Send.send(ip_addr,port,username,password,vhost,exchange,routing_keys['register'],exchange_type)
+            front_end_register = Send.send(ip_addr,port,username,password,vhost,exchange,routing_key)
             json_user_data = json.dumps(user_data)
             front_end_register.send_message(json_user_data)
         except BaseException:
