@@ -3,13 +3,12 @@ import pika
 import json
 
 class recieve:
-      def __init__(self,ip_addr,port,username,password,vhost,exchange,queue,routing_key,exchange_type):
+      def __init__(self,ip_addr,port,username,password,vhost,exchange,queue,routing_key):
             self.ip_addr = ip_addr
             self.port = port
             self.username = username
             self.password = password
             self.vhost = vhost
-            self.exchange_type = exchange_type
             self.routing_key = routing_key
             self.exchange = exchange
             self.queue = queue
