@@ -9,7 +9,6 @@ class recieve:
             self.username = username
             self.password = password
             self.vhost = vhost
-            self.routing_key = routing_key
             self.exchange = exchange
             self.queue = que
             self.credentials = pika.PlainCredentials(self.username, self.password)
