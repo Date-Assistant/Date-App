@@ -18,10 +18,21 @@ class recieve:
    
 
       
-      def receive_from_frontend(self,queue,copyDict):
+      def receive_from_frontend(self,exchange,queue,copyDict):
          # create receive_registration.py that subscribes to same exchange and routing key from /register route in myapp.py
+         self.exchange = exchange
+         self.channel.exchange_declare(exchange=self.exchange, exchange_type=self.exchange_type,passive=True)
+         result = channel.queue_declare(queue=self.queue,exclusive=True)
+         queue_name = result.method.queue
+
+         self.channel.queue_bind(
+            exchange=self.exchange, queue=queue_name, routing_key=self.routing_key
+         )
+
+         '''
          self.channel.queue_declare(queue=self.queue)
          self.copyDict = copyDict
+         '''
 
          def get_dict(dict,otherDict):
             for key, value in dict.items():
@@ -41,7 +52,7 @@ class recieve:
             self.connection.close()
             
 
-         self.channel.basic_consume(queue=self.queue,
+         self.channel.basic_consume(queue=queue_name,
          on_message_callback=callback,
          auto_ack=True)
 

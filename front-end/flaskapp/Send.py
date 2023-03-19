@@ -18,8 +18,16 @@ class send:
           self.channel = self.connection.channel()
 
         def send_message(self, message):
-          # self.channel.exchange_declare(exchange='', exchange_type='fanout')
+          self.channel.exchange_declare(exchange=self.exchange, exchange_type=self.exchange_type)
           self.message = message
+          self.channel.basic_publish(
+            exchange=self.exchange,
+            routing_key=self.routing_key,
+            body=self.message
+          )
+          '''
           self.channel.queue_declare(queue=self.queue)
           self.channel.basic_publish(self.exchange, self.routing_key, body=self.message)
+          '''
           print(f"Sent message: {self.message}")
+          self.connection.close()
