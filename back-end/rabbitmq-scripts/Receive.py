@@ -9,6 +9,7 @@ class recieve:
             self.username = username
             self.password = password
             self.vhost = vhost
+            self.exchange_type = exchange_type
             self.routing_key = routing_key
             self.exchange = exchange
             self.queue = queue
@@ -17,7 +18,8 @@ class recieve:
             self.channel = self.connection.channel()
       
       def receive_from_frontend(self,copyDict):
-         self.channel.queue_declare(queue=self.queue, exclusive=True)
+         result = self.channel.queue_declare(queue=self.queue, exclusive=True)
+         queue_name = result.method.queue
          self.channel.queue_bind(exchange=self.exchange, queue=self.queue, routing_key=self.routing_key)
          self.copyDict = copyDict
 
@@ -27,6 +29,7 @@ class recieve:
             return otherDict
 
          def callback(ch, method, properties, body):
+            '''
             global bodyResult
             bodyResult = body
             x = bodyResult.decode('utf-8','strict')
@@ -36,7 +39,8 @@ class recieve:
             for key, value in newDict.items():
                self.copyDict[key] = value
             print('consumed')
-            self.connection.close()
+            '''
+            print(body)
             
 
          self.channel.basic_consume(queue=self.queue,

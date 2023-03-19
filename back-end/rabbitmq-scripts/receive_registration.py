@@ -20,10 +20,11 @@ def main():
     frontend_data = {}
     result = registration_receive.receive_from_frontend(frontend_data)
 
-
+    '''
     back_end_to_db = Send.send(ip_addr,port,username,password,vhost,db_exchange,db_routing_key)
     data_to_db = json.dumps(result)
     back_end_to_db.send_message(data_to_db)
+    '''
 
 if __name__ == '__main__':
     try:
