@@ -18,7 +18,6 @@ class recieve:
       
       def receive_from_frontend(self,copyDict):
          self.channel.queue_declare(queue=self.queue, exclusive=True)
-         queue_name = result.method.queue
          self.copyDict = copyDict
 
          def get_dict(dict,otherDict):
