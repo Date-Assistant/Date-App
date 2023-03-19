@@ -3,7 +3,7 @@ import pika
 import json
 
 class recieve:
-      def __init__(self,ip_addr,port,username,password,vhost,exchange,que):
+      def __init__(self,ip_addr,port,username,password,vhost,exchange,que,routing_key):
             self.ip_addr = ip_addr
             self.port = port
             self.username = username
@@ -17,7 +17,9 @@ class recieve:
             self.channel = self.connection.channel()
       
       def receive_from_frontend(self,copyDict):
-         self.channel.queue_declare(queue=self.queue, exclusive=True)
+         result = self.channel.queue_declare(queue=self.queue, exclusive=True)
+         queue_name = result.method.queue
+         channel.queue_bind(exchange=self.exchange, queue=queue_name, routing_key=self.routing_key)
          self.copyDict = copyDict
 
          def get_dict(dict,otherDict):
@@ -36,10 +38,9 @@ class recieve:
             for key, value in newDict.items():
                self.copyDict[key] = value
             print('consumed')
-            return 'consumed'
             
 
-         self.channel.basic_consume(queue=self.queue,
+         self.channel.basic_consume(queue=queue_name,
          on_message_callback=callback,
          auto_ack=True)
 
