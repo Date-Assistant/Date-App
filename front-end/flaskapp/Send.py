@@ -17,6 +17,6 @@ class send:
           self.connection = pika.BlockingConnection(pika.ConnectionParameters(self.ip_addr, self.port, self.vhost, self.credentials))
           self.channel = self.connection.channel()
 
-        def send_message(self, message):
+        def send_message(self, message,exchange,routing_key):
           # self.channel.exchange_declare(exchange='', exchange_type='fanout')
-          self.channel.basic_publish(exchange=self.exchange, routing_key=self.routing_key, body=message)
+          self.channel.basic_publish(exchange=exchange, routing_key=routing_key, body=message)
