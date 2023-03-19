@@ -16,16 +16,14 @@ fe_routing_key = 'fe2be'
 db_routing_key = 'be2db'
 
 def main():
-    registration_receive = Receive.recieve(ip_addr,port,username,password,vhost,'','','registration_form')
+    registration_receive = Receive.recieve(ip_addr,port,username,password,vhost,'','registration_form')
     frontend_data = {}
     result = registration_receive.receive_from_frontend(frontend_data)
     print(result)
     
-    '''
     back_end_to_db = Send.send(ip_addr,port,username,password,vhost,db_exchange,db_routing_key)
     data_to_db = json.dumps(result)
     back_end_to_db.send_message(data_to_db)
-    '''
     
 
 if __name__ == '__main__':
