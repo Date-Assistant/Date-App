@@ -20,8 +20,8 @@ port = 5672
 vhost = 'cherry_broker'
 queue= 'hello'
 exchange = 'fe2be'
-exchange_type = 'direct'
-routing_key = 'hello'
+exchange_type = 'fanout'
+routing_key = 'different'
 
 @app.route('/')
 def index():
@@ -62,7 +62,7 @@ def register():
         try:
             front_end_register = Send.send(ip_addr,port,username,password,vhost,exchange,queue,routing_key,exchange_type)
             json_user_data = json.dumps(user_data)
-            front_end_register.send_message(json_user_data)
+            front_end_register.send_message(json_user_data.encode('utf-8','strict'))
         except BaseException:
             print("error")
 

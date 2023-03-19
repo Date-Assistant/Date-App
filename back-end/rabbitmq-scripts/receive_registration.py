@@ -9,10 +9,10 @@ password = 'password'
 ip_addr = '10.0.0.218'
 port = 5672
 vhost = 'cherry_broker'
-front_end_queue= 'hello'
+front_end_queue= 'test'
 exchange = 'fe2be'
-front_end_exchange_type = 'direct'
-front_end_routing_key = 'hello'
+front_end_exchange_type = 'fanout'
+front_end_routing_key = 'different'
 
 db_queue= 'dbqueue'
 db_exchange_type = 'direct'
