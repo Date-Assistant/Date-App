@@ -11,19 +11,19 @@ password = 'password'
 ip_addr = '10.0.0.218'
 port = 5672
 vhost = 'cherry_broker'
-db_queue= 'dbqueue'
-exchange = ''
-db_exchange_type = 'direct'
-db_routing_key = 'dbqueue'
+exchange_type = 'direct'
+queues_to_declare = {'backend_register': 'registration_data_received'}
+routing_keys = {'from_backend':'dbqueue'}
+exchanges = {'backend':'db2be','database':'be2db'}
 
 
 mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306',database='IT490')
 cursor = mariadb_connection.cursor()
 
 def main():
-    db_receive = Receive.recieve(ip_addr,port,username,password,vhost,db_queue,db_routing_key,db_exchange_type)
+    db_receive = Receive.recieve(ip_addr,port,username,password,vhost,exchanges['database'],queues_to_declare['backend_register'],routing_keys['from_backend'],exchange_type)
     backend_data = {}
-    result = db_receive.receive_from_backend(db_queue,backend_data)
+    result = db_receive.receive_from_backend(backend_data)
     fname = ''
     lname = ''
     email = ''

@@ -9,21 +9,18 @@ password = 'password'
 ip_addr = '10.0.0.218'
 port = 5672
 vhost = 'cherry_broker'
-front_end_queue= 'hello'
-exchange = ''
-front_end_exchange_type = 'direct'
-front_end_routing_key = 'hello'
-
-db_queue= 'dbqueue'
-exchange = ''
-db_exchange_type = 'direct'
-db_routing_key = 'dbqueue'
+exchange_type = 'direct'
+queues_to_declare = {'register': 'registration_received'}
+routing_keys = {'front_end':'registration_form','db':'dbqueue'}
+exchanges = {'frontend':'be2fe','database':'be2db'}
 
 def main():
-    backend_receive = Receive.recieve(ip_addr,port,username,password,vhost,front_end_queue,front_end_routing_key,front_end_exchange_type)
+    registration_receive = Receive.recieve(ip_addr,port,username,password,vhost,exchanges['frontend'],queues_to_declare['register'],routing_keys['front_end'],exchange_type)
     frontend_data = {}
-    result = backend_receive.receive_from_frontend(front_end_queue,frontend_data)
-    back_end_to_db = Send.send(ip_addr,port,username,password,vhost,exchange,db_queue,db_routing_key,db_exchange_type)
+    result = registration_receive.receive_from_frontend(frontend_data)
+
+
+    back_end_to_db = Send.send(ip_addr,port,username,password,vhost,exchanges['database'],routing_keys['db'],exchange_type)
     data_to_db = json.dumps(result)
     back_end_to_db.send_message(data_to_db)
 

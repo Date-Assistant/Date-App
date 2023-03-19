@@ -3,7 +3,7 @@ import pika
 import json
 
 class recieve:
-      def __init__(self,ip_addr,port,username,password,vhost,queue,routing_key,exchange_type):
+      def __init__(self,ip_addr,port,username,password,vhost,exchange,queue,routing_key,exchange_type):
             self.ip_addr = ip_addr
             self.port = port
             self.username = username
@@ -11,6 +11,7 @@ class recieve:
             self.vhost = vhost
             self.exchange_type = exchange_type
             self.routing_key = routing_key
+            self.exchange = exchange
             self.queue = queue
             self.credentials = pika.PlainCredentials(self.username, self.password)
             self.connection = pika.BlockingConnection(pika.ConnectionParameters(self.ip_addr, self.port, self.vhost, self.credentials))
@@ -18,9 +19,12 @@ class recieve:
    
 
       
-      def receive_from_frontend(self,queue,copyDict):
+      def receive_from_frontend(self,copyDict):
          # create receive_registration.py that subscribes to same exchange and routing key from /register route in myapp.py
-         self.channel.queue_declare(queue=self.queue)
+         self.channel.exchange_declare(exchange=self.exchange, exchange_type=self.exchange_type)
+         result = self.channel.queue_declare(queue=self.queue, exclusive=True)
+         queue_name = result.method.queue
+         self.channel.queue_bind(exchange=self.exchange, queue=queue_name, routing_key=self.routing_key)
          self.copyDict = copyDict
 
          def get_dict(dict,otherDict):
@@ -41,7 +45,7 @@ class recieve:
             self.connection.close()
             
 
-         self.channel.basic_consume(queue=self.queue,
+         self.channel.basic_consume(queue=queue_name,
          on_message_callback=callback,
          auto_ack=True)
 
@@ -50,6 +54,8 @@ class recieve:
          self.channel.start_consuming()
 
          return self.copyDict
+      
+      
          
 
          
