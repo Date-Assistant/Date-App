@@ -20,7 +20,6 @@ class recieve:
 
       
       def receive_from_backend(self,copyDict):
-         self.channel.queue_declare(queue=self.queue)
          self.copyDict = copyDict
 
          def get_dict(dict,otherDict):
