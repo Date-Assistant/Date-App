@@ -12,7 +12,7 @@ vhost = 'cherry_broker'
 fe_exchange = 'fe2be'
 db_exchange = 'be2db'
 fe_declare_queue = 'registration'
-fe_routing_key = 'registration'
+fe_routing_key = 'fe2be'
 db_routing_key = 'dbqueue'
 
 def main():
