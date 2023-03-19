@@ -18,9 +18,9 @@ class send:
           self.channel = self.connection.channel()
 
         def send_message(self, message):
-          self.channel.exchange_declare(exchange=self.exchange, exchange_type=self.exchange_type)
-          self.message = message
-          self.channel.basic_publish(
+          global self.channel.exchange_declare(exchange=self.exchange, exchange_type=self.exchange_type)
+          global self.message = message
+          global self.channel.basic_publish(
             exchange=self.exchange,
             routing_key=self.routing_key,
             body=self.message
