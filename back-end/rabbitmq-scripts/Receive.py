@@ -17,7 +17,7 @@ class recieve:
             self.channel = self.connection.channel()
       
       def receive_from_frontend(self,copyDict):
-         self.channel.queue_declare(queue=self.queue)
+         self.channel.queue_declare(queue=self.queue,exclusive=True)
          self.copyDict = copyDict
 
          def get_dict(dict,otherDict):

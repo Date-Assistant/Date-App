@@ -11,7 +11,7 @@ port = 5672
 vhost = 'cherry_broker'
 fe_exchange = 'fe2be'
 db_exchange = 'be2db'
-fe_declare_queue = 'fe2db'
+fe_declare_queue = 'fe2be'
 fe_routing_key = 'fe2be'
 db_routing_key = 'be2db'
 

@@ -61,7 +61,7 @@ def register():
 
         # Print the form data
         try:
-            front_end_register = Send.send(ip_addr,port,username,password,vhost,exchange,routing_key)
+            front_end_register = Send.send(ip_addr,port,username,password,vhost,'',routing_key)
             json_user_data = json.dumps(user_data)
             front_end_register.send_message(json_user_data)
         except BaseException:
