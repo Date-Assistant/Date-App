@@ -16,7 +16,7 @@ fe_routing_key = 'fe2be'
 db_routing_key = 'be2db'
 
 def main():
-    registration_receive = Receive.recieve(ip_addr,port,username,password,vhost,fe_exchange,fe_declare_queue,fe_routing_key)
+    registration_receive = Receive.recieve(ip_addr,port,username,password,vhost,'',fe_declare_queue,fe_routing_key)
     frontend_data = {}
     result = registration_receive.receive_from_frontend(frontend_data)
 
