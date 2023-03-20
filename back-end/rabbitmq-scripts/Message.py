@@ -46,7 +46,7 @@ class Messaging:
                 print('consumed')
                 self.connection.close()
             
-            self.channel.basic_consume(queue=self.routing_key,
+            self.channel.basic_consume(queue=self.queue,
             on_message_callback=callback,
             auto_ack=True)
 
