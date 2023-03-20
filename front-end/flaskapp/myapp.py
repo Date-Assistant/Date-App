@@ -21,7 +21,8 @@ vhost = 'cherry_broker'
 queue= 'queue1'
 exchange = 'fe2be'
 exchange_type = 'direct'
-routing_key = 'queue1'
+register_routing_key = 'queue1'
+signin_routing_key = 'signin'
 
 @app.route('/')
 def index():
@@ -31,7 +32,29 @@ def index():
 
 @app.route('/signin/', methods=('GET', 'POST'))
 def signin():
-    return render_template('signin.html')
+    if request.method == 'POST':
+        # Retrieve the form data
+        email = request.form['email']
+        passwd = request.form['password']
+
+        # Create a dictionary to store the form data
+        user_sign_in = {
+            'email': email,
+            'password' : passwd,
+        }
+
+        # Print the form data
+        try:
+            front_end_sign_in = Send.send(ip_addr,port,username,password,vhost,exchange,queue,signin_routing_key,exchange_type)
+            json_user_data = json.dumps(user_sign_in)
+            front_end_sign_in.send_message(json_user_data)
+            return redirect(url_for('index'))
+        except BaseException:
+            print("error")
+
+        # TODO: Add code to store the data in a database or message queue
+
+    return render_template('register.html')
 
 @app.route('/register/', methods=('GET', 'POST'))
 def register():
@@ -60,7 +83,7 @@ def register():
 
         # Print the form data
         try:
-            front_end_register = Send.send(ip_addr,port,username,password,vhost,exchange,queue,routing_key,exchange_type)
+            front_end_register = Send.send(ip_addr,port,username,password,vhost,exchange,queue,register_routing_key,exchange_type)
             json_user_data = json.dumps(user_data)
             front_end_register.send_message(json_user_data)
             return redirect(url_for('signin'))
