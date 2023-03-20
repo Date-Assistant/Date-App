@@ -22,11 +22,8 @@ db_routing_key = 'dbqueue'
 def main():
     backend_receive = Message.Messaging(ip_addr,port,username,password,vhost,'fe2be','registration.data')
     frontend_data = {}
-    result = backend_receive.receive(frontend_data)
-
-    back_end_to_db = Send.send(ip_addr,port,username,password,vhost,exchange,db_queue,db_routing_key,db_exchange_type)
-    data_to_db = json.dumps(result)
-    back_end_to_db.send_message(data_to_db)
+    backend_receive.receive(frontend_data)
+    
 
 if __name__ == '__main__':
     try:
