@@ -10,6 +10,7 @@ ip_addr = '10.0.0.218'
 port = 5672
 vhost = 'cherry_broker'
 front_end_queue= 'queue1'
+signin_queue = 'testqueue'
 front_end_exchange = 'fe2be'
 front_end_exchange_type = 'direct'
 front_end_routing_key = 'signin'
@@ -20,7 +21,7 @@ db_exchange_type = 'direct'
 db_routing_key = 'signininfo'
 
 def main():
-    backend_receive = Receive.recieve(ip_addr,port,username,password,vhost,front_end_queue,front_end_routing_key,front_end_exchange,front_end_exchange_type)
+    backend_receive = Receive.recieve(ip_addr,port,username,password,vhost,signin_queue,front_end_routing_key,front_end_exchange,front_end_exchange_type)
     frontend_data = {}
     result = backend_receive.receive_from_frontend(frontend_data)
 

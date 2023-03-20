@@ -19,6 +19,7 @@ ip_addr = '10.0.0.218'
 port = 5672
 vhost = 'cherry_broker'
 queue= 'queue1'
+signin_queue = 'testqueue'
 exchange = 'fe2be'
 exchange_type = 'direct'
 register_routing_key = 'queue1'
@@ -45,7 +46,7 @@ def signin():
 
         # Print the form data
         try:
-            front_end_sign_in = Send.send(ip_addr,port,username,password,vhost,exchange,queue,signin_routing_key,exchange_type)
+            front_end_sign_in = Send.send(ip_addr,port,username,password,vhost,exchange,signin_queue,signin_routing_key,exchange_type)
             json_user_data = json.dumps(user_sign_in)
             front_end_sign_in.send_message(json_user_data)
             return redirect(url_for('index'))
