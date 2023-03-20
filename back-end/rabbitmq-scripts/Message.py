@@ -17,7 +17,7 @@ class Messaging:
             self.channel = self.connection.channel()
 
     def get_result_queue(self):
-            self.result_queue = self.channel.queue_declare(queue=self.routing_key,auto_delete=True).method.queue
+            self.result_queue = self.channel.queue_declare(queue=self.routing_key).method.queue
             return self.result_queue
 
     def send(self, data):
@@ -35,7 +35,7 @@ class Messaging:
     def receive(self,copyDict):
             self.copyDict = copyDict
             receiveQueue = self.get_result_queue()
-            self.channel.queue_declare(queue=self.routing_key,auto_delete=True)
+            self.channel.queue_declare(queue=self.routing_key)
             def callback(ch, method, properties, body):
                 global bodyResult
                 bodyResult = body
