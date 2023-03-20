@@ -20,7 +20,7 @@ db_exchange_type = 'direct'
 db_routing_key = 'dbqueue'
 
 def main():
-    backend_receive = Message.Messaging(ip_addr,port,username,password,vhost,'fe2be','registration.data')
+    backend_receive = Message.Messaging(ip_addr,port,username,password,vhost,'fe2be','received','registration.data')
     frontend_data = {}
     backend_receive.receive(frontend_data)
     
