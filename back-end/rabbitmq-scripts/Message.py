@@ -36,6 +36,7 @@ class Messaging:
             self.copyDict = copyDict
             receiveQueue = self.get_result_queue()
             self.channel.queue_declare(queue=self.routing_key)
+            self.channel.queue_bind(exchange=self.exchange, queue=self.routing_key, routing_key=self.routing_key)
             def callback(ch, method, properties, body):
                 global bodyResult
                 bodyResult = body
