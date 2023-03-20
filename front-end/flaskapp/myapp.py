@@ -18,11 +18,11 @@ password = 'password'
 ip_addr = '10.0.0.218'
 port = 5672
 vhost = 'cherry_broker'
-queue= 'queue1'
-signin_queue = 'testqueue'
+registration_queue= 'registration'
+signin_queue = 'signin'
 exchange = 'fe2be'
 exchange_type = 'direct'
-register_routing_key = 'queue1'
+register_routing_key = 'registration'
 signin_routing_key = 'signin'
 
 @app.route('/')
@@ -84,7 +84,7 @@ def register():
 
         # Print the form data
         try:
-            front_end_register = Send.send(ip_addr,port,username,password,vhost,exchange,queue,register_routing_key,exchange_type)
+            front_end_register = Send.send(ip_addr,port,username,password,vhost,exchange,registration_queue,register_routing_key,exchange_type)
             json_user_data = json.dumps(user_data)
             front_end_register.send_message(json_user_data)
             return redirect(url_for('signin'))

@@ -11,10 +11,10 @@ password = 'password'
 ip_addr = '10.0.0.218'
 port = 5672
 vhost = 'cherry_broker'
-db_queue= 'dbqueue'
+db_queue= 'dbregistration'
 exchange = 'be2db'
 db_exchange_type = 'direct'
-db_routing_key = 'dbqueue'
+db_routing_key = 'dbregistration'
 
 
 mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306',database='IT490')

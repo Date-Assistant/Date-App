@@ -9,15 +9,15 @@ password = 'password'
 ip_addr = '10.0.0.218'
 port = 5672
 vhost = 'cherry_broker'
-front_end_queue= 'queue1'
+front_end_queue= 'registration'
 front_end_exchange = 'fe2be'
 front_end_exchange_type = 'direct'
-front_end_routing_key = 'queue1'
+front_end_routing_key = 'registration'
 
-db_queue= 'dbqueue'
+db_queue= 'dbregistration'
 db_exchange = 'be2db'
 db_exchange_type = 'direct'
-db_routing_key = 'dbqueue'
+db_routing_key = 'dbregistration'
 
 def main():
     backend_receive = Receive.recieve(ip_addr,port,username,password,vhost,front_end_queue,front_end_routing_key,front_end_exchange,front_end_exchange_type)
