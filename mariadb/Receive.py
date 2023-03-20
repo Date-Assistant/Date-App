@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import pika
 import json
+from pika.exchange_type import ExchangeType
+
 
 class recieve:
       def __init__(self,ip_addr,port,username,password,vhost,queue,routing_key,exchange_type):
@@ -18,10 +20,12 @@ class recieve:
    
 
       
-      def receive_from_backend(self,queue,copyDict):
+      def receive_from_backend(self,copyDict):
+         self.channel.exchange_declare(exchange=self.exchange, exchange_type=ExchangeType.direct)
          # create receive_registration.py that subscribes to same exchange and routing key from /register route in myapp.py
          self.channel.queue_declare(queue=self.queue)
          self.copyDict = copyDict
+         self.channel.queue_bind(exchange=self.exchange, queue=self.queue, routing_key=self.routing_key)
 
          def get_dict(dict,otherDict):
             for key, value in dict.items():

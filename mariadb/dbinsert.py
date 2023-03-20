@@ -12,7 +12,7 @@ ip_addr = '10.0.0.218'
 port = 5672
 vhost = 'cherry_broker'
 db_queue= 'dbqueue'
-exchange = ''
+exchange = 'be2db'
 db_exchange_type = 'direct'
 db_routing_key = 'dbqueue'
 
