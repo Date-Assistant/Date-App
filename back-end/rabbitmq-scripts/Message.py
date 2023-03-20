@@ -50,4 +50,7 @@ class Messaging:
             self.channel.basic_consume(queue=self.routing_key,
             on_message_callback=callback,
             auto_ack=True)
+
+            print(' [*] Waiting for messages.')
+            self.channel.start_consuming()
     
