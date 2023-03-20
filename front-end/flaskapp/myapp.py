@@ -2,8 +2,7 @@ from flask import Flask, render_template, request, url_for, flash, redirect
 import pika
 import sys
 import json
-import Receive
-import Send
+import Message
 
 app = Flask(__name__)
 
@@ -19,7 +18,7 @@ ip_addr = '10.0.0.218'
 port = 5672
 vhost = 'cherry_broker'
 queue= 'hello'
-exchange = ''
+exchange = 'fe2be'
 exchange_type = 'direct'
 routing_key = 'hello'
 
@@ -60,9 +59,9 @@ def register():
 
         # Print the form data
         try:
-            front_end_register = Send.send(ip_addr,port,username,password,vhost,exchange,queue,routing_key,exchange_type)
+            front_end_register = Message.Messaging(ip_addr,port,username,password,vhost,'fe2be','registration.data')
             json_user_data = json.dumps(user_data)
-            front_end_register.send_message(json_user_data)
+            front_end_register.send(json_user_data)
         except BaseException:
             print("error")
 
