@@ -21,9 +21,9 @@ mariadb_connection = mariadb.connect(host='localhost', user='root', password='pa
 cursor = mariadb_connection.cursor()
 
 def main():
-    db_receive = Receive.recieve(ip_addr,port,username,password,vhost,db_queue,db_routing_key,db_exchange_type)
+    db_receive = Receive.recieve(ip_addr,port,username,password,vhost,exchange,db_queue,db_routing_key,db_exchange_type)
     backend_data = {}
-    result = db_receive.receive_from_backend(db_queue,backend_data)
+    result = db_receive.receive_from_backend(backend_data)
     fname = ''
     lname = ''
     email = ''

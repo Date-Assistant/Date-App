@@ -5,12 +5,13 @@ from pika.exchange_type import ExchangeType
 
 
 class recieve:
-      def __init__(self,ip_addr,port,username,password,vhost,queue,routing_key,exchange_type):
+      def __init__(self,ip_addr,port,username,password,vhost,exchange,queue,routing_key,exchange_type):
             self.ip_addr = ip_addr
             self.port = port
             self.username = username
             self.password = password
             self.vhost = vhost
+            self.exchange = exchange
             self.exchange_type = exchange_type
             self.routing_key = routing_key
             self.queue = queue
@@ -21,7 +22,7 @@ class recieve:
 
       
       def receive_from_backend(self,copyDict):
-         self.channel.exchange_declare(exchange=self.exchange, exchange_type=ExchangeType.direct)
+         self.channel.exchange_declare(exchange=self.exchange, durable=True, exchange_type=ExchangeType.direct)
          # create receive_registration.py that subscribes to same exchange and routing key from /register route in myapp.py
          self.channel.queue_declare(queue=self.queue)
          self.copyDict = copyDict
