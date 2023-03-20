@@ -7,6 +7,12 @@ parameters = pika.ConnectionParameters('10.0.0.218',5672,'cherry_broker',credent
 connection = pika.BlockingConnection(parameters)
 
 channel = connection.channel()
+exchange = 'fe2be'
 routing_key = 'registration.data'
-result_queue = channel.queue_declare(queue=routing_key, exclusive=True).method.queue
-print(result_queue)
+
+channel.basic_publish(
+                    exchange=exchange,
+                    routing_key=routing_key,
+                    properties=pika.BasicProperties(
+                    reply_to=routing_key),
+                    body=message)

@@ -31,7 +31,6 @@ class Messaging:
 
     def receive(self,copyDict):
             self.copyDict = copyDict
-            receiveQueue = self.get_result_queue()
             self.channel.queue_declare(queue=self.queue)
             self.channel.queue_bind(exchange=self.exchange, queue=self.queue, routing_key=self.routing_key)
             def callback(ch, method, properties, body):
