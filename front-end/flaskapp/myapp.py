@@ -59,7 +59,7 @@ def register():
 
         # Print the form data
         try:
-            front_end_register = Message.Messaging(ip_addr,port,username,password,vhost,'fe2be','registration.data')
+            front_end_register = Message.Messaging(ip_addr,port,username,password,vhost,'fe2be','received','registration.data')
             json_user_data = json.dumps(user_data)
             front_end_register.send(json_user_data)
         except BaseException:
