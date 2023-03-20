@@ -18,10 +18,10 @@ password = 'password'
 ip_addr = '10.0.0.218'
 port = 5672
 vhost = 'cherry_broker'
-queue= 'hello'
-exchange = ''
+queue= 'queue1'
+exchange = 'fe2be'
 exchange_type = 'direct'
-routing_key = 'hello'
+routing_key = 'queue1'
 
 @app.route('/')
 def index():
