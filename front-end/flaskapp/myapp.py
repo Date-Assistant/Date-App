@@ -6,9 +6,11 @@ import json
 import Receive
 import Send
 import os
+import tempfile
 
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_FILE_DIR'] = tempfile.gettempdir()
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'fallback secret key')  # Use fallback secret key if not found in environment variables
 Session(app)
 
