@@ -43,10 +43,8 @@ def main():
             fname = row[0]
             lname = row[1]
             return_string = 'True'
-            pass
-        else:
+        elif(row[0] == ''):
             return_string = 'False'
-            pass
     
     return_dict = {'fname':fname,'lname':lname,'reply':return_string}
 
