@@ -18,7 +18,7 @@ class recieve:
             self.connection = pika.BlockingConnection(pika.ConnectionParameters(self.ip_addr, self.port, self.vhost, self.credentials))
             self.channel = self.connection.channel()
    
-      def receive_from_frontend(self,copyDict):
+      def receive_message(self,copyDict):
          self.channel.exchange_declare(exchange=self.exchange, exchange_type=ExchangeType.direct)
          # create receive_registration.py that subscribes to same exchange and routing key from /register route in myapp.py
          self.channel.queue_declare(queue=self.queue)

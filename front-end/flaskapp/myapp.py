@@ -65,8 +65,9 @@ def signin():
             json_user_data = json.dumps(user_sign_in)
             front_end_sign_in.send_message(json_user_data)
             
-            receive_sign_in = Receive.receive(ip_addr, port, username, password, vhost, signin_queue, exchange, signin_routing_key, exchange_type)
-            json_response = receive_sign_in.receive_message()
+            receive_sign_in = Receive.recieve(ip_addr, port, username, password, vhost, signin_queue, exchange, signin_routing_key, exchange_type)
+            json_response = {}
+            receive_sign_in.receive_message(json_response)
 
             if json_response:
                 user_data = json.loads(json_response)
