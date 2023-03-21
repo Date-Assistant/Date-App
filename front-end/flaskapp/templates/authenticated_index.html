@@ -4,9 +4,11 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
   <title>Date App</title>
 </head>
@@ -33,6 +35,28 @@
       </ul>
     </div>
   </nav>
+
+  <!-- Coupon Modal -->
+<div class="modal fade" id="couponModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Welcome, {{ user_data.first_name }}!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>As a valued user, we're offering you a 15% off coupon for our Date App subscription! Use the code <strong>DATEAPP15</strong> at checkout.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="claimButton">Claim</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 
   <div class="jumbotron jumbotron-fluid">
     <div class="container">
@@ -62,7 +86,35 @@
     </div>
   </div>
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min
+  <script>
+    $(document).ready(function() {
+      $('#couponModal').modal('show');
+  
+      $('#claimButton').on('click', function() {
+        sendOfferReply('true');
+        $('#couponModal').modal('hide');
+      });
+  
+      $('#couponModal').on('hidden.bs.modal', function() {
+        sendOfferReply('false');
+      });
+    });
+  
+    function sendOfferReply(offer_reply) {
+      $.ajax({
+        type: 'POST',
+        url: "{{ url_for('claim_offer') }}",
+        data: {
+          'offer_reply': offer_reply
+        },
+        success: function(response) {
+          console.log(response);
+        }
+      });
+    }
+  </script>
+  
+  
+
+
+</body>

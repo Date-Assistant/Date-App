@@ -50,6 +50,13 @@ def index():
 def signout():
     session.pop('user_data', None)
     return render_template('signout.html')
+
+@app.route('/claim_offer', methods=['POST'])
+def claim_offer():
+    offer_reply = request.form.get('offer_reply', 'false')
+    # TODO: Process the user's response and store it in the database
+    return {'status': 'success'}
+
 # ...
 @app.route('/authenticated_index/')
 def authenticated_index():
@@ -88,13 +95,15 @@ def signin():
             if user_data:
                 session['user_data'] = json.loads(user_data)
                 return redirect(url_for('authenticated_index'))
-                
+
+        '''
         receive_no_sign_in = Receive.recieve(ip_addr,port,username,password,vhost,fe_usernoexist_queue,fe_usernoexist_routing_key,receive_from_exchange, exchange_type)
         json_response2 = {}
         receive_no_sign_in.receive_message(json_response2)
         print(json_response2)
         user_data1 = json.loads(json_response2)
         print(user_data1)
+        '''
 
     return render_template('signin.html')
 
