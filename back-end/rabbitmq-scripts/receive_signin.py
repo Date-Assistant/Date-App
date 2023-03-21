@@ -23,6 +23,10 @@ receiving_userexist_exchange = 'db2be'
 userexist_routing_key = 'userexists'
 userexist_queue = 'userexists'
 
+fe_userexist_queue = 'existinguser'
+fe_userexist_routing_key = 'existinguser'
+send_to_exchange = 'be2fe'
+
 def main():
     backend_receive = Receive.recieve(ip_addr,port,username,password,vhost,signin_queue,front_end_routing_key,front_end_exchange,front_end_exchange_type)
     frontend_data = {}
@@ -64,7 +68,17 @@ def main():
     receive_user_exists = Receive.recieve(ip_addr,port,username,password,vhost,userexist_queue,userexist_routing_key,receiving_userexist_exchange,front_end_exchange_type)
     userexists_data = {}
     result = receive_user_exists.receive_message(userexists_data)
-    print(result)
+    for x in result:
+        if(x == 'reply'):
+            if(result[x] == 'True'):
+                back_end_to_fe = Send.send(ip_addr,port,username,password,vhost,send_to_exchange,fe_userexist_queue,fe_userexist_routing_key,db_exchange_type)
+                data_to_fe = json.dumps(temp)
+                back_end_to_fe.send_message(data_to_db)
+            else:
+                back_end_to_fe = Send.send(ip_addr,port,username,password,vhost,send_to_exchange,fe_userexist_queue,fe_userexist_routing_key,db_exchange_type)
+                data_to_fe = json.dumps({'error':'user does not exist'})
+                back_end_to_fe.send_message(data_to_fe)
+            
 
 
 
