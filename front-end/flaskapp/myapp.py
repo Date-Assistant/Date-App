@@ -1,11 +1,16 @@
-from flask import Flask, render_template, request, url_for, flash, redirect
+from flask import Flask, render_template, request, url_for, flash, redirect, session
+from flask_session import Session
 import pika
 import sys
 import json
 import Receive
 import Send
+import os
 
 app = Flask(__name__)
+app.config['SESSION_TYPE'] = 'filesystem'
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'fallback secret key')  # Use fallback secret key if not found in environment variables
+Session(app)
 
 messages = [{'title': 'Message One',
              'content': 'Message One Content'},
@@ -29,7 +34,17 @@ signin_routing_key = 'signin'
 def index():
     return render_template('index.html')
 
+@app.route('/signout/')
+def signout():
+    session.pop('user_data', None)
+    return redirect(url_for('index'))
 # ...
+@app.route('/authenticated_index/')
+def authenticated_index():
+    if 'user_data' in session:
+        return render_template('authenticated_index.html', user_data=session['user_data'])
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/signin/', methods=('GET', 'POST'))
 def signin():
@@ -49,11 +64,22 @@ def signin():
             front_end_sign_in = Send.send(ip_addr,port,username,password,vhost,exchange,signin_queue,signin_routing_key,exchange_type)
             json_user_data = json.dumps(user_sign_in)
             front_end_sign_in.send_message(json_user_data)
-            return redirect(url_for('index'))
+            
+            receive_sign_in = Receive.receive(ip_addr, port, username, password, vhost, signin_queue, exchange, signin_routing_key, exchange_type)
+            json_response = receive_sign_in.receive_message()
+
+            if json_response:
+                user_data = json.loads(json_response)
+                if user_data:
+                    session['user_data'] = user_data
+                    return redirect(url_for('authenticated_index'))
+
+            flash('Invalid email or password')
+            return redirect(url_for('signin'))
+
         except BaseException:
             print("error")
 
-        # TODO: Add code to store the data in a database or message queue
 
     return render_template('signin.html')
 
