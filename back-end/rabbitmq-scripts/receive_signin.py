@@ -73,7 +73,7 @@ def main():
             if(result[x] == 'True'):
                 back_end_to_fe = Send.send(ip_addr,port,username,password,vhost,send_to_exchange,fe_userexist_queue,fe_userexist_routing_key,db_exchange_type)
                 data_to_fe = json.dumps(temp)
-                back_end_to_fe.send_message(data_to_db)
+                back_end_to_fe.send_message(data_to_fe)
             else:
                 back_end_to_fe = Send.send(ip_addr,port,username,password,vhost,send_to_exchange,fe_userexist_queue,fe_userexist_routing_key,db_exchange_type)
                 data_to_fe = json.dumps({'error':'user does not exist'})
