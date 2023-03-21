@@ -107,8 +107,7 @@ def signin():
             if('error' in user_data):
                 return redirect(url_for('index'))
             else:
-                user_data_final = json.dumps(tempDict)
-                session['user_data'] = json.loads(user_data_final)
+                session['user_data'] = json.loads(user_data)
                 receive_sign_in.close()
                 return redirect(url_for('authenticated_index'))
 
