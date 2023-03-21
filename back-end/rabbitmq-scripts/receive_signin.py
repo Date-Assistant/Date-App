@@ -80,6 +80,11 @@ def main():
         back_end_to_fe = Send.send(ip_addr,port,username,password,vhost,send_to_exchange,fe_userexist_queue,fe_userexist_routing_key,db_exchange_type)
         data_to_fe = json.dumps(sendUserDetails)
         back_end_to_fe.send_message(data_to_fe)
+    elif(result1['reply'] == "false"):
+        sendUserDetails = {'error':'user does not exist'}
+        back_end_to_fe = Send.send(ip_addr,port,username,password,vhost,send_to_exchange,fe_userexist_queue,fe_userexist_routing_key,db_exchange_type)
+        data_to_fe = json.dumps(sendUserDetails)
+        back_end_to_fe.send_message(data_to_fe)
 
 if __name__ == '__main__':
     try:
