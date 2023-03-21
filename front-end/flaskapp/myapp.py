@@ -51,6 +51,17 @@ def signout():
     session.pop('user_data', None)
     return render_template('signout.html')
 
+@app.route('/claim_offer_unauthenticated', methods=['POST'])
+def claim_offer_unauthenticated():
+    offer_reply = request.form.get('offer_reply', 'false')
+    discount_code = 'DATEAPP15'
+    if offer_reply == 'true':
+        session['discount_code'] = discount_code
+        return redirect(url_for('register'))
+    else:
+        session.pop('discount_code', None)
+        return redirect(url_for('index'))
+
 @app.route('/claim_offer', methods=['POST'])
 def claim_offer():
     offer_reply = request.form.get('offer_reply', 'false')

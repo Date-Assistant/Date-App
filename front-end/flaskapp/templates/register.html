@@ -11,6 +11,7 @@
   <title>Register - Date Planning App</title>
 </head>
 <body>
+  {% with discount_code = session.get('discount_code', '') %}
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-6 mt-5">
@@ -56,8 +57,13 @@
                   Yes, please send me email alerts.
                 </label>
               </div>
-            </div>
+            </div>         
           </div>
+            <div class="form-group">
+              <label for="discountCode">Discount Code</label>
+              <input type="text" class="form-control" id="discountCode" name="discountCode" value="{{ discount_code }}" readonly>
+            </div>
+          {% endwith %}  
           <button type="submit" class="btn btn-primary btn-block mt-3">Register</button>
         </form>
         <div class="text-center mt-3">
