@@ -30,7 +30,7 @@ def main():
         cursor.execute(sqlInsert)
         mariadb_connection.commit()
     except:
-        print('error inserting')
+        print('error inserting into db')
     
             
 
