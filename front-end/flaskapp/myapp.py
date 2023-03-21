@@ -69,25 +69,23 @@ def signin():
         }
 
         # Print the form data
-        try:
-            front_end_sign_in = Send.send(ip_addr,port,username,password,vhost,exchange,signin_queue,signin_routing_key,exchange_type)
-            json_user_data = json.dumps(user_sign_in)
-            front_end_sign_in.send_message(json_user_data)
-            
-            receive_sign_in = Receive.recieve(ip_addr, port, username, password, vhost, fe_userexist_queue, fe_userexist_routing_key, receive_from_exchange, exchange_type)
-            json_response = {}
-            result = receive_sign_in.receive_message(json_response)
+        front_end_sign_in = Send.send(ip_addr,port,username,password,vhost,exchange,signin_queue,signin_routing_key,exchange_type)
+        json_user_data = json.dumps(user_sign_in)
+        front_end_sign_in.send_message(json_user_data)
 
-            user_data = json.loads(result)
+        flash('Invalid email or password')
+
+        receive_sign_in = Receive.recieve(ip_addr,port,username,password,vhost,fe_userexist_queue,fe_userexist_routing_key,receive_from_exchange, exchange_type)
+        json_response = {}
+        json_response = receive_sign_in.receive_message()
+
+        if json_response:
+            user_data = json.loads(json_response)
             if user_data:
                 session['user_data'] = user_data
                 return redirect(url_for('authenticated_index'))
 
-            flash('Invalid email or password')
-            return redirect(url_for('signin'))
 
-        except BaseException:
-            print("error")
 
 
     return render_template('signin.html')
