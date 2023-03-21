@@ -84,7 +84,7 @@ def signin():
             print("error")
 
 
-    return render_template('postregister.html')
+    return render_template('signin.html')
 
 @app.route('/register/', methods=('GET', 'POST'))
 def register():
@@ -122,7 +122,7 @@ def register():
 
         # TODO: Add code to store the data in a database or message queue
 
-    return render_template('register.html')
+    return render_template('postregister.html')
 
 
 if __name__ == '__main__':
