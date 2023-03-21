@@ -33,7 +33,7 @@ def main():
         cursor.execute(sqlInsert,userTuple)
         mariadb_connection.commit()
     except:
-        print('error inserting into db')
+        tempDict = {'error':'error inserting into db'}
     
             
 
