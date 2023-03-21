@@ -116,13 +116,13 @@ def register():
             front_end_register = Send.send(ip_addr,port,username,password,vhost,exchange,registration_queue,register_routing_key,exchange_type)
             json_user_data = json.dumps(user_data)
             front_end_register.send_message(json_user_data)
-            return redirect(url_for('signin'))
+            return render_template('postregister.html')
         except BaseException:
             print("error")
 
         # TODO: Add code to store the data in a database or message queue
 
-    return render_template('postregister.html')
+    return render_template('register.html')
 
 
 if __name__ == '__main__':
