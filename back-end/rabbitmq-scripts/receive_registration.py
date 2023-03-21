@@ -103,9 +103,11 @@ def main():
                 temp['receive_emails'] = receive_emails
     print(temp['first_name'])
         
-    sqlInsert = "INSERT INTO users (fname,lname,email,password,phone,address,zipcode,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)" % (temp['first_name'],temp['last_name'],temp['email'],temp['password'],temp['phone'],temp['address'],temp['zip_code'],temp['receive_emails'])
+    sqlInsert = "INSERT INTO users (fname,lname,email,password,phone,address,zipcode,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+    userTuple = (temp['first_name'],temp['last_name'],temp['email'],temp['password'],temp['phone'],temp['address'],temp['zip_code'],temp['receive_emails'])
     registration_data = {
-        'registration_insert': sqlInsert
+        'insertStatement': sqlInsert,
+        'userInfoTuple' : userTuple
     }
     back_end_to_db = Send.send(ip_addr,port,username,password,vhost,db_exchange,db_queue,db_routing_key,db_exchange_type)
     data_to_db = json.dumps(registration_data)
