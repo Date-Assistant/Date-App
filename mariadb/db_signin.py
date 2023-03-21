@@ -36,11 +36,12 @@ def main():
     cursor.execute(sqlInsert,userTuple)
     results = cursor.fetchall()
     for row in results:
+        fname = row[0]
+        lname = row[1]
+        return_string = ''
         if(row[2] == userTuple[0] and row[3] == userTuple[1]):
-            fname = row[0]
-            lname = row[1]
             return_string = 'True'
-        elif(row[0] == ''):
+        elif(fname == ''):
             return_string = 'False'
     
     return_dict = {'fname':fname,'lname':lname,'reply':return_string}
