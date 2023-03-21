@@ -19,6 +19,10 @@ db_exchange = 'be2db'
 db_exchange_type = 'direct'
 db_routing_key = 'signininfo'
 
+receiving_userexist_exchange = 'db2be'
+userexist_routing_key = 'userexists'
+userexist_queue = 'userexists'
+
 def main():
     backend_receive = Receive.recieve(ip_addr,port,username,password,vhost,signin_queue,front_end_routing_key,front_end_exchange,front_end_exchange_type)
     frontend_data = {}
@@ -46,7 +50,7 @@ def main():
             else:
                 temp['password'] = passwd
     
-    sqlInsert = "SELECT email, password FROM users WHERE email LIKE %s AND password LIKE %s"
+    sqlInsert = "SELECT email, password FROM users WHERE email = %s AND password = %s"
     infoTuple = (temp['email'],temp['password'])
     signin_data = {
         'insertStatement': sqlInsert,
@@ -56,6 +60,13 @@ def main():
     back_end_to_db = Send.send(ip_addr,port,username,password,vhost,db_exchange,db_queue,db_routing_key,db_exchange_type)
     data_to_db = json.dumps(signin_data)
     back_end_to_db.send_message(data_to_db)
+
+    receive_user_exists = Receive.recieve(ip_addr,port,username,password,vhost,userexist_queue,userexist_routing_key,receiving_userexist_exchange,front_end_exchange_type)
+    userexists_data = {}
+    result = receive_user_exists.receive_message(userexists_data)
+    print(result)
+
+
 
 if __name__ == '__main__':
     try:
