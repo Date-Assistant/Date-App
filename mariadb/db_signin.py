@@ -24,13 +24,14 @@ sending_queue = 'userexists'
 mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306',database='IT490')
 cursor = mariadb_connection.cursor()
 
+fname = ''
+lname = ''
+return_string = ''
+
 def main():
     db_receive = Receive.recieve(ip_addr,port,username,password,vhost,receiving_exchange,db_queue,db_routing_key,db_exchange_type)
     backend_data = {}
     result = db_receive.receive_message(backend_data)
-    fname = ''
-    lname = ''
-    return_string = ''
     for x in result:
         if(x == 'insertStatement'):
             sqlInsert = result[x]
@@ -38,10 +39,10 @@ def main():
             userTuple = result[x]
     cursor.execute(sqlInsert,userTuple)
     results = cursor.fetchall()
+
     for row in results:
         fname = row[0]
         lname = row[1]
-        return_string = ''
         if(row[2] == userTuple[0] and row[3] == userTuple[1]):
             return_string = 'True'
         elif(fname == ''):
