@@ -41,7 +41,7 @@ def main():
     results = cursor.fetchall()
 
     for row in results:
-        if row[2] == userTuple[2] and row[3] == userTuple[3]:
+        if row[2] == userTuple[0] and row[3] == userTuple[1]:
             fname = row[0]
             lname = row[1]
             return_string = 'True'
