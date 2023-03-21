@@ -21,6 +21,8 @@ sending_routing_key = 'userexists'
 sending_queue = 'userexists'
 
 return_string = ''
+fname = ''
+lname= ''
 
 
 mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306',database='IT490')
@@ -39,13 +41,15 @@ def main():
     results = cursor.fetchall()
 
     for row in results:
-        if row[0] == userTuple[0] and row[1] == userTuple[1]:
+        if row[2] == userTuple[2] and row[3] == userTuple[3]:
+            fname = row[0]
+            lname = row[1]
             return_string = 'True'
             pass
         else:
             return_string = 'False'
             pass
-    return_dict = {'reply':return_string}
+    return_dict = {'fname':fname,'lname':lname,'reply':return_string}
 
     db_to_backend = Send.send(ip_addr,port,username,password,vhost,sending_exchange,sending_queue,sending_routing_key,db_exchange_type)
     data_to_be = json.dumps(return_dict)

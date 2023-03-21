@@ -54,7 +54,7 @@ def main():
             else:
                 temp['password'] = passwd
     
-    sqlInsert = "SELECT email, password FROM users WHERE email = %s AND password = %s"
+    sqlInsert = "SELECT fname,lname,email,password FROM users WHERE email = %s AND password = %s"
     infoTuple = (temp['email'],temp['password'])
     signin_data = {
         'insertStatement': sqlInsert,
@@ -67,12 +67,19 @@ def main():
 
     receive_user_exists = Receive.recieve(ip_addr,port,username,password,vhost,userexist_queue,userexist_routing_key,receiving_userexist_exchange,front_end_exchange_type)
     userexists_data = {}
-    result = receive_user_exists.receive_message(userexists_data)
-    for x in result:
-        if(result[x] == "True"):
-            back_end_to_fe = Send.send(ip_addr,port,username,password,vhost,send_to_exchange,fe_userexist_queue,fe_userexist_routing_key,db_exchange_type)
-            data_to_fe = json.dumps(temp)
-            back_end_to_fe.send_message(data_to_fe)
+    result1 = receive_user_exists.receive_message(userexists_data)
+    reply_fname = ''
+    reply_lname = ''
+    for x in result1:
+        if(x == 'fname'):
+            reply_fname = result1[x]
+        if(x == 'lname'):
+            reply_lname = result[x]
+    if(result[x] == "True"):
+        sendUserDetails = {'first_name':reply_fname,'last_name':reply_lname,'email':temp['email'],'password':temp['email']}
+        back_end_to_fe = Send.send(ip_addr,port,username,password,vhost,send_to_exchange,fe_userexist_queue,fe_userexist_routing_key,db_exchange_type)
+        data_to_fe = json.dumps(sendUserDetails)
+        back_end_to_fe.send_message(data_to_fe)
 
 if __name__ == '__main__':
     try:

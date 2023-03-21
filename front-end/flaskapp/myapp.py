@@ -80,10 +80,11 @@ def signin():
         receive_sign_in.receive_message(json_response)
 
         if json_response:
-            print(json_response)
-            user_data = json.loads(json_response.read().decode('utf-8'))
+            print(type(json_response))
+            user_data = json.dumps(json_response)
+            print(type(user_data))
             if user_data:
-                session['user_data'] = json.loads(user_data.read().decode('utf-8'))
+                session['user_data'] = json.loads(user_data)
                 return redirect(url_for('authenticated_index'))
 
     return render_template('signin.html')
