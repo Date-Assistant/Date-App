@@ -23,33 +23,19 @@ cursor = mariadb_connection.cursor()
 def main():
     db_receive = Receive.recieve(ip_addr,port,username,password,vhost,exchange,db_queue,db_routing_key,db_exchange_type)
     backend_data = {}
-    result = db_receive.receive_from_backend(backend_data)
-    email = ''
-    passwd = ''
-    temp = {'email':'','password':''}
-
+    result = db_receive.receive_message(backend_data)
     for x in result:
-        if(x == 'email'):
-            email = result[x]
-            if(temp['email'] in temp and temp['email'] == email):
-                pass
-            elif(temp['email'] == email):
-                pass
-            else:
-                temp['email'] = email
-        elif(x == 'password'):
-            passwd = result[x]
-            if('password' in temp and temp['password'] == passwd):
-                pass
-            elif(temp['password'] == passwd):
-                pass
-            else:
-                temp['password'] = passwd
-    
-    sqlInsert = "INSERT INTO users (fname,lname,email,password,phone,address,zipcode,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-    infoTuple = (temp['first_name'],temp['last_name'],temp['email'],temp['password'],temp['phone'],temp['address'],temp['zip_code'],temp['receive_emails'])
-    cursor.execute(sqlInsert,infoTuple)
-    mariadb_connection.commit()
+        if(x == 'insertStatement'):
+            sqlInsert = result[x]
+        elif(x == 'userInfoTuple'):
+            userTuple = result[x]
+
+    cursor.execute(sqlInsert,userTuple)
+    results = cursor.fetchall()
+
+    for row in results:
+        print("Email:", row[0], "Password:", row[1])
+    #mariadb_connection.commit()
     
             
 
