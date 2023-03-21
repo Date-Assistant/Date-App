@@ -27,6 +27,9 @@ fe_userexist_queue = 'existinguser'
 fe_userexist_routing_key = 'existinguser'
 send_to_exchange = 'be2fe'
 
+fe_usernoexist_queue = 'nonexistinguser'
+fe_usernoexist_routing_key = 'nonexistinguser'
+
 def main():
     backend_receive = Receive.recieve(ip_addr,port,username,password,vhost,signin_queue,front_end_routing_key,front_end_exchange,front_end_exchange_type)
     frontend_data = {}
@@ -80,7 +83,7 @@ def main():
         back_end_to_fe = Send.send(ip_addr,port,username,password,vhost,send_to_exchange,fe_userexist_queue,fe_userexist_routing_key,db_exchange_type)
         data_to_fe = json.dumps(sendUserDetails)
         back_end_to_fe.send_message(data_to_fe)
-    elif(result1['reply'] == "false"):
+    elif(result1['reply'] == "False"):
         sendUserDetails = {'error':'user does not exist'}
         back_end_to_fe = Send.send(ip_addr,port,username,password,vhost,send_to_exchange,fe_userexist_queue,fe_userexist_routing_key,db_exchange_type)
         data_to_fe = json.dumps(sendUserDetails)

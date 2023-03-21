@@ -39,6 +39,9 @@ fe_userexist_queue = 'existinguser'
 fe_userexist_routing_key = 'existinguser'
 receive_from_exchange = 'be2fe'
 
+fe_usernoexist_queue = 'nonexistinguser'
+fe_usernoexist_routing_key = 'nonexistinguser'
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -75,17 +78,28 @@ def signin():
 
         flash('Invalid email or password')
 
-        receive_sign_in = Receive.recieve(ip_addr,port,username,password,vhost,fe_userexist_queue,fe_userexist_routing_key,receive_from_exchange, exchange_type)
-        json_response = {}
-        receive_sign_in.receive_message(json_response)
+        try:
+            receive_sign_in = Receive.recieve(ip_addr,port,username,password,vhost,fe_userexist_queue,fe_userexist_routing_key,receive_from_exchange, exchange_type)
+            json_response = {}
+            receive_sign_in.receive_message(json_response)
+            print(json_response)
 
-        if json_response:
-            print(type(json_response))
-            user_data = json.dumps(json_response)
-            print(user_data)
-            if user_data:
-                session['user_data'] = json.loads(user_data)
-                return redirect(url_for('authenticated_index'))
+            if json_response:
+                user_data = json.dumps(json_response)
+                if user_data:
+                    session['user_data'] = json.loads(user_data)
+                    return redirect(url_for('authenticated_index'))
+        except:
+            receive_no_sign_in = Receive.recieve(ip_addr,port,username,password,vhost,fe_usernoexist_queue,fe_usernoexist_routing_key,receive_from_exchange, exchange_type)
+            json_response = {}
+            receive_no_sign_in.receive_message(json_response)
+            print(json_response)
+
+            if json_response:
+                user_data = json.dumps(json_response)
+                if user_data:
+                    session['user_data'] = json.loads(user_data)
+                    return redirect(url_for('index'))
 
     return render_template('signin.html')
 
