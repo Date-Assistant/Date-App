@@ -23,6 +23,7 @@ sending_queue = 'userexists'
 return_string = ''
 fname = ''
 lname= ''
+return_dict = {}
 
 
 mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306',database='IT490')
@@ -37,21 +38,24 @@ def main():
             sqlInsert = result[x]
         elif(x == 'userInfoTuple'):
             userTuple = result[x]
+
     cursor.execute(sqlInsert,userTuple)
     results = cursor.fetchall()
 
-    for row in results:
-        if row[2] == userTuple[0] and row[3] == userTuple[1]:
-            fname = row[0]
-            lname = row[1]
-            return_string = 'True'
-            pass
-        else:
-            fname = 'non'
-            lname = 'existant'
-            return_string = 'False'
-            pass
-    return_dict = {'fname':fname,'lname':lname,'reply':return_string}
+    if not results:
+        return_dict = {
+            'fname':'null',
+            'lname':'null',
+            'reply':'false'
+        }
+    else:
+        for row in results:
+            if row[2] == userTuple[0] and row[3] == userTuple[1]:
+                fname = row[0]
+                lname = row[1]
+                return_string = 'True'
+                pass
+        return_dict = {'fname':fname,'lname':lname,'reply':return_string}
 
     db_to_backend = Send.send(ip_addr,port,username,password,vhost,sending_exchange,sending_queue,sending_routing_key,db_exchange_type)
     data_to_be = json.dumps(return_dict)
