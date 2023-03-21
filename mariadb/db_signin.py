@@ -29,9 +29,11 @@ def main():
             sqlInsert = result[x]
         elif(x == 'userInfoTuple'):
             userTuple = result[x]
-
+    print(sqlInsert)
+    print(userTuple)
     cursor.execute(sqlInsert,userTuple)
     results = cursor.fetchall()
+    print(results)
 
     for row in results:
         print("Email:", row[0], "Password:", row[1])

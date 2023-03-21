@@ -46,7 +46,7 @@ def main():
             else:
                 temp['password'] = passwd
     
-    sqlInsert = "SELECT email, password FROM users WHERE email = %s AND password = %s"
+    sqlInsert = "SELECT email, password FROM users WHERE email LIKE %s AND password LIKE %s"
     infoTuple = (temp['email'],temp['password'])
     signin_data = {
         'insertStatement': sqlInsert,
