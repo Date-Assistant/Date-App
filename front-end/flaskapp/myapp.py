@@ -108,7 +108,6 @@ def signin():
                 return redirect(url_for('index'))
             else:
                 session['user_data'] = json.loads(user_data)
-                receive_sign_in.close()
                 return redirect(url_for('authenticated_index'))
 
     return render_template('signin.html')
