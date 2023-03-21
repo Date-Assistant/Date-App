@@ -28,6 +28,9 @@ def main():
     db_receive = Receive.recieve(ip_addr,port,username,password,vhost,receiving_exchange,db_queue,db_routing_key,db_exchange_type)
     backend_data = {}
     result = db_receive.receive_message(backend_data)
+    fname = ''
+    lname = ''
+    return_string = ''
     for x in result:
         if(x == 'insertStatement'):
             sqlInsert = result[x]
