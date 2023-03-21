@@ -96,27 +96,38 @@ def signin():
 
         flash('Invalid email or password')
 
+
         receive_sign_in = Receive.recieve(ip_addr,port,username,password,vhost,fe_userexist_queue,fe_userexist_routing_key,receive_from_exchange, exchange_type)
         json_response = {}
         receive_sign_in.receive_message(json_response)
         print(json_response)
 
-        if json_response:
-            user_data = json.dumps(json_response)
-            if user_data:
-                session['user_data'] = json.loads(user_data)
-                return redirect(url_for('authenticated_index'))
-
-        '''
-        receive_no_sign_in = Receive.recieve(ip_addr,port,username,password,vhost,fe_usernoexist_queue,fe_usernoexist_routing_key,receive_from_exchange, exchange_type)
-        json_response2 = {}
-        receive_no_sign_in.receive_message(json_response2)
-        print(json_response2)
-        user_data1 = json.loads(json_response2)
-        print(user_data1)
-        '''
-
     return render_template('signin.html')
+
+'''
+    if json_response:
+        user_data = json.dumps(json_response)
+        print(user_data)
+        tempDict = {}
+        for x in user_data:
+            if(x == 'first_name'):
+                tempDict = {x:user_data[x]}
+            if(x == 'last_name'):
+                tempDict = {x:user_data[x]}
+            if(x == 'email'):
+                tempDict = {x:user_data[x]}
+            if(x == 'password'):
+                tempDict = {x:user_data[x]}
+            else:
+                if(x == 'error'):
+                    print('error')
+                    return redirect(url_for('index'))
+        user_data_final = json.dumps(tempDict)
+        session['user_data'] = json.loads(user_data_final)
+        receive_sign_in.close()
+        return redirect(url_for('authenticated_index'))
+'''
+
 
 @app.route('/register/', methods=('GET', 'POST'))
 def register():
