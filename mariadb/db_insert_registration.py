@@ -25,9 +25,12 @@ def main():
     backend_data = {}
     result = db_receive.receive_message(backend_data)
     for x in result:
-        print(x)
-    #cursor.execute(sqlInsert,infoTuple)
-    #mariadb_connection.commit()
+        sqlInsert = result[x]
+    try:
+        cursor.execute(sqlInsert)
+        mariadb_connection.commit()
+    except:
+        print('error inserting')
     
             
 
