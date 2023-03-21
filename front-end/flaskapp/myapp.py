@@ -35,7 +35,7 @@ register_routing_key = 'registration'
 signin_routing_key = 'signin'
 
 
-fe_userexist_queue = 'existinguser'
+fe_userexist_queue = 'different'
 fe_userexist_routing_key = 'existinguser'
 receive_from_exchange = 'be2fe'
 
