@@ -35,9 +35,6 @@ def main():
             userTuple = result[x]
     cursor.execute(sqlInsert,userTuple)
     results = cursor.fetchall()
-    fname = ''
-    lname = ''
-    return_string = ''
     for row in results:
         if(row[2] == userTuple[0] and row[3] == userTuple[1]):
             fname = row[0]
@@ -46,7 +43,7 @@ def main():
         elif(row[0] == ''):
             return_string = 'False'
     
-        return_dict = {'fname':fname,'lname':lname,'reply':return_string}
+    return_dict = {'fname':fname,'lname':lname,'reply':return_string}
 
     db_to_backend = Send.send(ip_addr,port,username,password,vhost,sending_exchange,sending_queue,sending_routing_key,db_exchange_type)
     data_to_be = json.dumps(return_dict)
