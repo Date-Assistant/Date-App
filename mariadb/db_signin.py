@@ -20,10 +20,13 @@ sending_exchange = 'db2be'
 sending_routing_key = 'userexists'
 sending_queue = 'userexists'
 
+return_string = ''
+fname = ''
+lname= ''
+
 
 mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306',database='IT490')
 cursor = mariadb_connection.cursor()
-
 
 def main():
     db_receive = Receive.recieve(ip_addr,port,username,password,vhost,receiving_exchange,db_queue,db_routing_key,db_exchange_type)
@@ -38,16 +41,16 @@ def main():
     results = cursor.fetchall()
 
     for row in results:
-        global fname
-        fname = row[0]
-        global lname
-        lname = row[1]
-        global return_string
-        if(row[2] == userTuple[0] and row[3] == userTuple[1]):
+        if row[2] == userTuple[0] and row[3] == userTuple[1]:
+            fname = row[0]
+            lname = row[1]
             return_string = 'True'
-        elif(fname == ''):
+            pass
+        else:
+            fname = 'non'
+            lname = 'existant'
             return_string = 'False'
-    
+            pass
     return_dict = {'fname':fname,'lname':lname,'reply':return_string}
 
     db_to_backend = Send.send(ip_addr,port,username,password,vhost,sending_exchange,sending_queue,sending_routing_key,db_exchange_type)
