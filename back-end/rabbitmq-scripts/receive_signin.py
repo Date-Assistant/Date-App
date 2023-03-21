@@ -74,8 +74,8 @@ def main():
         if(x == 'fname'):
             reply_fname = result1[x]
         if(x == 'lname'):
-            reply_lname = result[x]
-    if(result[x] == "True"):
+            reply_lname = result1[x]
+    if(result1['reply'] == "True"):
         sendUserDetails = {'first_name':reply_fname,'last_name':reply_lname,'email':temp['email'],'password':temp['email']}
         back_end_to_fe = Send.send(ip_addr,port,username,password,vhost,send_to_exchange,fe_userexist_queue,fe_userexist_routing_key,db_exchange_type)
         data_to_fe = json.dumps(sendUserDetails)
