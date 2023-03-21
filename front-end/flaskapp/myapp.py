@@ -77,16 +77,13 @@ def signin():
 
         receive_sign_in = Receive.recieve(ip_addr,port,username,password,vhost,fe_userexist_queue,fe_userexist_routing_key,receive_from_exchange, exchange_type)
         json_response = {}
-        json_response = receive_sign_in.receive_message()
+        result = receive_sign_in.receive_message(json_response)
 
-        if json_response:
-            user_data = json.loads(json_response)
+        if result:
+            user_data = json.loads(result)
             if user_data:
                 session['user_data'] = user_data
                 return redirect(url_for('authenticated_index'))
-
-
-
 
     return render_template('signin.html')
 
