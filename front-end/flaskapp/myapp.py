@@ -81,7 +81,7 @@ def signin():
 
         if json_response:
             print(json_response)
-            user_data = json.loads(json_response)
+            user_data = json.loads(json_response.read().decode('utf-8'))
             if user_data:
                 session['user_data'] = json.loads(user_data.read().decode('utf-8'))
                 return redirect(url_for('authenticated_index'))
