@@ -37,7 +37,7 @@ def index():
 @app.route('/signout/')
 def signout():
     session.pop('user_data', None)
-    return redirect(url_for('index'))
+    return render_template('signout.html')
 # ...
 @app.route('/authenticated_index/')
 def authenticated_index():
@@ -82,7 +82,7 @@ def signin():
             print("error")
 
 
-    return render_template('signin.html')
+    return render_template('postregister.html')
 
 @app.route('/register/', methods=('GET', 'POST'))
 def register():
