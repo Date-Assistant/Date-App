@@ -23,6 +23,8 @@ def main():
     backend_receive = Receive.recieve(ip_addr,port,username,password,vhost,front_end_queue,front_end_routing_key,front_end_exchange,front_end_exchange_type)
     frontend_data = {}
     result = backend_receive.receive_from_frontend(frontend_data)
+    for x in result:
+        print(result[x])
 
     back_end_to_db = Send.send(ip_addr,port,username,password,vhost,db_exchange,db_queue,db_routing_key,db_exchange_type)
     data_to_db = json.dumps(result)
