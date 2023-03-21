@@ -20,8 +20,6 @@ sending_exchange = 'db2be'
 sending_routing_key = 'userexists'
 sending_queue = 'userexists'
 
-return_string = ''
-
 
 mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306',database='IT490')
 cursor = mariadb_connection.cursor()
@@ -39,6 +37,7 @@ def main():
     results = cursor.fetchall()
     fname = ''
     lname = ''
+    return_string = ''
     for row in results:
         if row[2] == userTuple[0] and row[3] == userTuple[1]:
             fname = row[0]
