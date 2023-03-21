@@ -101,7 +101,7 @@ def main():
                 pass
             else:
                 temp['receive_emails'] = receive_emails
-    print(temp)
+    print(temp['first_name'])
         
 
     back_end_to_db = Send.send(ip_addr,port,username,password,vhost,db_exchange,db_queue,db_routing_key,db_exchange_type)
