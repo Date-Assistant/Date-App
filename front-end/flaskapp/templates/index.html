@@ -73,6 +73,10 @@
     }
 
     window.onload = showModal;
+    $("#discountModal").modal("show");
+    $('#discountModal').on('hidden.bs.modal', function () {
+    $('#discountModal form')[0].reset();
+    });
   </script>
 {% endif %}
 
