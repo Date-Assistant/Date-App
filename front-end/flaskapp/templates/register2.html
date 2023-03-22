@@ -58,11 +58,11 @@
                       <option value="premium" selected>Premium - {% if discount_code %}Original Price: ${{ "{:.2f}".format(premium_price) }} | Discounted Price: ${{ "{:.2f}".format(premium_price * discount_percentage) }}{% else %}Price: ${{ "{:.2f}".format(premium_price) }}{% endif %}</option>
                     </select>
                   </div>
-                            <div class="form-group">
-                              <label for="discountCode">Discount Code</label>
-                              <input type="text" class="form-control" id="discountCode" name="discountCode" value="{{ discount_code }}" readonly>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block mt-3">Join</button>
+                  <div class="form-group">
+                    <label for="discountCode">Discount Code</label>
+                    <input type="text" class="form-control" id="discountCode" name="discountCode" value="{{ discount_code }}" readonly>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block mt-3">Join</button>
                 </form>
                 <div class="text-center mt-3">
                     <span>Already have an account?</span> <a href="{{ url_for('signin') }}">Sign in here</a>
