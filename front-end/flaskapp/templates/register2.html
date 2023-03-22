@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join - Date Planning App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    {% with discount_code = session.get('discount_code', '') %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 mt-5">
+                <h1 class="text-center">Join the DateFam</h1>
+                <form action="{{ url_for('register2') }}" method="post">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="bname">Business Name</label>
+                      <input type="text" class="form-control" id="bname" name="bname" placeholder="Business Name" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="oname">Owner's Name</label>
+                      <input type="text" class="form-control" id="oname" name="oname" placeholder="Owner's Name" required>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="123-456-7890" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="123 Main St" required>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="zip">Zip Code</label>
+                      <input type="text" class="form-control" id="zip" name="zip" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="email-toggle">Receive Email Alerts?</label>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="email-toggle" name="email-toggle">
+                        <label class="form-check-label" for="email-toggle">
+                          Yes, please send me email alerts.
+                        </label>
+                      </div>
+                    </div>         
+                  </div>
+                  <div class="form-group">
+                    <label for="membership_type">Membership Type</label>
+                    <select class="form-control" id="membership_type" name="membership_type">
+                      <option value="basic">Basic - {% if discount_code %}Original Price: ${{ "{:.2f}".format(basic_price) }} | Discounted Price: ${{ "{:.2f}".format(basic_price * discount_percentage) }}{% else %}Price: ${{ "{:.2f}".format(basic_price) }}{% endif %}</option>
+                      <option value="premium" selected>Premium - {% if discount_code %}Original Price: ${{ "{:.2f}".format(premium_price) }} | Discounted Price: ${{ "{:.2f}".format(premium_price * discount_percentage) }}{% else %}Price: ${{ "{:.2f}".format(premium_price) }}{% endif %}</option>
+                    </select>
+                  </div>
+                            <div class="form-group">
+                              <label for="discountCode">Discount Code</label>
+                              <input type="text" class="form-control" id="discountCode" name="discountCode" value="{{ discount_code }}" readonly>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block mt-3">Join</button>
+                </form>
+                <div class="text-center mt-3">
+                    <span>Already have an account?</span> <a href="{{ url_for('signin') }}">Sign in here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endwith %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+        
