@@ -17,7 +17,7 @@ db_exchange_type = 'direct'
 db_routing_key = 'dbregistration'
 
 
-mariadb_connection = mariadb.connect(host='10.0.0.207', user='root', password='password', port='3306',database='IT490')
+mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306',database='IT490')
 cursor = mariadb_connection.cursor()
 
 def main():
