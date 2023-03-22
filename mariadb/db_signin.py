@@ -46,6 +46,7 @@ def main():
         return_dict = {
             'fname':'null',
             'lname':'null',
+            'password': 'null',
             'reply':'false'
         }
     else:
@@ -53,9 +54,10 @@ def main():
             if row[2] == userTuple[0] and row[3] == userTuple[1]:
                 fname = row[0]
                 lname = row[1]
+                hpassword = row[3]
                 return_string = 'True'
                 pass
-        return_dict = {'fname':fname,'lname':lname,'reply':return_string}
+        return_dict = {'fname':fname,'lname':lname,'reply':return_string,'password':hpassword}
 
     db_to_backend = Send.send(ip_addr,port,username,password,vhost,sending_exchange,sending_queue,sending_routing_key,db_exchange_type)
     data_to_be = json.dumps(return_dict)

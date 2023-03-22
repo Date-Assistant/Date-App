@@ -81,7 +81,7 @@ def main():
     result1 = receive_user_exists.receive_message(userexists_data)
     reply_fname = ''
     reply_lname = ''
-    tempBool = False
+    global tempBool
 
     for x in result1:
         if(x == 'fname'):
