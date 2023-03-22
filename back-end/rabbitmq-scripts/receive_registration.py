@@ -106,13 +106,7 @@ def main():
                 temp['receive_emails'] = receive_emails
     print(temp['first_name'])
         
-    sqlInsert = """BEGIN
-    IF NOT EXISTS (SELECT * FROM users WHERE email = %s)
-    BEGIN
-    INSERT INTO users (fname,lname,email,password,phone,address,zipcode,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
-    END
-    END
-    """
+    sqlInsert = "INSERT INTO users (fname,lname,email,password,phone,address,zipcode,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
     userTuple = (temp['first_name'],temp['last_name'],temp['email'],temp['password'],temp['phone'],temp['address'],temp['zip_code'],temp['receive_emails'])
     
     # send registration data to database
