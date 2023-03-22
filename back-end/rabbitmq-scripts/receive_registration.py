@@ -3,6 +3,7 @@ import sys
 import json
 import Receive
 import Send
+import hashlib
 
 username = 'brian'
 password = 'password'
@@ -66,6 +67,9 @@ def main():
                 pass
             else:
                 temp['password'] = passwd
+                # Hash the password using SHA-256
+                hashed_password = hashlib.sha256(passwd.encode()).hexdigest()
+                temp['password'] = hashed_password
         elif(x == 'phone'):
             phone = result[x]
             if('phone' in temp and temp['phone'] == phone):
