@@ -32,9 +32,6 @@ send_to_exchange = 'be2fe'
 fe_usernoexist_queue = 'nonexistinguser'
 fe_usernoexist_routing_key = 'nonexistinguser'
 
-mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306', database='IT490')
-cursor = mariadb_connection.cursor()
-
 def hash_password(password):
     """Hashes a given password using SHA256"""
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
