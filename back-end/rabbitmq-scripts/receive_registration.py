@@ -69,7 +69,7 @@ def main():
                 temp['password'] = passwd
                 # Hash the password using SHA-256
                 hashed_password = hashlib.sha256(passwd.encode()).hexdigest()
-                temp['password'] = hashed_password
+                temp['password'] = str(hashed_password)
         elif(x == 'phone'):
             phone = result[x]
             if('phone' in temp and temp['phone'] == phone):
@@ -108,7 +108,7 @@ def main():
     print(temp['first_name'])
         
     sqlInsert = "INSERT INTO users (fname,lname,email,password,phone,address,zipcode,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-    userTuple = (temp['first_name'],temp['last_name'],temp['email'],temp['password'],temp['phone'],temp['address'],temp['zip_code'],temp['receive_emails'])
+    userTuple = (temp['first_name'],temp['last_name'],temp['email'],str(temp['password']),temp['phone'],temp['address'],temp['zip_code'],temp['receive_emails'])
     registration_data = {
         'insertStatement': sqlInsert,
         'userInfoTuple' : userTuple
