@@ -62,6 +62,7 @@ def main():
                 pass
             else:
                 temp['password'] = passwd
+                tempPass = passwd
     
     hashed_password = hash_password(temp['password'])
     
@@ -95,7 +96,7 @@ def main():
     back_end_to_fe = Send.send(ip_addr, port, username, password, vhost, send_to_exchange, fe_userexist_queue, fe_userexist_routing_key, db_exchange_type)
 
     if(result1['reply'] == "True"):
-        send_user_details = {'first_name': reply_fname, 'last_name': reply_lname, 'email': temp['email'], 'password': hashed_password}
+        send_user_details = {'first_name': reply_fname, 'last_name': reply_lname, 'email': temp['email'], 'password': tempPass}
         data_to_fe = json.dumps(send_user_details)
         back_end_to_fe.send_message(data_to_fe)
     else:
