@@ -182,13 +182,13 @@ def register():
 
 @app.route('/register2/', methods=('GET', 'POST'))
 def register2():
-    basic_price = 5.99
-    premium_price = 19.99
+    basic_price = 39.99
+    premium_price = 79.99
     discount_percentage = 0.85
     if request.method == 'POST':
         # Retrieve the form data
-        fname = request.form['fname']
-        lname = request.form['lname']
+        bname = request.form['bname']
+        oname = request.form['oname']
         email = request.form['email']
         phone = request.form['phone']
         passwd = request.form['password']
@@ -199,8 +199,8 @@ def register2():
 
         # Create a dictionary to store the form data
         user_data = {
-            'first_name': fname,
-            'last_name': lname,
+            'business_name': bname,
+            'owner_name': oname,
             'email': email,
             'password' : passwd,
             'phone': phone,
