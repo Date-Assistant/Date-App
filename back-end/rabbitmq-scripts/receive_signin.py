@@ -81,16 +81,20 @@ def main():
     result1 = receive_user_exists.receive_message(userexists_data)
     reply_fname = ''
     reply_lname = ''
+    tempBool = False
 
     for x in result1:
         if(x == 'fname'):
             reply_fname = result1[x]
         if(x == 'lname'):
             reply_lname = result1[x]
+        if(x == 'password'):
+            if(temp['password'] == result1[x]):
+                tempBool == True
 
     back_end_to_fe = Send.send(ip_addr, port, username, password, vhost, send_to_exchange, fe_userexist_queue, fe_userexist_routing_key, db_exchange_type)
 
-    if(result1['reply'] == "True"):
+    if(result1['reply'] == "True" and tempBool == True):
         send_user_details = {'first_name': reply_fname, 'last_name': reply_lname, 'email': temp['email'], 'password': hashed_password}
         data_to_fe = json.dumps(send_user_details)
         back_end_to_fe.send_message(data_to_fe)
