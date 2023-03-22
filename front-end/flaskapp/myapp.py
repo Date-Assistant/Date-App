@@ -221,7 +221,7 @@ def register2():
 
         # TODO: Add code to store the data in a database or message queue
 
-    return render_template('register.html', basic_price=basic_price, premium_price=premium_price, discount_percentage=discount_percentage)
+    return render_template('register2.html', basic_price=basic_price, premium_price=premium_price, discount_percentage=discount_percentage)
 
 
 
