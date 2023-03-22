@@ -29,8 +29,6 @@ def main():
             sqlInsert = result[x]
         elif(x == 'userInfoTuple'):
             userTuple = result[x]
-    print(sqlInsert)
-    print(userTuple)
     try:
         cursor.execute(sqlInsert,userTuple)
         mariadb_connection.commit()

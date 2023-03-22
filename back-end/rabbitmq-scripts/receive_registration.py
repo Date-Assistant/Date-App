@@ -68,7 +68,7 @@ def main():
             else:
                 temp['password'] = passwd
                 # Hash the password using SHA-256
-                hashed_password = hashlib.sha256(passwd.encode()).hexdigest()
+                hashed_password = hashlib.sha256(passwd.encode("utf-8")).hexdigest()
                 temp['password'] = str(hashed_password)
         elif(x == 'phone'):
             phone = result[x]
