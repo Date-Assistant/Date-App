@@ -10,5 +10,5 @@
 import mysql.connector as mariadb
 mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306',database='IT490')
 cursor = mariadb_connection.cursor()
-cursor.execute("CREATE TABLE IF NOT EXISTS users (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, fname VARCHAR(100), lname VARCHAR(100), email VARCHAR(250), password VARCHAR(60), phone VARCHAR(25), address VARCHAR(250), zipcode VARCHAR(100), received_emails VARCHAR(100));")
+cursor.execute("CREATE TABLE IF NOT EXISTS users (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, fname VARCHAR(100), lname VARCHAR(100), email VARCHAR(250), password VARCHAR(100), phone VARCHAR(25), address VARCHAR(250), zipcode VARCHAR(100), received_emails VARCHAR(100));")
 mariadb_connection.commit()
