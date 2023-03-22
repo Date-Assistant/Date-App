@@ -139,6 +139,9 @@ def signin():
 
 @app.route('/register/', methods=('GET', 'POST'))
 def register():
+    basic_price = 5.99
+    premium_price = 19.99
+    discount_percentage = 0.85
     if request.method == 'POST':
         # Retrieve the form data
         fname = request.form['fname']
@@ -148,6 +151,7 @@ def register():
         passwd = request.form['password']
         address = request.form['address']
         zip = request.form['zip']
+        discountCode = request.form['discountCode']
         email_toggle = request.form.get('email-toggle', 'off')
 
         # Create a dictionary to store the form data
@@ -159,7 +163,8 @@ def register():
             'phone': phone,
             'address': address,
             'zip_code': zip,
-            'receive_emails': email_toggle
+            'receive_emails': email_toggle,
+            'discountCode' : discountCode
         }
 
         # Print the form data
@@ -173,7 +178,7 @@ def register():
 
         # TODO: Add code to store the data in a database or message queue
 
-    return render_template('register.html')
+    return render_template('register.html', basic_price=basic_price, premium_price=premium_price, discount_percentage=discount_percentage)
 
 
 if __name__ == '__main__':

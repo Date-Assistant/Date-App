@@ -3,6 +3,8 @@ import sys
 import json
 import Receive
 import Send
+import mysql.connector as mariadb
+import hashlib
 
 username = 'brian'
 password = 'password'
@@ -30,14 +32,21 @@ send_to_exchange = 'be2fe'
 fe_usernoexist_queue = 'nonexistinguser'
 fe_usernoexist_routing_key = 'nonexistinguser'
 
+mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306', database='IT490')
+cursor = mariadb_connection.cursor()
+
+def hash_password(password):
+    """Hashes a given password using SHA256"""
+    return hashlib.sha256(password.encode('utf-8')).hexdigest()
+
 def main():
-    backend_receive = Receive.recieve(ip_addr,port,username,password,vhost,signin_queue,front_end_routing_key,front_end_exchange,front_end_exchange_type)
+    backend_receive = Receive.recieve(ip_addr, port, username, password, vhost, signin_queue, front_end_routing_key, front_end_exchange, front_end_exchange_type)
     frontend_data = {}
     result = backend_receive.receive_message(frontend_data)
 
     email = ''
     passwd = ''
-    temp = {'email':'','password':''}
+    temp = {'email': '', 'password': ''}
 
     for x in result:
         if(x == 'email'):
@@ -57,18 +66,20 @@ def main():
             else:
                 temp['password'] = passwd
     
+    hashed_password = hash_password(temp['password'])
+    
     sqlInsert = "SELECT fname,lname,email,password FROM users WHERE email = %s AND password = %s"
-    infoTuple = (temp['email'],temp['password'])
+    infoTuple = (temp['email'], hashed_password)
     signin_data = {
         'insertStatement': sqlInsert,
         'userInfoTuple' : infoTuple
     }
 
-    back_end_to_db = Send.send(ip_addr,port,username,password,vhost,db_exchange,db_queue,db_routing_key,db_exchange_type)
+    back_end_to_db = Send.send(ip_addr, port, username, password, vhost, db_exchange, db_queue, db_routing_key, db_exchange_type)
     data_to_db = json.dumps(signin_data)
     back_end_to_db.send_message(data_to_db)
 
-    receive_user_exists = Receive.recieve(ip_addr,port,username,password,vhost,userexist_queue,userexist_routing_key,receiving_userexist_exchange,front_end_exchange_type)
+    receive_user_exists = Receive.recieve(ip_addr, port, username, password, vhost, userexist_queue, userexist_routing_key, receiving_userexist_exchange, front_end_exchange_type)
     userexists_data = {}
     result1 = receive_user_exists.receive_message(userexists_data)
     reply_fname = ''
@@ -80,16 +91,17 @@ def main():
         if(x == 'lname'):
             reply_lname = result1[x]
 
-    back_end_to_fe = Send.send(ip_addr,port,username,password,vhost,send_to_exchange,fe_userexist_queue,fe_userexist_routing_key,db_exchange_type)
+    back_end_to_fe = Send.send(ip_addr, port, username, password, vhost, send_to_exchange, fe_userexist_queue, fe_userexist_routing_key, db_exchange_type)
 
     if(result1['reply'] == "True"):
-        sendUserDetails = {'first_name':reply_fname,'last_name':reply_lname,'email':temp['email'],'password':temp['email']}
-        data_to_fe = json.dumps(sendUserDetails)
+        send_user_details = {'first_name': reply_fname, 'last_name': reply_lname, 'email': temp['email'], 'password': hashed_password}
+        data_to_fe = json.dumps(send_user_details)
         back_end_to_fe.send_message(data_to_fe)
     else:
-        sendUserDetails = {'error':'user does not exist'}
-        data_to_fe = json.dumps(sendUserDetails)
+        send_user_details = {'error': 'user does not exist'}
+        data_to_fe = json.dumps(send_user_details)
         back_end_to_fe.send_message(data_to_fe)
+
 
 if __name__ == '__main__':
     try:

@@ -3,6 +3,7 @@ import sys
 import json
 import Receive
 import Send
+import hashlib
 
 username = 'brian'
 password = 'password'
@@ -65,7 +66,9 @@ def main():
             elif(temp['password'] == passwd):
                 pass
             else:
-                temp['password'] = passwd
+                # Hash the password using SHA-256
+                hashed_password = hashlib.sha256(passwd.encode()).hexdigest()
+                temp['password'] = hashed_password
         elif(x == 'phone'):
             phone = result[x]
             if('phone' in temp and temp['phone'] == phone):
@@ -103,13 +106,21 @@ def main():
                 temp['receive_emails'] = receive_emails
     print(temp['first_name'])
         
-    sqlInsert = "INSERT INTO users (fname,lname,email,password,phone,address,zipcode,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+    sqlInsert = """BEGIN
+    IF NOT EXISTS (SELECT * FROM users WHERE email = %s)
+    BEGIN
+    INSERT INTO users (fname,lname,email,password,phone,address,zipcode,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+    END
+    END
+    """
     userTuple = (temp['first_name'],temp['last_name'],temp['email'],temp['password'],temp['phone'],temp['address'],temp['zip_code'],temp['receive_emails'])
+    
+    # send registration data to database
+    back_end_to_db = Send.send(ip_addr,port,username,password,vhost,db_exchange,db_queue,db_routing_key,db_exchange_type)
     registration_data = {
         'insertStatement': sqlInsert,
         'userInfoTuple' : userTuple
     }
-    back_end_to_db = Send.send(ip_addr,port,username,password,vhost,db_exchange,db_queue,db_routing_key,db_exchange_type)
     data_to_db = json.dumps(registration_data)
     back_end_to_db.send_message(data_to_db)
 
