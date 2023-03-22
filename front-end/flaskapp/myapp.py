@@ -180,6 +180,51 @@ def register():
 
     return render_template('register.html', basic_price=basic_price, premium_price=premium_price, discount_percentage=discount_percentage)
 
+@app.route('/register2/', methods=('GET', 'POST'))
+def register2():
+    basic_price = 5.99
+    premium_price = 19.99
+    discount_percentage = 0.85
+    if request.method == 'POST':
+        # Retrieve the form data
+        fname = request.form['fname']
+        lname = request.form['lname']
+        email = request.form['email']
+        phone = request.form['phone']
+        passwd = request.form['password']
+        address = request.form['address']
+        zip = request.form['zip']
+        discountCode = request.form['discountCode']
+        email_toggle = request.form.get('email-toggle', 'off')
+
+        # Create a dictionary to store the form data
+        user_data = {
+            'first_name': fname,
+            'last_name': lname,
+            'email': email,
+            'password' : passwd,
+            'phone': phone,
+            'address': address,
+            'zip_code': zip,
+            'receive_emails': email_toggle,
+            'discountCode' : discountCode
+        }
+
+        # Print the form data
+        try:
+            front_end_register = Send.send(ip_addr,port,username,password,vhost,exchange,registration_queue,register_routing_key,exchange_type)
+            json_user_data = json.dumps(user_data)
+            front_end_register.send_message(json_user_data)
+            return render_template('postregister.html')
+        except BaseException:
+            print("error")
+
+        # TODO: Add code to store the data in a database or message queue
+
+    return render_template('register.html', basic_price=basic_price, premium_price=premium_price, discount_percentage=discount_percentage)
+
+
+
 
 if __name__ == '__main__':
 	app.run(host='localhost', port=7007)
