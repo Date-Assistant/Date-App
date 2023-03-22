@@ -57,8 +57,10 @@ def main():
         elif(x == 'password'):
             passwd = result[x]
             if('password' in temp and temp['password'] == passwd):
+                tempPass = passwd
                 pass
             elif(temp['password'] == passwd):
+                tempPass = passwd
                 pass
             else:
                 temp['password'] = passwd
