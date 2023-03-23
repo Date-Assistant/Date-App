@@ -22,7 +22,7 @@ messages = [{'title': 'Message One',
 
 username = 'brian'
 password = 'password'
-ip_addr = '10.0.0.218'
+ip_addr = '10.0.0.209'
 port = 5672
 vhost = 'cherry_broker'
 registration_queue= 'registration'
