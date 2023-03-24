@@ -83,6 +83,44 @@ def pricing():
         return render_template('pricing.html', fname=fname)
     else:
         return redirect(url_for('login'))
+    
+@app.route('/non_user_pricing', methods=['GET'])
+def non_user_pricing():
+    return render_template('non_pricing.html', fname='Dater!')
+
+@app.route('/non_user_pricing_submit', methods=['POST'])
+def non_user_pricing_submit():
+    if 'user_data' not in session:
+        flash("You must register first")
+        return redirect(url_for('register'))
+    plan = request.form['plan']
+    cardholder_name = request.form['cardholderName']
+    card_number = request.form['cardNumber']
+    expiration_month = request.form.get('expiration-month')
+    expiration_year = request.form.get('expiration-year')
+    cvc = request.form.get('cvc')
+    save_card_info = request.form.get('saveCardInfo', 'no')
+
+    expiration_date = f"{expiration_month}/{expiration_year}"
+
+    # Perform validation, e.g., check the length of the credit card number
+    if len(card_number) != 16:
+        # Return an error or redirect to an error page
+        return "Invalid card number"
+
+    payment_info = {
+        'plan': plan,
+        'cardholder_name': cardholder_name,
+        'card_number': card_number,
+        'expiration_date': expiration_date,
+        'cvc': cvc,
+        'saveCardInfo': save_card_info
+    }
+    print(payment_info)
+
+    # Redirect to postregister.html if the information is valid
+    return redirect(url_for('postregister'))
+
 
 @app.route('/pricing_submit', methods=['POST'])
 def pricing_submit():

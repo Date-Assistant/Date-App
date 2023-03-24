@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1 class="text-center mt-4">Select the best plan for you, {{ fname }}</h1>
-        <form action="{{ url_for('pricing_submit') }}" method="POST">
+        <form action="{{ url_for('non_user_pricing_submit') }}" method="POST">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
@@ -69,7 +69,7 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
                 <div class="col-md-6">
-                    <a href="{{ url_for('authenticated_index') }}" class="btn btn-danger">Cancel</a>
+                    <a href="{{ url_for('index') }}" class="btn btn-danger">Cancel</a>
                 </div>
             </div>
         </div>
