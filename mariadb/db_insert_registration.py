@@ -23,7 +23,10 @@ cursor = mariadb_connection.cursor()
 def main():
     db_receive = Receive.recieve(ip_addr,port,username,password,vhost,exchange,db_queue,db_routing_key,db_exchange_type)
     backend_data = {}
-    result = db_receive.receive_message(backend_data)
+    while True:
+        result = db_receive.receive_message(backend_data)
+        if result:
+            break
     for x in result:
         if(x == 'insertStatement'):
             sqlInsert = result[x]

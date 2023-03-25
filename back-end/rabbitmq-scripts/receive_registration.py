@@ -33,7 +33,10 @@ def main():
 
     backend_receive = Receive.recieve(ip_addr,port,username,password,vhost,front_end_queue,front_end_routing_key,front_end_exchange,front_end_exchange_type)
     frontend_data = {}
+    while True:
     result = backend_receive.receive_message(frontend_data)
+        if result:
+            break
     for x in result:
         if(x == 'first_name'):
             fname = result[x]
