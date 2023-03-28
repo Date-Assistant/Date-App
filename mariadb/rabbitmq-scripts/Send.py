@@ -21,6 +21,6 @@ class send:
         def send_message(self, message):
           self.channel.exchange_declare(exchange=self.exchange, durable=True, exchange_type=ExchangeType.direct)
           self.message = message
-          self.channel.queue_declare(queue=self.queue)
+          self.channel.queue_declare(queue=self.queue,auto_delete=True)
           self.channel.basic_publish(exchange=self.exchange, routing_key=self.routing_key, body=self.message)
           print(f"Sent message: {self.message}")
