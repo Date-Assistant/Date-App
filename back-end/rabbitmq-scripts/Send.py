@@ -22,8 +22,8 @@ class Send:
         self.channel.queue_declare(queue=self.queue, durable=True)
 
     def send_message(self, message, routing_key):
-        self.channel.queue_bind(exchange=self.exchange, queue=self.queue, routing_key=routing_key)
         self.connect()
+        self.channel.queue_bind(exchange=self.exchange, queue=self.queue, routing_key=routing_key)
         self.channel.basic_publish(
             exchange=self.exchange, routing_key=routing_key, body=message)
         self.close()
