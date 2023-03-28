@@ -1,7 +1,7 @@
 import pika
 
 class Send:
-    def __init__(self, ip, port, username, password, vhost, exchange, exchange_type):
+    def __init__(self, ip, port, username, password, vhost, exchange, queue,exchange_type):
         self.ip = ip
         self.port = port
         self.username = username
@@ -11,7 +11,7 @@ class Send:
         self.exchange_type = exchange_type
         self.connection = None
         self.channel = None
-        self.queue = None
+        self.queue = queue
 
     def connect(self):
         credentials = pika.PlainCredentials(self.username, self.password)
@@ -19,6 +19,8 @@ class Send:
         self.connection = pika.BlockingConnection(parameters)
         self.channel = self.connection.channel()
         self.channel.exchange_declare(exchange=self.exchange, exchange_type=self.exchange_type,durable=True)
+        self.channel.queue_declare(queue=self.queue, durable=True)
+        self.channel.queue_bind(exchange=self.exchange, queue=self.queue, routing_key=self.routing_key)
 
     def send_message(self, message, routing_key):
         self.connect()

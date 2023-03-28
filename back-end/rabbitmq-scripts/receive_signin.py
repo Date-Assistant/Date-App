@@ -78,7 +78,7 @@ def main():
         'userInfoTuple' : infoTuple
     }
 
-    back_end_to_db = Send.Send(ip_addr, port, username, password, vhost, db_exchange, db_exchange_type)
+    back_end_to_db = Send.Send(ip_addr, port, username, password, vhost, db_exchange, db_queue,db_exchange_type)
     data_to_db = json.dumps(signin_data)
     back_end_to_db.send_message(data_to_db,db_routing_key)
 
@@ -101,7 +101,7 @@ def main():
             if(temp['password'] == result1[x]):
                 tempBool == True
 
-    back_end_to_fe = Send.Send(ip_addr, port, username, password, vhost, send_to_exchange, db_exchange_type)
+    back_end_to_fe = Send.Send(ip_addr, port, username, password, vhost, send_to_exchange, fe_userexist_queue,db_exchange_type)
 
     if(result1['reply'] == "True"):
         send_user_details = {'first_name': reply_fname, 'last_name': reply_lname, 'email': temp['email'], 'password': tempPass}
