@@ -33,6 +33,7 @@ def main():
     db_receive = Receive.recieve(ip_addr,port,username,password,vhost,receiving_exchange,db_queue,db_routing_key,db_exchange_type)
     backend_data = {}
     result = db_receive.receive_message(backend_data)
+    db_receive.close()
     for x in result:
         if(x == 'insertStatement'):
             sqlInsert = result[x]
@@ -62,6 +63,7 @@ def main():
     db_to_backend = Send.send(ip_addr,port,username,password,vhost,sending_exchange,sending_queue,sending_routing_key,db_exchange_type)
     data_to_be = json.dumps(return_dict)
     db_to_backend.send_message(data_to_be)
+    db_to_backend.close()
 
     
     

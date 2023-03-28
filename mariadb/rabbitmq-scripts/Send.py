@@ -24,3 +24,9 @@ class send:
           self.channel.queue_declare(queue=self.queue,auto_delete=True)
           self.channel.basic_publish(exchange=self.exchange, routing_key=self.routing_key, body=self.message)
           print(f"Sent message: {self.message}")
+        
+        def close(self):
+          if self.channel is not None and self.channel.is_open:
+            self.channel.close()
+          if self.connection is not None and self.connection.is_open:
+            self.connection.close()

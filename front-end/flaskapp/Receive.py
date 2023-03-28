@@ -19,7 +19,10 @@ class recieve:
             self.channel = self.connection.channel()
 
       def close(self):
-          self.connection.close()
+         if self.channel is not None and self.channel.is_open:
+            self.channel.close()
+         if self.connection is not None and self.connection.is_open:
+            self.connection.close()
    
       def receive_message(self,copyDict):
          self.channel.exchange_declare(exchange=self.exchange, durable=True,exchange_type=ExchangeType.direct)

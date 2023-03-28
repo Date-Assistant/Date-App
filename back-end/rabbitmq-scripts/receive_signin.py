@@ -40,6 +40,7 @@ def main():
     backend_receive = Receive.recieve(ip_addr, port, username, password, vhost, signin_queue, front_end_routing_key, front_end_exchange, front_end_exchange_type)
     frontend_data = {}
     result = backend_receive.receive_message(frontend_data)
+    backend_receive.close()
 
     email = ''
     passwd = ''
@@ -78,10 +79,12 @@ def main():
     back_end_to_db = Send.send(ip_addr, port, username, password, vhost, db_exchange, db_queue, db_routing_key, db_exchange_type)
     data_to_db = json.dumps(signin_data)
     back_end_to_db.send_message(data_to_db)
+    back_end_to_db.close()
 
     receive_user_exists = Receive.recieve(ip_addr, port, username, password, vhost, userexist_queue, userexist_routing_key, receiving_userexist_exchange, front_end_exchange_type)
     userexists_data = {}
     result1 = receive_user_exists.receive_message(userexists_data)
+    receive_user_exists.close()
     reply_fname = ''
     reply_lname = ''
     global tempBool
@@ -101,10 +104,12 @@ def main():
         send_user_details = {'first_name': reply_fname, 'last_name': reply_lname, 'email': temp['email'], 'password': tempPass}
         data_to_fe = json.dumps(send_user_details)
         back_end_to_fe.send_message(data_to_fe)
+        back_end_to_fe.close()
     else:
         send_user_details = {'error': 'user does not exist'}
         data_to_fe = json.dumps(send_user_details)
         back_end_to_fe.send_message(data_to_fe)
+        back_end_to_fe.close()
 
 
 if __name__ == '__main__':
