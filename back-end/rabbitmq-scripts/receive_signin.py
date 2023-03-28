@@ -39,10 +39,8 @@ def hash_password(password):
 def main():
     backend_receive = Receive.recieve(ip_addr, port, username, password, vhost, signin_queue, front_end_routing_key, front_end_exchange, front_end_exchange_type)
     frontend_data = {}
-    while True:
-        result = backend_receive.receive_message(frontend_data)
-        if result:
-            break
+
+    result = backend_receive.receive_message(frontend_data)
 
     email = ''
     passwd = ''
@@ -84,10 +82,7 @@ def main():
 
     receive_user_exists = Receive.recieve(ip_addr, port, username, password, vhost, userexist_queue, userexist_routing_key, receiving_userexist_exchange, front_end_exchange_type)
     userexists_data = {}
-    while True:
-        result1 = receive_user_exists.receive_message(userexists_data)
-        if result1:
-            break
+    result1 = receive_user_exists.receive_message(userexists_data)
     reply_fname = ''
     reply_lname = ''
     global tempBool

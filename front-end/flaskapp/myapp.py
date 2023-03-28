@@ -177,12 +177,8 @@ def signin():
         receive_sign_in = Receive.recieve(ip_addr,port,username,password,vhost,fe_userexist_queue,fe_userexist_routing_key,receive_from_exchange, exchange_type)
         json_response = {}
 
-        while True:
-            result = receive_sign_in.receive_message(json_response)
-            if result:
-                print(json_response)
-                break
-
+        
+        result = receive_sign_in.receive_message(json_response)
 
         if json_response:
             user_data = json.dumps(json_response)
