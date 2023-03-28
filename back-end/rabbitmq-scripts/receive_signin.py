@@ -101,16 +101,16 @@ def main():
             if(temp['password'] == result1[x]):
                 tempBool == True
 
-    back_end_to_fe = Send.send(ip_addr, port, username, password, vhost, send_to_exchange, fe_userexist_queue, fe_userexist_routing_key, db_exchange_type)
+    back_end_to_fe = Send.Send(ip_addr, port, username, password, vhost, send_to_exchange, db_exchange_type)
 
     if(result1['reply'] == "True"):
         send_user_details = {'first_name': reply_fname, 'last_name': reply_lname, 'email': temp['email'], 'password': tempPass}
         data_to_fe = json.dumps(send_user_details)
-        back_end_to_fe.send_message(data_to_fe)
+        back_end_to_fe.send_message(data_to_fe,fe_userexist_routing_key)
     else:
         send_user_details = {'error': 'user does not exist'}
         data_to_fe = json.dumps(send_user_details)
-        back_end_to_fe.send_message(data_to_fe)
+        back_end_to_fe.send_message(data_to_fe,fe_userexist_routing_key)
 
 
 if __name__ == '__main__':
