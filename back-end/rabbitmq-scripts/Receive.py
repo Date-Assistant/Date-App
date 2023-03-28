@@ -14,11 +14,12 @@ class recieve:
             self.exchange_type = exchange_type
             self.routing_key = routing_key
             self.queue = queue
+            self.credentials = pika.PlainCredentials(self.username, self.password)
+            self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.ip_addr,port=self.port,credentials=self.credentials,virtual_host=self.vhost,socket_timeout=300))
+            self.channel = self.connection.channel()
+
    
       def receive_message(self,data):
-         self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.ip_addr,port=self.port,credentials=pika.PlainCredentials(username=self.username,password=self.password),virtual_host=self.vhost,socket_timeout=300))
-         self.channel = self.connection.channel()
-
          self.channel.exchange_declare(exchange=self.exchange, exchange_type=self.exchange_type, durable=True)
          self.channel.queue_declare(queue=self.queue, durable=True)
          self.channel.queue_bind(exchange=self.exchange, queue=self.queue, routing_key=self.routing_key)
