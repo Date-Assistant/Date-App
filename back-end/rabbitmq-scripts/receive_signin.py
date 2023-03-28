@@ -40,8 +40,7 @@ def main():
     backend_receive = Receive.recieve(ip_addr, port, username, password, vhost, signin_queue, front_end_routing_key, front_end_exchange, front_end_exchange_type)
     frontend_data = {}
     result = backend_receive.receive_message(frontend_data)
-    backend_receive.close()
-
+    
     email = ''
     passwd = ''
     temp = {'email': '', 'password': ''}

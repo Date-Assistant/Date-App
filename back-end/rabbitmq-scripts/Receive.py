@@ -15,7 +15,7 @@ class recieve:
             self.routing_key = routing_key
             self.queue = queue
             self.credentials = pika.PlainCredentials(self.username, self.password)
-            self.connection = pika.BlockingConnection(pika.ConnectionParameters(self.ip_addr, self.port, self.vhost, self.credentials))
+            self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.ip_addr, port=self.port, vhost=self.vhost, credentials=self.credentials))
             self.channel = self.connection.channel()
       
       def close(self):
@@ -58,8 +58,6 @@ class recieve:
             self.channel.start_consuming()
          except:
             self.channel.stop_consuming()
-         
-         self.connection.close()
 
          return self.copyDict
          
