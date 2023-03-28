@@ -52,7 +52,12 @@ class recieve:
 
 
          print(' [*] Waiting for messages.')
-         self.channel.start_consuming()
+         try:
+            self.channel.start_consuming()
+         except:
+            self.channel.stop_consuming()
+         
+         self.connection.close()
 
          return self.copyDict
       

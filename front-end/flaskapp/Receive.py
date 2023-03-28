@@ -43,7 +43,7 @@ class recieve:
             for key, value in newDict.items():
                self.copyDict[key] = value
             print('consumed')
-            self.connection.close()
+            
             
 
          self.channel.basic_consume(queue=self.queue,
@@ -52,7 +52,12 @@ class recieve:
 
 
          print(' [*] Waiting for messages.')
-         self.channel.start_consuming()
+         try:
+            self.channel.start_consuming()
+         except:
+            self.channel.stop_consuming()
+         
+         self.connection.close()
 
          return self.copyDict
          
