@@ -24,6 +24,11 @@ return_string = ''
 fname = ''
 lname= ''
 return_dict = {}
+global sqlInsert
+global userTuple
+sqlInsert = ''
+userTuple = ()
+
 
 
 mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306',database='IT490')
@@ -34,6 +39,7 @@ def main():
     backend_data = {}
     result = db_receive.receive_message(backend_data)
     db_receive.close()
+
     for x in result:
         if(x == 'insertStatement'):
             sqlInsert = result[x]
