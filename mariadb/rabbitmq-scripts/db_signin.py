@@ -62,9 +62,9 @@ def main():
                 pass
         return_dict = {'fname':fname,'lname':lname,'reply':return_string,'password':hpassword}
 
-    db_to_backend = Send.send(ip_addr,port,username,password,vhost,sending_exchange,sending_queue,sending_routing_key,db_exchange_type)
+    db_to_backend = Send.Send(ip_addr,port,username,password,vhost,sending_exchange,db_exchange_type)
     data_to_be = json.dumps(return_dict)
-    db_to_backend.send_message(data_to_be)
+    db_to_backend.send_message(data_to_be,sending_routing_key)
 
     
     

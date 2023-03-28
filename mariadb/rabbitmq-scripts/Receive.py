@@ -43,6 +43,3 @@ class recieve:
          self.connection.close()
 
          return data
-         
-
-         

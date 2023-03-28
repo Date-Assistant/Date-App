@@ -78,9 +78,9 @@ def main():
         'userInfoTuple' : infoTuple
     }
 
-    back_end_to_db = Send.send(ip_addr, port, username, password, vhost, db_exchange, db_queue, db_routing_key, db_exchange_type)
+    back_end_to_db = Send.Send(ip_addr, port, username, password, vhost, db_exchange, db_exchange_type)
     data_to_db = json.dumps(signin_data)
-    back_end_to_db.send_message(data_to_db)
+    back_end_to_db.send_message(data_to_db,db_routing_key)
 
     receive_user_exists = Receive.recieve(ip_addr, port, username, password, vhost, userexist_queue, userexist_routing_key, receiving_userexist_exchange, front_end_exchange_type)
     userexists_data = {}

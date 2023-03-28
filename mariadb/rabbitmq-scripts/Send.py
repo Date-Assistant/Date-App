@@ -1,36 +1,32 @@
-#!/usr/bin/env python3
 import pika
-from pika.exchange_type import ExchangeType
 
+class Send:
+    def __init__(self, ip, port, username, password, vhost, exchange, exchange_type):
+        self.ip = ip
+        self.port = port
+        self.username = username
+        self.password = password
+        self.vhost = vhost
+        self.exchange = exchange
+        self.exchange_type = exchange_type
+        self.connection = None
+        self.channel = None
+        self.queue = None
 
-class send:
-        def __init__(self,ip_addr,port,username,password,vhost,exchange,queue,routing_key,exchange_type):
-          self.ip_addr = ip_addr
-          self.port = port
-          self.username = username
-          self.password = password
-          self.vhost = vhost
-          self.exchange = exchange
-          self.exchange_type = exchange_type
-          self.routing_key = routing_key
-          self.queue = queue
-          self.credentials = pika.PlainCredentials(self.username, self.password)
-          self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.ip_addr,port=self.port,credentials=self.credentials,virtual_host=self.vhost,socket_timeout=300))
-          self.channel = self.connection.channel()
+    def connect(self):
+        credentials = pika.PlainCredentials(self.username, self.password)
+        parameters = pika.ConnectionParameters(self.ip, self.port, self.vhost, credentials)
+        self.connection = pika.BlockingConnection(parameters)
+        self.channel = self.connection.channel()
+        self.channel.exchange_declare(exchange=self.exchange, exchange_type=self.exchange_type)
 
+    def send_message(self, message, routing_key):
+        self.connect()
+        self.channel.basic_publish(
+            exchange=self.exchange, routing_key=routing_key, body=message)
+        self.close()
 
-        def send_message(self, message):
-          self.channel.exchange_declare(exchange=self.exchange, exchange_type=self.exchange_type, durable=True)
-          self.channel.queue_declare(queue=self.queue, durable=True)
-          self.channel.queue_bind(exchange=self.exchange, queue=self.queue, routing_key=self.routing_key)
+    def close(self):
+        self.channel.close()
+        self.connection.close()
 
-          self.channel.basic_publish(
-            exchange=self.exchange,
-            routing_key=self.routing_key,
-            body=message,
-            properties=pika.BasicProperties(
-                delivery_mode=2,  # make message persistent
-            ))
-
-          self.channel.close()
-          self.connection.close()
