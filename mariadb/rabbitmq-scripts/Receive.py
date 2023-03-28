@@ -25,11 +25,11 @@ class recieve:
             self.channel.close()
         if self.connection is not None and self.connection.is_open:
             self.connection.close()
-            
+
       def receive_message(self,copyDict):
          self.channel.exchange_declare(exchange=self.exchange, durable=True, exchange_type=ExchangeType.direct)
          # create receive_registration.py that subscribes to same exchange and routing key from /register route in myapp.py
-         self.channel.queue_declare(queue=self.queue,auto_delete=True)
+         self.channel.queue_declare(queue=self.queue)
          self.copyDict = copyDict
          self.channel.queue_bind(exchange=self.exchange, queue=self.queue, routing_key=self.routing_key)
 
