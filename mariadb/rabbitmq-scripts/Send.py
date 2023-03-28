@@ -15,12 +15,23 @@ class send:
           self.routing_key = routing_key
           self.queue = queue
           self.credentials = pika.PlainCredentials(self.username, self.password)
-          self.connection = pika.BlockingConnection(pika.ConnectionParameters(self.ip_addr, self.port, self.vhost, self.credentials))
-          self.channel = self.connection.channel()
+
 
         def send_message(self, message):
-          self.channel.exchange_declare(exchange=self.exchange, durable=True, exchange_type=ExchangeType.direct)
-          self.message = message
-          #self.channel.queue_declare(queue=self.queue)
-          self.channel.basic_publish(exchange=self.exchange, routing_key=self.routing_key, body=self.message)
-          print(f"Sent message: {self.message}")
+          self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.ip_addr,port=self.port,credentials=pika.PlainCredentials(username=self.username,password=self.password),virtual_host=self.vhost,socket_timeout=300))
+          self.channel = self.connection.channel()
+
+          self.channel.exchange_declare(exchange=self.exchange, exchange_type=self.exchange_type, durable=True)
+          self.channel.queue_declare(queue=self.queue, durable=True)
+          self.channel.queue_bind(exchange=self.exchange, queue=self.queue, routing_key=self.routing_key)
+
+          self.channel.basic_publish(
+            exchange=self.exchange,
+            routing_key=self.routing_key,
+            body=message,
+            properties=pika.BasicProperties(
+                delivery_mode=2,  # make message persistent
+            ))
+
+          self.channel.close()
+          self.connection.close()
