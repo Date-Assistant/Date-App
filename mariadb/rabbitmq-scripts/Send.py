@@ -18,7 +18,7 @@ class Send:
         parameters = pika.ConnectionParameters(self.ip, self.port, self.vhost, credentials)
         self.connection = pika.BlockingConnection(parameters)
         self.channel = self.connection.channel()
-        self.channel.exchange_declare(exchange=self.exchange, exchange_type=self.exchange_type)
+        self.channel.exchange_declare(exchange=self.exchange, exchange_type=self.exchange_type,durable=True)
 
     def send_message(self, message, routing_key):
         self.connect()
