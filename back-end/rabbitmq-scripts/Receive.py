@@ -40,7 +40,6 @@ class recieve:
             for key, value in newDict.items():
                self.copyDict[key] = value
             print('consumed')
-            self.connection.close()
             
 
          self.channel.basic_consume(queue=self.queue,
