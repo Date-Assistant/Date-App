@@ -15,7 +15,8 @@ class recieve:
             self.routing_key = routing_key
             self.queue = queue
             self.credentials = pika.PlainCredentials(self.username, self.password)
-            self.connection = pika.BlockingConnection(pika.ConnectionParameters(self.ip_addr, self.port, self.vhost, self.credentials))
+            self.parameters = pika.ConnectionParameters(self.ip_addr, self.port, self.vhost, self.credentials)
+            self.connection = pika.BlockingConnection(self.parameters)
             self.channel = self.connection.channel()
       
       def close(self):
