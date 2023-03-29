@@ -170,7 +170,6 @@ def signin():
         front_end_sign_in = Send.send(ip_addr,port,username,password,vhost,exchange,signin_queue,signin_routing_key,exchange_type)
         json_user_data = json.dumps(user_sign_in)
         front_end_sign_in.send_message(json_user_data)
-        front_end_sign_in.close()
 
         flash('Invalid email or password')
 
@@ -179,14 +178,17 @@ def signin():
         json_response = {}
         receive_sign_in.receive_message(json_response)
         print(json_response)
-        receive_sign_in.close()
 
         if json_response:
             user_data = json.dumps(json_response)
             if('error' in user_data):
+                front_end_sign_in.close()
+                receive_sign_in.close()
                 return redirect(url_for('index'))
             else:
                 session['user_data'] = json.loads(user_data)
+                front_end_sign_in.close()
+                receive_sign_in.close()
                 return redirect(url_for('authenticated_index'))
 
     return render_template('signin.html')
