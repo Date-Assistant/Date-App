@@ -1,24 +1,9 @@
 import pika
 import sys
 import json
-import Receive
-import Send
-import mysql.connector as mariadb
-
-
-username = 'brian'
-password = 'password'
-ip_addr = '10.0.0.133'
-port = 5672
-vhost = 'cherry_broker'
-db_queue= 'signininfo'
-receiving_exchange = 'be2db'
-db_exchange_type = 'direct'
-db_routing_key = 'signininfo'
-
-sending_exchange = 'db2be'
-sending_routing_key = 'userexists'
-sending_queue = 'userexists'
+from Receive import receive
+from Send import send
+#import mysql.connector as mariadb
 
 return_string = ''
 fname = ''
@@ -29,16 +14,23 @@ global userTuple
 sqlInsert = ''
 userTuple = ()
 
-
-
-mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306',database='IT490')
-cursor = mariadb_connection.cursor()
+# mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306',database='IT490')
+# cursor = mariadb_connection.cursor()
 
 def main():
-    db_receive = Receive.recieve(ip_addr,port,username,password,vhost,receiving_exchange,db_queue,db_routing_key,db_exchange_type)
-    backend_data = {}
-    result = db_receive.receive_message(backend_data)
+    open_connection = receive(
+        "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
+        "it490admin",
+        "c7dvcdbtgpue",
+        "us-east-1"
+    )    
+    result = open_connection.get_message("signin2db")
+    open_connection.close()
+    result = json.loads(result.decode('utf-8'))
+    print(type(result)) #dictionary
+    print(result)
 
+"""
     for x in result:
         if(x == 'insertStatement'):
             sqlInsert = result[x]
@@ -76,7 +68,7 @@ def main():
     
     cursor.close()
     #mariadb_connection.commit()
-    
+"""    
             
 
 if __name__ == '__main__':
