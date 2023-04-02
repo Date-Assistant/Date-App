@@ -3,16 +3,18 @@ from flask_session import Session
 import pika
 import sys
 import json
-from Receive import recieve
+from Receive import receive
 from Send import send
 import os
 import tempfile
 
 app = Flask(__name__)
+""""
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = tempfile.gettempdir()
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'fallback secret key')  # Use fallback secret key if not found in environment variables
 Session(app)
+"""
 
 @app.route('/')
 def index():
@@ -138,26 +140,31 @@ def signin():
             'password' : passwd,
         }
 
-        # Print the form data
-        sender_connection = send(
+        open_connection = send(
                 "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
                 "it490admin",
                 "c7dvcdbtgpue",
                 "us-east-1"
             )
-        sender_connection.declare_queue("signin")
+        open_connection.declare_queue("signin")
         son_user_data = json.dumps(user_sign_in)
-        sender_connection.send_message(exchange="", routing_key="signin", body=son_user_data)
-        sender_connection.close()    
+        open_connection.send_message(exchange="", routing_key="signin", body=son_user_data)
+        open_connection.close()
 
-        reciever_connection = recieve(
+        if(True):
+            return redirect(url_for('signin'))
+        else:
+            open_connection = receive(
                 "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
                 "it490admin",
                 "c7dvcdbtgpue",
                 "us-east-1"
-            )     
-        reciever_connection.get_message("signin")
-        reciever_connection.close()
+            )   
+            result = open_connection.get_message("login")
+            open_connection.close()
+            json_response = json.loads(result.decode('utf-8'))
+            print(json_response)
+
     return render_template('signin.html')
 
 '''
@@ -217,16 +224,16 @@ def register():
 
         # Print the form data
         try:
-            sender_connection = send(
+            open_connection = send(
                     "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
                     "it490admin",
                     "c7dvcdbtgpue",
                     "us-east-1"
                 )
-            sender_connection.declare_queue("signin")
+            open_connection.declare_queue("register")
             json_user_data = json.dumps(user_data)
-            sender_connection.send_message(exchange="", routing_key="signin", body=json_user_data)
-            sender_connection.close()  
+            open_connection.send_message(exchange="", routing_key="register", body=json_user_data)
+            open_connection.close()  
             return render_template('postregister.html')
         except BaseException:
             print("error")
@@ -267,16 +274,16 @@ def register2():
 
         # Print the form data
         try:
-            sender_connection = send(
+            open_connection = send(
                     "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
                     "it490admin",
                     "c7dvcdbtgpue",
                     "us-east-1"
                 )
-            sender_connection.declare_queue("signin")
+            open_connection.declare_queue("register2")
             json_user_data = json.dumps(user_data)
-            sender_connection.send_message(exchange="", routing_key="signin", body=json_user_data)
-            sender_connection.close()  
+            open_connection.send_message(exchange="", routing_key="register2", body=json_user_data)
+            open_connection.close()  
             return render_template('postregister.html')
         except BaseException:
             print("error")

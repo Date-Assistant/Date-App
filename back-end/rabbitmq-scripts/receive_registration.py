@@ -1,24 +1,9 @@
 import pika
 import sys
 import json
-import Receive
-import Send
+from Receive import receive
+from Send import send
 import hashlib
-
-username = 'brian'
-password = 'password'
-ip_addr = '10.0.0.133'
-port = 5672
-vhost = 'cherry_broker'
-front_end_queue= 'registration'
-front_end_exchange = 'fe2be'
-front_end_exchange_type = 'direct'
-front_end_routing_key = 'registration'
-
-db_queue= 'dbregistration'
-db_exchange = 'be2db'
-db_exchange_type = 'direct'
-db_routing_key = 'dbregistration'
 
 def main():
     fname = ''
@@ -31,9 +16,18 @@ def main():
     receive_emails = ''
     temp = {'first_name': '','last_name':'','email':'','password':'','phone':'','address':'','zip_code':'','receive_emails':''}
 
-    backend_receive = Receive.recieve(ip_addr,port,username,password,vhost,front_end_queue,front_end_routing_key,front_end_exchange,front_end_exchange_type)
-    frontend_data = {}
-    result = backend_receive.receive_message(frontend_data)
+    open_connection = receive(
+        "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
+        "it490admin",
+        "c7dvcdbtgpue",
+        "us-east-1"
+    )    
+    result = open_connection.get_message("register")
+    open_connection.close()
+    result = json.loads(result.decode('utf-8'))
+    print(type(result))
+    print(result)
+
     for x in result:
         if(x == 'first_name'):
             fname = result[x]
@@ -113,9 +107,17 @@ def main():
         'insertStatement': sqlInsert,
         'userInfoTuple' : userTuple
     }
-    back_end_to_db = Send.send(ip_addr,port,username,password,vhost,db_exchange,db_queue,db_routing_key,db_exchange_type)
+    
+    open_connection = send(
+        "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
+        "it490admin",
+        "c7dvcdbtgpue",
+        "us-east-1"
+    )
+    open_connection.declare_queue("register2db")
     data_to_db = json.dumps(registration_data)
-    back_end_to_db.send_message(data_to_db)
+    open_connection.send_message(exchange="", routing_key="register2db", body=data_to_db)
+    open_connection.close()  
 
 if __name__ == '__main__':
     try:

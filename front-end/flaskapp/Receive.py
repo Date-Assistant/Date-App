@@ -1,6 +1,6 @@
 from basicClient import BasicPikaClient
 
-class recieve(BasicPikaClient):
+class receive(BasicPikaClient):
     def get_message(self, queue):
         method_frame, header_frame, body = self.channel.basic_get(queue)
         if method_frame:

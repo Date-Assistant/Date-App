@@ -1,33 +1,17 @@
-#!/usr/bin/env python3
-import pika
-from pika.exchange_type import ExchangeType
+from basicClient import BasicPikaClient
 
+class send(BasicPikaClient):
+    def declare_queue(self, queue_name):
+        print(f"Trying to declare queue({queue_name})...")
+        self.channel.queue_declare(queue=queue_name)
 
-class send:
-        def __init__(self,ip_addr,port,username,password,vhost,exchange,queue,routing_key,exchange_type):
-          self.ip_addr = ip_addr
-          self.port = port
-          self.username = username
-          self.password = password
-          self.vhost = vhost
-          self.exchange = exchange
-          self.exchange_type = exchange_type
-          self.routing_key = routing_key
-          self.queue = queue
-          self.credentials = pika.PlainCredentials(self.username, self.password)
-          self.parameters = pika.ConnectionParameters(self.ip_addr, self.port, self.vhost, self.credentials)
-          self.connection = pika.BlockingConnection(self.parameters)
-          self.channel = self.connection.channel()
+    def send_message(self, exchange, routing_key, body):
+        channel = self.connection.channel()
+        channel.basic_publish(exchange=exchange,
+                              routing_key=routing_key,
+                              body=body)
+        print(f"Sent message. Exchange: {exchange}, Routing Key: {routing_key}, Body: {body}")
 
-        def send_message(self, message):
-          self.channel.exchange_declare(exchange=self.exchange, durable=True,exchange_type=ExchangeType.direct)
-          self.message = message
-          self.channel.queue_declare(queue=self.queue)
-          self.channel.basic_publish(exchange=self.exchange, routing_key=self.routing_key, body=self.message)
-          print(f"Sent message: {self.message}")
-
-        def close(self):
-          if self.channel is not None and self.channel.is_open:
-            self.channel.close()
-          if self.connection is not None and self.connection.is_open:
-            self.connection.close()
+    def close(self):
+        self.channel.close()
+        self.connection.close()
