@@ -3,8 +3,8 @@ from flask_session import Session
 import pika
 import sys
 import json
-import Receive
-import Send
+from Receive import recieve
+from Send import send
 import os
 import tempfile
 
@@ -13,34 +13,6 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = tempfile.gettempdir()
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'fallback secret key')  # Use fallback secret key if not found in environment variables
 Session(app)
-
-messages = [{'title': 'Message One',
-             'content': 'Message One Content'},
-            {'title': 'Message Two',
-             'content': 'Message Two Content'}
-            ]
-
-username = 'brian'
-password = 'password'
-ip_addr = '10.0.0.133'
-port = 5672
-vhost = 'cherry_broker'
-registration_queue= 'registration'
-signin_queue = 'signin'
-
-exchange = 'fe2be'
-exchange_type = 'direct'
-
-register_routing_key = 'registration'
-signin_routing_key = 'signin'
-
-
-fe_userexist_queue = 'existinguser'
-fe_userexist_routing_key = 'existinguser'
-receive_from_exchange = 'be2fe'
-
-fe_usernoexist_queue = 'nonexistinguser'
-fe_usernoexist_routing_key = 'nonexistinguser'
 
 @app.route('/')
 def index():
@@ -167,30 +139,25 @@ def signin():
         }
 
         # Print the form data
-        front_end_sign_in = Send.send(ip_addr,port,username,password,vhost,exchange,signin_queue,signin_routing_key,exchange_type)
-        json_user_data = json.dumps(user_sign_in)
-        front_end_sign_in.send_message(json_user_data)
+        sender_connection = send(
+                "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
+                "it490admin",
+                "c7dvcdbtgpue",
+                "us-east-1"
+            )
+        sender_connection.declare_queue("signin")
+        son_user_data = json.dumps(user_sign_in)
+        sender_connection.send_message(exchange="", routing_key="signin", body=son_user_data)
+        sender_connection.close()    
 
-        flash('Invalid email or password')
-
-        
-        receive_sign_in = Receive.recieve(ip_addr,port,username,password,vhost,fe_userexist_queue,fe_userexist_routing_key,receive_from_exchange, exchange_type)
-        json_response = {}
-        receive_sign_in.receive_message(json_response)
-        print(json_response)
-
-        if json_response:
-            user_data = json.dumps(json_response)
-            if('error' in user_data):
-                front_end_sign_in.close()
-                receive_sign_in.close()
-                return redirect(url_for('index'))
-            else:
-                session['user_data'] = json.loads(user_data)
-                front_end_sign_in.close()
-                receive_sign_in.close()
-                return redirect(url_for('authenticated_index'))
-
+        reciever_connection = recieve(
+                "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
+                "it490admin",
+                "c7dvcdbtgpue",
+                "us-east-1"
+            )     
+        reciever_connection.get_message("signin")
+        reciever_connection.close()
     return render_template('signin.html')
 
 '''
@@ -250,9 +217,16 @@ def register():
 
         # Print the form data
         try:
-            front_end_register = Send.send(ip_addr,port,username,password,vhost,exchange,registration_queue,register_routing_key,exchange_type)
+            sender_connection = send(
+                    "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
+                    "it490admin",
+                    "c7dvcdbtgpue",
+                    "us-east-1"
+                )
+            sender_connection.declare_queue("signin")
             json_user_data = json.dumps(user_data)
-            front_end_register.send_message(json_user_data)
+            sender_connection.send_message(exchange="", routing_key="signin", body=json_user_data)
+            sender_connection.close()  
             return render_template('postregister.html')
         except BaseException:
             print("error")
@@ -293,9 +267,16 @@ def register2():
 
         # Print the form data
         try:
-            front_end_register = Send.send(ip_addr,port,username,password,vhost,exchange,registration_queue,register_routing_key,exchange_type)
+            sender_connection = send(
+                    "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
+                    "it490admin",
+                    "c7dvcdbtgpue",
+                    "us-east-1"
+                )
+            sender_connection.declare_queue("signin")
             json_user_data = json.dumps(user_data)
-            front_end_register.send_message(json_user_data)
+            sender_connection.send_message(exchange="", routing_key="signin", body=json_user_data)
+            sender_connection.close()  
             return render_template('postregister.html')
         except BaseException:
             print("error")
