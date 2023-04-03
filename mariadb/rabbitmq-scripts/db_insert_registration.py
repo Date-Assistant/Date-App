@@ -15,10 +15,8 @@ def main():
         "c7dvcdbtgpue",
         "us-east-1"
     )    
-    result = open_connection.get_message("register2db")
+    result = open_connection.consume_messages("register2db")
     open_connection.close()
-    result = json.loads(result.decode('utf-8'))
-    print(type(result)) #dictionary
     print(result)
 
 """

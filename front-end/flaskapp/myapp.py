@@ -151,20 +151,24 @@ def signin():
         open_connection.send_message(exchange="", routing_key="signin", body=son_user_data)
         open_connection.close()
 
-        if(True):
-            return redirect(url_for('signin'))
-        else:
-            open_connection = receive(
-                "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
-                "it490admin",
-                "c7dvcdbtgpue",
-                "us-east-1"
-            )   
-            result = open_connection.get_message("login")
-            open_connection.close()
-            json_response = json.loads(result.decode('utf-8'))
-            print(json_response)
+        print("waiting for response")
 
+        open_connection = receive(
+            "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
+            "it490admin",
+            "c7dvcdbtgpue",
+            "us-east-1"
+        )   
+        result = open_connection.consume_messages("redirectlogin")
+        open_connection.close()
+        print(result)
+
+        for key in result:
+            if key == "Yes":
+                return redirect(url_for('authenticated_index'))
+            if key == "No":
+                return redirect(url_for('register2'))
+        
     return render_template('signin.html')
 
 '''

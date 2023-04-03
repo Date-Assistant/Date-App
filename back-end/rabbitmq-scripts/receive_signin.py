@@ -17,9 +17,9 @@ def main():
         "c7dvcdbtgpue",
         "us-east-1"
     )    
-    result = open_connection.get_message("signin")
+    result = open_connection.consume_messages("signin")
     open_connection.close()
-    print(result)
+    # print(result)
 
     email = ''
     passwd = ''

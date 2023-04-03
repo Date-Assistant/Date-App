@@ -15,6 +15,16 @@ class BasicMessageReceiver(BasicPikaClient):
         self.channel.close()
         self.connection.close()
 
+    def consume_messages(self, queue):
+        def callback(ch, method, properties, body):
+            print(" [x] Received %r" % body)
+
+        self.channel.basic_consume(queue=queue, on_message_callback=callback, auto_ack=True)
+
+        print(' [*] Waiting for messages. To exit press CTRL+C')
+        self.channel.start_consuming()
+                
+
 
 if __name__ == "__main__":
 
@@ -28,7 +38,10 @@ if __name__ == "__main__":
     )
 
     # Consume the message that was sent.
-    basic_message_receiver.get_message("hello world queue")
+    # basic_message_receiver.get_message("hello world queue")
+
+    # Consume multiple messages in an event loop.
+    basic_message_receiver.consume_messages("hello world queue")
 
     # Close connections.
     basic_message_receiver.close()

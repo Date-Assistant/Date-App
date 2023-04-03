@@ -24,11 +24,9 @@ def main():
         "c7dvcdbtgpue",
         "us-east-1"
     )    
-    result = open_connection.get_message("signin2db")
+    result = open_connection.consume_messages("signin2db")
     open_connection.close()
-    result = json.loads(result.decode('utf-8'))
-    print(type(result)) #dictionary
-    print(result)
+    # print(result)
 
 """
     for x in result:

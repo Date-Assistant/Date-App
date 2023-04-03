@@ -22,11 +22,9 @@ def main():
         "c7dvcdbtgpue",
         "us-east-1"
     )    
-    result = open_connection.get_message("register")
+    result = open_connection.consume_messages("register")
     open_connection.close()
-    result = json.loads(result.decode('utf-8'))
-    print(type(result))
-    print(result)
+    # print(result)
 
     for x in result:
         if(x == 'first_name'):
