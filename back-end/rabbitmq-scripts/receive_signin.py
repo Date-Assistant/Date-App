@@ -77,18 +77,32 @@ def main():
     print(result1)
 
     global tempBool
+    lastname = ''
+    firstname = ''
     for x in result1:
         if x == 'reply':
             if result1[x] == 'True':
                 tempBool = True
             else:
                 tempBool = False
+        if x == 'fname':
+            firstname += x
+        if x == 'lname':
+            lastname += x
+
 
     tempDict = {}
     if(tempBool == True):
-        tempDict = result1.copy()
+        tempDict['fname'] = ''
+        tempDict['fname'] += firstname
+        tempDict['lname'] = ''
+        tempDict['lname'] += lastname
+        tempDict['email'] = ''
+        tempDict['email'] += temp['email']
         tempDict["Yes"] = ""
         tempDict["Yes"] += "Yes"
+        tempDict['password'] = ''
+        tempDict['password'] += temp['password']
         open_connection = send(
                     "b-6a393830-73ed-476c-9530-c0b5029109d0",
                     "it490admin",
