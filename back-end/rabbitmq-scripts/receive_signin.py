@@ -79,7 +79,7 @@ def main():
     global tempBool
     for x in result1:
         if x == 'reply':
-            if result[x] == 'True':
+            if result1[x] == 'True':
                 tempBool = True
             else:
                 tempBool = False
