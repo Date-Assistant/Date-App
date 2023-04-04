@@ -24,3 +24,5 @@ class send:
           #self.channel.queue_declare(queue=self.queue)
           self.channel.basic_publish(exchange=self.exchange, routing_key=self.routing_key, body=self.message)
           print(f"Sent message: {self.message}")
+          self.connection.close()
+          self.channel.close()
