@@ -20,6 +20,7 @@ class recieve:
 
       def close(self):
           self.connection.close()
+          self.channel.close()
    
       def receive_message(self,copyDict):
          self.channel.exchange_declare(exchange=self.exchange, durable=True,exchange_type=ExchangeType.direct)

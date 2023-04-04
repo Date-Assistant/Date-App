@@ -22,9 +22,9 @@ messages = [{'title': 'Message One',
 
 username = 'brian'
 password = 'password'
-ip_addr = '10.0.0.209'
+ip_addr = '10.0.0.133'
 port = 5672
-vhost = 'cherry_broker'
+vhost = '/'
 registration_queue= 'registration'
 signin_queue = 'signin'
 
@@ -185,6 +185,7 @@ def signin():
                 return redirect(url_for('index'))
             else:
                 session['user_data'] = json.loads(user_data)
+
                 return redirect(url_for('authenticated_index'))
 
     return render_template('signin.html')
