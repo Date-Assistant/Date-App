@@ -84,7 +84,7 @@ def main():
             else:
                 tempBool = False
 
-    tempBool = {}
+    tempDict = {}
     if(tempBool == True):
         tempDict = result1.copy()
         tempDict["Yes"].append("Yes")
