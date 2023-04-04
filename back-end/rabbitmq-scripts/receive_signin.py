@@ -86,9 +86,9 @@ def main():
             else:
                 tempBool = False
         if x == 'fname':
-            firstname += x
+            firstname += result1[x]
         if x == 'lname':
-            lastname += x
+            lastname += result1[x]
 
 
     tempDict = {}
