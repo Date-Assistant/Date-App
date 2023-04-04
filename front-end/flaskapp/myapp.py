@@ -9,12 +9,10 @@ import os
 import tempfile
 
 app = Flask(__name__)
-""""
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = tempfile.gettempdir()
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'fallback secret key')  # Use fallback secret key if not found in environment variables
 Session(app)
-"""
 
 @app.route('/')
 def index():
@@ -165,6 +163,7 @@ def signin():
 
         for key in result:
             if key == "Yes":
+                session['user_data'] = json.loads(result)
                 return redirect(url_for('authenticated_index'))
             if key == "No":
                 return redirect(url_for('register2'))

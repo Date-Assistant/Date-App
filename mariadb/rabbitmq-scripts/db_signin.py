@@ -63,7 +63,7 @@ def main():
             )
     open_connection.declare_queue("userexists")
     data_to_be = json.dumps(return_dict)
-    open_connection.send_message(exchange="", routing_key="signin", body=data_to_be)
+    open_connection.send_message(exchange="", routing_key="userexists", body=data_to_be)
     open_connection.close()
 
     

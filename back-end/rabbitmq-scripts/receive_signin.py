@@ -72,9 +72,44 @@ def main():
         "c7dvcdbtgpue",
         "us-east-1"
     )    
-    result = open_connection.consume_messages("userexists")
+    result1 = open_connection.consume_messages("userexists")
     open_connection.close() 
-    print(result)
+    print(result1)
+
+    global tempBool
+    for x in result1:
+        if x == 'reply':
+            if result[x] == 'True':
+                tempBool = True
+            else:
+                tempBool = False
+
+    tempBool = {}
+    if(tempBool == True):
+        tempDict = result1.copy()
+        tempDict["Yes"].append("Yes")
+        open_connection = send(
+                    "b-6a393830-73ed-476c-9530-c0b5029109d0",
+                    "it490admin",
+                    "c7dvcdbtgpue",
+                    "us-east-1"
+                )
+        open_connection.declare_queue("redirectlogin")
+        data_to_fe = json.dumps(tempDict)
+        open_connection.send_message(exchange="", routing_key="redirectlogin", body=data_to_fe)
+        open_connection.close()
+    else:
+        tempDict = {"No":"No"}
+        open_connection = send(
+                    "b-6a393830-73ed-476c-9530-c0b5029109d0",
+                    "it490admin",
+                    "c7dvcdbtgpue",
+                    "us-east-1"
+        )
+        open_connection.declare_queue("redirectlogin")
+        data_to_fe = json.dumps(tempDict)
+        open_connection.send_message(exchange="", routing_key="redirectlogin", body=data_to_fe)
+        open_connection.close()
 
 if __name__ == '__main__':
     try:
