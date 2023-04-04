@@ -3,7 +3,7 @@ import sys
 import json
 from Receive import receive
 from Send import send
-#import mysql.connector as mariadb
+import mysql.connector as mariadb
 
 return_string = ''
 fname = ''
@@ -14,12 +14,12 @@ global userTuple
 sqlInsert = ''
 userTuple = ()
 
-# mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306',database='IT490')
-# cursor = mariadb_connection.cursor()
+mariadb_connection = mariadb.connect(host='it490database.canztlnjai3e.us-east-1.rds.amazonaws.com', user='admin', password='password', port='3306',database='IT490')
+cursor = mariadb_connection.cursor()
 
 def main():
     open_connection = receive(
-        "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
+        "b-6a393830-73ed-476c-9530-c0b5029109d0",
         "it490admin",
         "c7dvcdbtgpue",
         "us-east-1"
@@ -28,7 +28,7 @@ def main():
     open_connection.close()
     # print(result)
 
-"""
+
     for x in result:
         if(x == 'insertStatement'):
             sqlInsert = result[x]
@@ -55,18 +55,22 @@ def main():
                 pass
         return_dict = {'fname':fname,'lname':lname,'reply':return_string,'password':hpassword}
 
-    db_to_backend = Send.send(ip_addr,port,username,password,vhost,sending_exchange,sending_queue,sending_routing_key,db_exchange_type)
+    open_connection = send(
+                "b-6a393830-73ed-476c-9530-c0b5029109d0",
+                "it490admin",
+                "c7dvcdbtgpue",
+                "us-east-1"
+            )
+    open_connection.declare_queue("userexists")
     data_to_be = json.dumps(return_dict)
-    db_to_backend.send_message(data_to_be)
-     
-    db_receive.close()
-    db_to_backend.close()
+    open_connection.send_message(exchange="", routing_key="signin", body=data_to_be)
+    open_connection.close()
 
     
     
     cursor.close()
     #mariadb_connection.commit()
-"""    
+  
             
 
 if __name__ == '__main__':

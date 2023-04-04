@@ -17,7 +17,7 @@ def main():
     temp = {'first_name': '','last_name':'','email':'','password':'','phone':'','address':'','zip_code':'','receive_emails':''}
 
     open_connection = receive(
-        "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
+        "b-6a393830-73ed-476c-9530-c0b5029109d0",
         "it490admin",
         "c7dvcdbtgpue",
         "us-east-1"
@@ -107,7 +107,7 @@ def main():
     }
     
     open_connection = send(
-        "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
+        "b-6a393830-73ed-476c-9530-c0b5029109d0",
         "it490admin",
         "c7dvcdbtgpue",
         "us-east-1"

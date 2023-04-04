@@ -12,7 +12,7 @@ def hash_password(password):
 
 def main():
     open_connection = receive(
-        "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
+        "b-6a393830-73ed-476c-9530-c0b5029109d0",
         "it490admin",
         "c7dvcdbtgpue",
         "us-east-1"
@@ -56,7 +56,7 @@ def main():
     }
 
     open_connection = send(
-        "b-ab0030a8-c56e-4e76-90d1-be3ca3d76e12",
+        "b-6a393830-73ed-476c-9530-c0b5029109d0",
         "it490admin",
         "c7dvcdbtgpue",
         "us-east-1"
@@ -64,7 +64,17 @@ def main():
     open_connection.declare_queue("signin2db")
     data_to_db = json.dumps(signin_data)
     open_connection.send_message(exchange="", routing_key="signin2db", body=data_to_db)
-    open_connection.close()  
+    open_connection.close() 
+
+    open_connection = receive(
+        "b-6a393830-73ed-476c-9530-c0b5029109d0",
+        "it490admin",
+        "c7dvcdbtgpue",
+        "us-east-1"
+    )    
+    result = open_connection.consume_messages("userexists")
+    open_connection.close() 
+    print(result)
 
 if __name__ == '__main__':
     try:
