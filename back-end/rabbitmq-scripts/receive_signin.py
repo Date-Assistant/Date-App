@@ -87,6 +87,7 @@ def main():
     tempDict = {}
     if(tempBool == True):
         tempDict = result1.copy()
+        tempDict["Yes"] = []
         tempDict["Yes"].append("Yes")
         open_connection = send(
                     "b-6a393830-73ed-476c-9530-c0b5029109d0",
