@@ -93,10 +93,10 @@ def main():
 
     tempDict = {}
     if(tempBool == True):
-        tempDict['fname'] = ''
-        tempDict['fname'] += firstname
-        tempDict['lname'] = ''
-        tempDict['lname'] += lastname
+        tempDict['first_name'] = ''
+        tempDict['first_name'] += firstname
+        tempDict['last_name'] = ''
+        tempDict['last_name'] += lastname
         tempDict['email'] = ''
         tempDict['email'] += temp['email']
         tempDict["Yes"] = ""
