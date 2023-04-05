@@ -86,29 +86,23 @@ def main():
             else:
                 tempBool = False
         if x == 'fname':
-            firstname += result1[x]
+            firstname = result1['fname']
         if x == 'lname':
-            lastname += result1[x]
+            lastname = result1['lname']
 
 
     tempDict = {}
     if(tempBool == True):
         tempDict['first_name'] = ''
-        tempDict['first_name'] += firstname
+        tempDict['first_name'] = firstname
         tempDict['last_name'] = ''
-        tempDict['last_name'] += lastname
+        tempDict['last_name'] = lastname
         tempDict['email'] = ''
-        tempDict['email'] += temp['email']
+        tempDict['email'] = temp['email']
         tempDict["Yes"] = ""
-        tempDict["Yes"] += "Yes"
+        tempDict["Yes"] = "Yes"
         tempDict['password'] = ''
         tempDict['password'] += temp['password']
-        open_connection = send(
-                    "b-6a393830-73ed-476c-9530-c0b5029109d0",
-                    "it490admin",
-                    "c7dvcdbtgpue",
-                    "us-east-1"
-                )
         open_connection.declare_queue("redirectlogin")
         data_to_fe = json.dumps(tempDict)
         open_connection.send_message(exchange="", routing_key="redirectlogin", body=data_to_fe)

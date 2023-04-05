@@ -7,6 +7,7 @@ from Receive import receive
 from Send import send
 import os
 import tempfile
+import time
 
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -151,19 +152,28 @@ def signin():
 
         print("waiting for response")
 
+
+        
         open_connection = receive(
             "b-6a393830-73ed-476c-9530-c0b5029109d0",
             "it490admin",
             "c7dvcdbtgpue",
             "us-east-1"
-        )   
-        result = open_connection.consume_messages("redirectlogin")
-        open_connection.close()
-        print(result)
+        )
+
+        while True:
+            result = open_connection.consume_messages("redirectlogin")
+            if result:
+                open_connection.close()
+                print(result)
+                break
+            else:
+                print('connection does not work')
+            time.sleep(1)
 
         for key in result:
             if key == "Yes":
-                session['user_data'] = json.loads(result)
+                session['user_data'] = result
                 return redirect(url_for('authenticated_index'))
             if key == "No":
                 return redirect(url_for('register2'))
