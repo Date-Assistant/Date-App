@@ -93,6 +93,12 @@ def main():
 
     tempDict = {}
     if(tempBool == True):
+        open_connection = send(
+                    "b-6a393830-73ed-476c-9530-c0b5029109d0",
+                    "it490admin",
+                    "c7dvcdbtgpue",
+                    "us-east-1"
+        )
         tempDict['first_name'] = ''
         tempDict['first_name'] = firstname
         tempDict['last_name'] = ''
