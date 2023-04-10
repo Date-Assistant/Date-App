@@ -8,12 +8,18 @@ from Send import send
 import os
 import tempfile
 import time
+import requests
+
 
 app = Flask(__name__)
+api_key = open('API_KEY.txt').read() #yelp_api_key
+
+"""
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = tempfile.gettempdir()
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'fallback secret key')  # Use fallback secret key if not found in environment variables
 Session(app)
+"""
 
 @app.route('/')
 def index():
@@ -304,6 +310,44 @@ def register2():
         # TODO: Add code to store the data in a database or message queue
 
     return render_template('register2.html', basic_price=basic_price, premium_price=premium_price, discount_percentage=discount_percentage)
+
+
+@app.route('/search_restaurants')
+def search_restaurants():
+    return render_template('search_restaurants.html')
+
+@app.route('/list_restaurants', methods=['POST'])
+def list_restaurants():
+    location = request.form['location']
+    
+    # Set the API endpoint URL and parameters
+    url = "https://api.yelp.com/v3/businesses/search"
+    headers = {
+        "Authorization": "Bearer " + api_key
+    }
+    params = {
+        "term": "restaurant",
+        "location": location
+    }
+
+    # Make a GET request to the API endpoint
+    response = requests.get(url, headers=headers, params=params)
+
+    # Parse the response JSON data
+    data = json.loads(response.text)
+
+    # Create a list of dictionaries containing the name, address, and photo URL for each restaurant
+    restaurants_list = []
+    for business in data["businesses"]:
+        restaurant = {
+            "name": business["name"],
+            "address": business["location"]["address1"],
+        }
+        
+        restaurants_list.append(restaurant)
+
+    return render_template('list_restaurants.html', location=location, restaurants=restaurants_list)
+
 
 
 
