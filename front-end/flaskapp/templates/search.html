@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Search Results</title>
+	<!-- Link to Bootstrap stylesheet -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+	<style>
+		img {
+			max-width: 100%;
+			max-height: 100px;
+			object-fit: contain;
+		}
+	</style>
+</head>
+<body>
+	<div class="container mt-5">
+		<h1 class="text-center mb-5">Search Results</h1>
+		{% if businesses %}
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Address</th>
+						<th>Our Rating</th>
+						<th>Details</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for business in businesses %}
+						<tr>
+							<td>{{ business.name }}</td>
+							<td>{{ business.location.address1 }}, {{ business.location.city }}, {{ business.location.state }} {{ business.location.zip_code }}</td>
+							<td>{{ business.rating }}</td>
+							<td><a href="/business/{{ business.id }}" class="btn btn-primary">View Details</a></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<div class="alert alert-warning" role="alert">
+				<p>No results found. Please try again.</p>
+				<a href="/search_restaurants" class="btn btn-primary">Back to search</a>
+			</div>
+		{% endif %}
+	</div>
+	<!-- Link to Bootstrap JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+</body>
+</html>

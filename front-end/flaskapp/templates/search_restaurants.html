@@ -1,22 +1,30 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Find Restaurants</title>
-    <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
-  </head>
-  <body>
-    <div class="container">
-      <h1 class="mt-3 mb-5">Find Restaurants</h1>
-      <form action="/list_restaurants" method="post">
-        <div class="mb-3">
-          <label for="location" class="form-label">Enter your location:</label>
-          <input type="text" class="form-control" id="location" name="location">
-        </div>
-        <button type="submit" class="btn btn-primary">Find Restaurants</button>
-      </form>
-    </div>
-    <!-- Include Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.min.js"></script>
-  </body>
+<head>
+	<title>Find Restaurants</title>
+	<!-- Link to Bootstrap stylesheet -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				<h1 class="text-center mb-5">Find Restaurants</h1>
+				<form method="POST" action="/search">
+					<div class="form-group">
+						<label for="location">Location</label>
+						<input type="text" class="form-control" id="location" name="location" placeholder="e.g. City, State, Zip">
+					</div>
+					<div class="form-group">
+						<label for="term">Food Genre</label>
+						<input type="text" class="form-control" id="term" name="term" placeholder="e.g. Italian, Mexican, Chinese, Middle Eastern, etc.">
+					</div>
+					<button type="submit" class="btn btn-primary btn-block">Search</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Link to Bootstrap JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+</body>
 </html>

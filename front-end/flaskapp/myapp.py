@@ -316,40 +316,50 @@ def register2():
 def search_restaurants():
     return render_template('search_restaurants.html')
 
-@app.route('/list_restaurants', methods=['POST'])
-def list_restaurants():
-    location = request.form['location']
-    
-    # Set the API endpoint URL and parameters
-    url = "https://api.yelp.com/v3/businesses/search"
-    headers = {
-        "Authorization": "Bearer " + api_key
-    }
-    params = {
-        "term": "restaurant",
-        "location": location
-    }
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    API_ENDPOINT = 'https://api.yelp.com/v3/businesses/search'
+    if request.method == 'POST':
+        location = request.form.get('location')
+        term = request.form.get('term')
 
-    # Make a GET request to the API endpoint
-    response = requests.get(url, headers=headers, params=params)
-
-    # Parse the response JSON data
-    data = json.loads(response.text)
-
-    # Create a list of dictionaries containing the name, address, and photo URL for each restaurant
-    restaurants_list = []
-    for business in data["businesses"]:
-        restaurant = {
-            "name": business["name"],
-            "address": business["location"]["address1"],
+        # Set the parameters for the Yelp API request
+        params = {
+            'location': location,
+            'term': term,
+            'sort_by': 'rating',
+            'limit': 10
         }
-        
-        restaurants_list.append(restaurant)
 
-    return render_template('list_restaurants.html', location=location, restaurants=restaurants_list)
+        # Set the headers for the API request
+        headers = {
+            'Authorization': 'Bearer %s' % api_key
+        }
 
+        # Make the API request
+        response = requests.get(API_ENDPOINT, params=params, headers=headers)
+        businesses = response.json().get('businesses')
 
+        # Render the HTML template with the list of businesses
+        return render_template('search.html', businesses=businesses)
 
+    return render_template('index.html')
+
+@app.route('/business/<id>')
+def business_details(id):
+    # Set the headers for the API request
+    print("ID=" + id )
+    headers = {
+        'Authorization': 'Bearer %s' % api_key
+    }
+
+    # Make the API request to retrieve details for the specified business ID
+    response = requests.get(f'https://api.yelp.com/v3/businesses/{id}', headers=headers)
+    business = response.json()
+    print(response)
+
+    # Render the HTML template with the business details
+    return render_template('details.html', business=business)
 
 
 if __name__ == '__main__':

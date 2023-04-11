@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{ business.name }}</title>
+	<!-- Link to Bootstrap stylesheet -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+	<style>
+		img {
+			max-width: 100%;
+			max-height: 200px;
+			object-fit: contain;
+		}
+	</style>
+</head>
+<body>
+	<div class="container mt-5">
+		<h1 class="text-center">{{ business.name }}</h1>
+		<div class="row justify-content-center">
+			<div class="col-md-8 text-center">
+				<img src="https://via.placeholder.com/400x200" alt="{{ business.name }} photo" class="img-fluid">
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<ul class="list-group mt-3">
+					<li class="list-group-item"><strong>Address:</strong> {{ business.location.address1 }}, {{ business.location.city }}, {{ business.location.state }} {{ business.location.zip_code }}</li>
+					{% if business.phone %}
+						<li class="list-group-item"><strong>Phone:</strong> {{ business.phone }}</li>
+					{% endif %}
+					{% if business.url %}
+						<li class="list-group-item"><strong>Website:</strong> <a href="{{ business.url }}" target="_blank">LINK</a></li>
+					{% endif %}
+					<li class="list-group-item"><strong>Rating:</strong> {{ business.rating }}</li>
+					<li class="list-group-item"><strong>Review Count:</strong> {{ business.review_count }}</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row justify-content-center mt-3">
+			<div class="col-md-8 text-center">
+				<a href="/search_restaurants" class="btn btn-primary">Back to search</a>
+			</div>
+		</div>
+	</div>
+	<!-- Link to Bootstrap JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+</body>
+</html>
