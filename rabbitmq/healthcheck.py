@@ -50,3 +50,6 @@ def get_random_online_node():
     else:
         print("No online nodes found.")
         return None
+
+
+print(get_random_online_node())
