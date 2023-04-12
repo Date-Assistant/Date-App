@@ -35,4 +35,4 @@ def get_random_online_node():
         return None
 
 
-get_random_online_node()
+print(get_random_online_node())
