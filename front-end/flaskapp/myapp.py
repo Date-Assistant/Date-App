@@ -11,7 +11,9 @@ import requests
 
 
 app = Flask(__name__)
-api_key = open('API_KEY.txt').read() #yelp_api_key
+#yelp_api_key 
+#api_key = open('API_KEY.txt').read() 
+api_key = 'C6oVTJvz932BtQjLQroxFp_dgk4gRkVJMD0Tthr0ThYI7W1RDuFR5p2I2ipKnBWvkvjF4LEehQZ-Fh5DcdRDCJvEPlx8A6h4OZY8eAO4Q5DvlYcl2GkT93ZYGXsTZHYx'
 
 """
 app.config['SESSION_TYPE'] = 'filesystem'
