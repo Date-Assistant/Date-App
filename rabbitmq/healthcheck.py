@@ -56,5 +56,6 @@ def get_random_online_node():
         print("No online nodes found.")
         return None
 
-print()
-print("Returned Value: " + get_random_online_node())
+ip_addr = get_random_online_node()
+print("Your IP Address")
+print(ip_addr)
