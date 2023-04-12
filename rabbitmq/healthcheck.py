@@ -32,20 +32,20 @@ def get_random_online_node():
         try:
             response = subprocess.run(['ping', '-c', '1', '-W', str(timeout), node], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             if response.returncode == 0:
+                print(f"Node {node} is GOOD.")
                 if is_rabbitmq_running(node):
                     online_nodes.append(node)
-                    print(f"Node {node} is up.")
                 else:
                     offline_nodes.append(node)
             else:
+                print(f"Node {node} is BAD.")
                 offline_nodes.append(node)
-                print(f"Node {node} is down.")
         except Exception as e:
             offline_nodes.append(node)
             print(f"Error pinging node {node}: {e}")
 
-    print(online_nodes)
-    print(offline_nodes)
+    print("Online Nodes: " + online_nodes)
+    print("Offline Nodes: " + offline_nodes)
 
     if online_nodes:
         random_online_node = random.choice(online_nodes)
@@ -55,4 +55,4 @@ def get_random_online_node():
         return None
 
 
-print("Returned Value:" + get_random_online_node())
+print("Returned Value: " + get_random_online_node())
