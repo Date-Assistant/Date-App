@@ -44,9 +44,9 @@ def get_random_online_node():
             offline_nodes.append(node)
             print(f"Error pinging node {node}: {e}")
 
-    print("Online Nodes:")
+    print("Good Nodes: ------------------")
     print(online_nodes)
-    print("Offline Nodes:")
+    print("Bad Nodes: ------------------")
     print(offline_nodes)
 
     if online_nodes:
@@ -58,4 +58,5 @@ def get_random_online_node():
 
 ip_addr = get_random_online_node()
 print("Your IP Address")
+print("------------------")
 print(ip_addr)
