@@ -20,13 +20,13 @@ def get_random_online_node():
             response = subprocess.run(['ping', '-c', '1', '-W', str(timeout), node], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             if response.returncode == 0:
                 online_nodes.append(node)
-                print(f"Node {node} is up.")
+                #print(f"Node {node} is up.")
             else:
                 offline_nodes.append(node)
-                print(f"Node {node} is down.")
+                #print(f"Node {node} is down.")
         except Exception as e:
             offline_nodes.append(node)
-            print(f"Error pinging node {node}: {e}")
+            #print(f"Error pinging node {node}: {e}")
 
     if online_nodes:
         random_online_node = random.choice(online_nodes)
