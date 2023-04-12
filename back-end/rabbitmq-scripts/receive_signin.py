@@ -1,8 +1,7 @@
 import pika
 import sys
 import json
-from Receive import receive
-from Send import send
+from RabbitMQClient import RabbitMQClient
 #import mysql.connector as mariadb
 import hashlib
 
@@ -11,14 +10,14 @@ def hash_password(password):
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
 def main():
-    open_connection = receive(
-        "b-6a393830-73ed-476c-9530-c0b5029109d0",
-        "it490admin",
-        "c7dvcdbtgpue",
-        "us-east-1"
-    )    
-    result = open_connection.consume_messages("signin")
-    open_connection.close()
+    rabbitmq = RabbitMQClient(
+        host='18.234.152.143', 
+        username='it490admin', 
+        password='password'
+    )
+    rabbitmq.connect()   
+    result = rabbitmq.consume_messages("signin")
+    rabbitmq.close()
     # print(result)
 
     email = ''
@@ -55,25 +54,15 @@ def main():
         'userInfoTuple' : infoTuple
     }
 
-    open_connection = send(
-        "b-6a393830-73ed-476c-9530-c0b5029109d0",
-        "it490admin",
-        "c7dvcdbtgpue",
-        "us-east-1"
-    )
-    open_connection.declare_queue("signin2db")
+    rabbitmq.connect()
+    rabbitmq.declare_queue("signin2db")
     data_to_db = json.dumps(signin_data)
-    open_connection.send_message(exchange="", routing_key="signin2db", body=data_to_db)
-    open_connection.close() 
+    rabbitmq.send_message(exchange="", routing_key="signin2db", body=data_to_db)
+    rabbitmq.close() 
 
-    open_connection = receive(
-        "b-6a393830-73ed-476c-9530-c0b5029109d0",
-        "it490admin",
-        "c7dvcdbtgpue",
-        "us-east-1"
-    )    
-    result1 = open_connection.consume_messages("userexists")
-    open_connection.close() 
+    rabbitmq.connect()
+    result1 = rabbitmq.consume_messages("userexists")
+    rabbitmq.close() 
     print(result1)
 
     global tempBool
@@ -93,7 +82,7 @@ def main():
 
     tempDict = {}
     if(tempBool == True):
-        open_connection = send(
+        rabbitmq = send(
                     "b-6a393830-73ed-476c-9530-c0b5029109d0",
                     "it490admin",
                     "c7dvcdbtgpue",
@@ -109,22 +98,17 @@ def main():
         tempDict["Yes"] = "Yes"
         tempDict['password'] = ''
         tempDict['password'] += temp['password']
-        open_connection.declare_queue("redirectlogin")
+        rabbitmq.declare_queue("redirectlogin")
         data_to_fe = json.dumps(tempDict)
-        open_connection.send_message(exchange="", routing_key="redirectlogin", body=data_to_fe)
-        open_connection.close()
+        rabbitmq.send_message(exchange="", routing_key="redirectlogin", body=data_to_fe)
+        rabbitmq.close()
     else:
         tempDict = {"No":"No"}
-        open_connection = send(
-                    "b-6a393830-73ed-476c-9530-c0b5029109d0",
-                    "it490admin",
-                    "c7dvcdbtgpue",
-                    "us-east-1"
-        )
-        open_connection.declare_queue("redirectlogin")
+        rabbitmq.connect()
+        rabbitmq.declare_queue("redirectlogin")
         data_to_fe = json.dumps(tempDict)
-        open_connection.send_message(exchange="", routing_key="redirectlogin", body=data_to_fe)
-        open_connection.close()
+        rabbitmq.send_message(exchange="", routing_key="redirectlogin", body=data_to_fe)
+        rabbitmq.close()
 
 if __name__ == '__main__':
     try:

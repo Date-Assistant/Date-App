@@ -1,8 +1,7 @@
 import pika
 import sys
 import json
-from Receive import receive
-from Send import send
+from RabbitMQClient import RabbitMQClient
 import mysql.connector as mariadb
 
 return_string = ''
@@ -18,14 +17,14 @@ mariadb_connection = mariadb.connect(host='it490database.canztlnjai3e.us-east-1.
 cursor = mariadb_connection.cursor()
 
 def main():
-    open_connection = receive(
-        "b-6a393830-73ed-476c-9530-c0b5029109d0",
-        "it490admin",
-        "c7dvcdbtgpue",
-        "us-east-1"
-    )    
-    result = open_connection.consume_messages("signin2db")
-    open_connection.close()
+    rabbitmq = RabbitMQClient(
+        host='18.234.152.143', 
+        username='it490admin', 
+        password='password'
+    )
+    rabbitmq.connect()
+    result = rabbitmq.consume_messages("signin2db")
+    rabbitmq.close()
     # print(result)
 
 
@@ -55,16 +54,11 @@ def main():
                 pass
         return_dict = {'fname':fname,'lname':lname,'reply':return_string,'password':hpassword}
 
-    open_connection = send(
-                "b-6a393830-73ed-476c-9530-c0b5029109d0",
-                "it490admin",
-                "c7dvcdbtgpue",
-                "us-east-1"
-            )
-    open_connection.declare_queue("userexists")
+    rabbitmq.connect()
+    rabbitmq.declare_queue("userexists")
     data_to_be = json.dumps(return_dict)
-    open_connection.send_message(exchange="", routing_key="userexists", body=data_to_be)
-    open_connection.close()
+    rabbitmq.send_message(exchange="", routing_key="userexists", body=data_to_be)
+    rabbitmq.close()
 
     
     

@@ -3,8 +3,7 @@ from flask_session import Session
 import pika
 import sys
 import json
-from Receive import receive
-from Send import send
+from RabbitMQClient import RabbitMQClient
 import os
 import tempfile
 import time
@@ -145,32 +144,24 @@ def signin():
             'password' : passwd,
         }
 
-        open_connection = send(
-                "b-6a393830-73ed-476c-9530-c0b5029109d0",
-                "it490admin",
-                "c7dvcdbtgpue",
-                "us-east-1"
-            )
-        open_connection.declare_queue("signin")
+        rabbitmq = RabbitMQClient(
+            host='18.234.152.143', 
+            username='it490admin', 
+            password='password'
+        )
+        rabbitmq.connect()
+        rabbitmq.declare_queue("signin")
         son_user_data = json.dumps(user_sign_in)
-        open_connection.send_message(exchange="", routing_key="signin", body=son_user_data)
-        open_connection.close()
+        rabbitmq.send_message(exchange="", routing_key="signin", body=son_user_data)
+        rabbitmq.close()
 
         print("waiting for response")
-
-
-        
-        open_connection = receive(
-            "b-6a393830-73ed-476c-9530-c0b5029109d0",
-            "it490admin",
-            "c7dvcdbtgpue",
-            "us-east-1"
-        )
+        rabbitmq.connect()
 
         while True:
-            result = open_connection.consume_messages("redirectlogin")
+            result = rabbitmq.consume_messages("redirectlogin")
             if result:
-                open_connection.close()
+                rabbitmq.close()
                 print(result)
                 break
             else:
@@ -243,16 +234,16 @@ def register():
 
         # Print the form data
         try:
-            open_connection = send(
-                    "b-6a393830-73ed-476c-9530-c0b5029109d0",
-                    "it490admin",
-                    "c7dvcdbtgpue",
-                    "us-east-1"
-                )
-            open_connection.declare_queue("register")
+            rabbitmq = RabbitMQClient(
+                host='18.234.152.143', 
+                username='it490admin', 
+                password='password'
+            )
+            rabbitmq.connect()
+            rabbitmq.declare_queue("register")
             json_user_data = json.dumps(user_data)
-            open_connection.send_message(exchange="", routing_key="register", body=json_user_data)
-            open_connection.close()  
+            rabbitmq.send_message(exchange="", routing_key="register", body=json_user_data)
+            rabbitmq.close()  
             return render_template('postregister.html')
         except BaseException:
             print("error")
@@ -293,16 +284,16 @@ def register2():
 
         # Print the form data
         try:
-            open_connection = send(
+            rabbitmq = send(
                     "b-6a393830-73ed-476c-9530-c0b5029109d0",
                     "it490admin",
                     "c7dvcdbtgpue",
                     "us-east-1"
                 )
-            open_connection.declare_queue("register2")
+            rabbitmq.declare_queue("register2")
             json_user_data = json.dumps(user_data)
-            open_connection.send_message(exchange="", routing_key="register2", body=json_user_data)
-            open_connection.close()  
+            rabbitmq.send_message(exchange="", routing_key="register2", body=json_user_data)
+            rabbitmq.close()  
             return render_template('postregister.html')
         except BaseException:
             print("error")

@@ -3,21 +3,20 @@
 import pika
 import sys
 import json
-from Receive import receive
-from Send import send
+from RabbitMQClient import RabbitMQClient
 
 def main():
-    open_connection = send(
-        "b-6a393830-73ed-476c-9530-c0b5029109d0",
-        "it490admin",
-        "c7dvcdbtgpue",
-        "us-east-1"
+    rabbitmq = RabbitMQClient(
+        host='18.234.152.143', 
+        username='it490admin', 
+        password='password'
     )
-    open_connection.declare_queue("redirectlogin")
+    rabbitmq.connect()
+    rabbitmq.declare_queue("redirectlogin")
     dict = {"No": "No"}
     dict = json.dumps(dict)
-    open_connection.send_message(exchange="", routing_key="redirectlogin", body=dict)
-    open_connection.close()  
+    rabbitmq.send_message(exchange="", routing_key="redirectlogin", body=dict)
+    rabbitmq.close()  
 
 if __name__ == '__main__':
     try:

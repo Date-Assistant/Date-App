@@ -1,22 +1,21 @@
 import pika
 import sys
 import json
-from Receive import receive
-from Send import send
+from RabbitMQClient import RabbitMQClient
 import mysql.connector as mariadb
 
 mariadb_connection = mariadb.connect(host='it490database.canztlnjai3e.us-east-1.rds.amazonaws.com', user='admin', password='password', port='3306',database='IT490')
 cursor = mariadb_connection.cursor()
 
 def main():
-    open_connection = receive(
-        "b-6a393830-73ed-476c-9530-c0b5029109d0",
-        "it490admin",
-        "c7dvcdbtgpue",
-        "us-east-1"
-    )    
-    result = open_connection.consume_messages("register2db")
-    open_connection.close()
+    rabbitmq = RabbitMQClient(
+        host='18.234.152.143', 
+        username='it490admin', 
+        password='password'
+    )
+    rabbitmq.connect()  
+    result = rabbitmq.consume_messages("register2db")
+    rabbitmq.close()
     print(result)
 
 

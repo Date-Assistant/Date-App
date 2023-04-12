@@ -1,8 +1,7 @@
 import pika
 import sys
 import json
-from Receive import receive
-from Send import send
+from RabbitMQClient import RabbitMQClient
 import hashlib
 
 def main():
@@ -16,14 +15,14 @@ def main():
     receive_emails = ''
     temp = {'first_name': '','last_name':'','email':'','password':'','phone':'','address':'','zip_code':'','receive_emails':''}
 
-    open_connection = receive(
-        "b-6a393830-73ed-476c-9530-c0b5029109d0",
-        "it490admin",
-        "c7dvcdbtgpue",
-        "us-east-1"
-    )    
-    result = open_connection.consume_messages("register")
-    open_connection.close()
+    rabbitmq = RabbitMQClient(
+        host='18.234.152.143', 
+        username='it490admin', 
+        password='password'
+    )
+    rabbitmq.connect() 
+    result = rabbitmq.consume_messages("register")
+    rabbitmq.close()
     # print(result)
 
     for x in result:
@@ -106,16 +105,11 @@ def main():
         'userInfoTuple' : userTuple
     }
     
-    open_connection = send(
-        "b-6a393830-73ed-476c-9530-c0b5029109d0",
-        "it490admin",
-        "c7dvcdbtgpue",
-        "us-east-1"
-    )
-    open_connection.declare_queue("register2db")
+    rabbitmq.connect()
+    rabbitmq.declare_queue("register2db")
     data_to_db = json.dumps(registration_data)
-    open_connection.send_message(exchange="", routing_key="register2db", body=data_to_db)
-    open_connection.close()  
+    rabbitmq.send_message(exchange="", routing_key="register2db", body=data_to_db)
+    rabbitmq.close()  
 
 if __name__ == '__main__':
     try:
