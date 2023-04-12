@@ -1,4 +1,4 @@
-from ping3 import ping, exceptions
+import subprocess
 import random
 
 def get_random_online_node(node_list, timeout=2):
@@ -7,14 +7,14 @@ def get_random_online_node(node_list, timeout=2):
 
     for node in node_list:
         try:
-            response_time = ping(node, timeout=timeout)
-            if response_time is not None:
+            response = subprocess.run(['ping', '-c', '1', '-W', str(timeout), node], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            if response.returncode == 0:
                 online_nodes.append(node)
-                print(f"Node {node} is up. Response time: {response_time} ms")
+                print(f"Node {node} is up.")
             else:
                 offline_nodes.append(node)
-                print(f"Node {node} is down. No response within {timeout} seconds")
-        except exceptions.PingError as e:
+                print(f"Node {node} is down.")
+        except Exception as e:
             offline_nodes.append(node)
             print(f"Error pinging node {node}: {e}")
 
