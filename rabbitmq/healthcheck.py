@@ -44,8 +44,10 @@ def get_random_online_node():
             offline_nodes.append(node)
             print(f"Error pinging node {node}: {e}")
 
-    print("Online Nodes: " + online_nodes)
-    print("Offline Nodes: " + offline_nodes)
+    print("Online Nodes:")
+    print(online_nodes)
+    print("Offline Nodes:")
+    print(offline_nodes)
 
     if online_nodes:
         random_online_node = random.choice(online_nodes)
