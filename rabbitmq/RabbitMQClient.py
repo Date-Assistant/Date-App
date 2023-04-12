@@ -57,11 +57,10 @@ class RabbitMQClient:
         return self.message
 """
 
-
-# Example usage of sending:
 """
+### Example usage of sending ###
 rabbitmq = RabbitMQClient(
-    host='18.234.152.143', 
+    host='3.137.217.72', 
     username='it490admin', 
     password='password'
 )
@@ -69,12 +68,11 @@ rabbitmq.connect()
 rabbitmq.declare_queue("test2")
 rabbitmq.send_message(exchange="", routing_key="test2", body="TEST MESSAGE 2")
 rabbitmq.close() 
-"""
 
-# Example usage of consuming:
-"""
+
+### Example usage of consuming ###
 rabbitmq = RabbitMQClient(
-    host='18.234.152.143', 
+    host='3.237.184.159', 
     username='it490admin', 
     password='password'
 )

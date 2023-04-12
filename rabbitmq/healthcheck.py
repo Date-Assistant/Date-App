@@ -1,9 +1,18 @@
 import subprocess
 import random
 
-def get_random_online_node(node_list, timeout=2):
+def get_random_online_node():
+    timeout=2
+
     online_nodes = []
     offline_nodes = []
+
+    # List of node IP addresses
+    node_list = [
+        '172.30.0.140',
+        '172.30.1.201',
+        '172.31.15.87'
+    ]
 
     for node in node_list:
         try:
@@ -24,15 +33,3 @@ def get_random_online_node(node_list, timeout=2):
     else:
         print("No online nodes found.")
         return None
-
-# List of node IP addresses
-node_list = [
-    '172.30.0.140',
-    '172.30.1.201',
-    '172.31.15.87'
-]
-
-# Get a random online node
-random_online_node = get_random_online_node(node_list)
-if random_online_node is not None:
-    print("Random online node:", random_online_node)
