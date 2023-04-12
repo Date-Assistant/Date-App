@@ -34,15 +34,18 @@ def get_random_online_node():
             if response.returncode == 0:
                 if is_rabbitmq_running(node):
                     online_nodes.append(node)
-                    #print(f"Node {node} is up.")
+                    print(f"Node {node} is up.")
                 else:
                     offline_nodes.append(node)
             else:
                 offline_nodes.append(node)
-                #print(f"Node {node} is down.")
+                print(f"Node {node} is down.")
         except Exception as e:
             offline_nodes.append(node)
-            #print(f"Error pinging node {node}: {e}")
+            print(f"Error pinging node {node}: {e}")
+
+    print(online_nodes)
+    print(offline_nodes)
 
     if online_nodes:
         random_online_node = random.choice(online_nodes)
@@ -52,4 +55,4 @@ def get_random_online_node():
         return None
 
 
-print(get_random_online_node())
+print("Returned Value:" + get_random_online_node())
