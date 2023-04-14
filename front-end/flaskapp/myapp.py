@@ -146,8 +146,7 @@ def signin():
             'password' : passwd,
         }
 
-        rabbitmq = RabbitMQClient(
-            host='18.234.152.143', 
+        rabbitmq = RabbitMQClient( 
             username='it490admin', 
             password='password'
         )
@@ -237,7 +236,6 @@ def register():
         # Print the form data
         try:
             rabbitmq = RabbitMQClient(
-                host='18.234.152.143', 
                 username='it490admin', 
                 password='password'
             )

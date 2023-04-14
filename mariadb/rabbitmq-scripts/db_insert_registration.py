@@ -8,8 +8,7 @@ mariadb_connection = mariadb.connect(host='it490database.canztlnjai3e.us-east-1.
 cursor = mariadb_connection.cursor()
 
 def main():
-    rabbitmq = RabbitMQClient(
-        host='18.234.152.143', 
+    rabbitmq = RabbitMQClient( 
         username='it490admin', 
         password='password'
     )

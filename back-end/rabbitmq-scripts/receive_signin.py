@@ -11,7 +11,6 @@ def hash_password(password):
 
 def main():
     rabbitmq = RabbitMQClient(
-        host='18.234.152.143', 
         username='it490admin', 
         password='password'
     )
@@ -82,12 +81,7 @@ def main():
 
     tempDict = {}
     if(tempBool == True):
-        rabbitmq = send(
-                    "b-6a393830-73ed-476c-9530-c0b5029109d0",
-                    "it490admin",
-                    "c7dvcdbtgpue",
-                    "us-east-1"
-        )
+        rabbitmq.connect() 
         tempDict['first_name'] = ''
         tempDict['first_name'] = firstname
         tempDict['last_name'] = ''

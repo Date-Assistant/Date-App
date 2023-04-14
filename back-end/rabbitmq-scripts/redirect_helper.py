@@ -7,7 +7,6 @@ from RabbitMQClient import RabbitMQClient
 
 def main():
     rabbitmq = RabbitMQClient(
-        host='18.234.152.143', 
         username='it490admin', 
         password='password'
     )

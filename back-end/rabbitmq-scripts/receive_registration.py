@@ -16,7 +16,6 @@ def main():
     temp = {'first_name': '','last_name':'','email':'','password':'','phone':'','address':'','zip_code':'','receive_emails':''}
 
     rabbitmq = RabbitMQClient(
-        host='18.234.152.143', 
         username='it490admin', 
         password='password'
     )
