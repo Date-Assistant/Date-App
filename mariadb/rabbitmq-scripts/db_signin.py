@@ -13,7 +13,7 @@ global userTuple
 sqlInsert = ''
 userTuple = ()
 
-mariadb_connection = mariadb.connect(host='it490database.canztlnjai3e.us-east-1.rds.amazonaws.com', user='admin', password='password', port='3306',database='IT490')
+mariadb_connection = mariadb.connect(host='localhost', user='admin', password='password', port='3306',database='IT490')
 cursor = mariadb_connection.cursor()
 
 def main():

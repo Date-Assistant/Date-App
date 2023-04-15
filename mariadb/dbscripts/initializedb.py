@@ -6,8 +6,10 @@
 # sudo mariadb
 # GRANT ALL ON *.* TO 'admin'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;
 
+#!/usr/bin/python3
+
 import mysql.connector as mariadb
-mariadb_connection = mariadb.connect(host='0.0.0.0', user='root', password='password', port='3306')
+mariadb_connection = mariadb.connect(host='localhost', user='root', password='password', port='3306')
 cursor = mariadb_connection.cursor()
 cursor.execute("GRANT ALL ON *.* TO 'admin'@'0.0.0.0' IDENTIFIED BY 'password' WITH GRANT OPTION;")
 cursor.execute("GRANT ALL ON *.* TO 'admin'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;")
