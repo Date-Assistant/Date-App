@@ -53,8 +53,8 @@ def get_random_online_node():
 ip_addr = get_random_online_node()
 
 class RabbitMQClient:
-    def __init__(self, host, username, password, virtual_host='/'):
-        self.host = ip_addr
+    def __init__(self, host=ip_addr, username, password, virtual_host='/'):
+        self.host = host
         self.username = username
         self.password = password
         self.virtual_host = virtual_host
