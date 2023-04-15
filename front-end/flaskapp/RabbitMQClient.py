@@ -24,10 +24,8 @@ def get_random_online_node():
     # List of node IP addresses
     node_list = [
         '172.30.0.140',
-        '172.30.0.177',
         '172.30.1.201',
-        '10.0.0.203',
-        '172.31.15.87'
+        '10.0.0.203'
     ]
 
     for node in node_list:
