@@ -24,10 +24,8 @@ def get_random_online_node():
     # List of node IP addresses
     node_list = [
         '172.30.0.140',
-        '172.30.0.177',
         '172.30.1.201',
-        '10.0.0.203',
-        '172.31.15.87'
+        '10.0.0.203'
     ]
 
     for node in node_list:
@@ -55,8 +53,8 @@ def get_random_online_node():
 ip_addr = get_random_online_node()
 
 class RabbitMQClient:
-    def __init__(self, host, username, password, virtual_host='/'):
-        self.host = ip_addr
+    def __init__(self, username, password, host=ip_addr, virtual_host='/'):
+        self.host = host
         self.username = username
         self.password = password
         self.virtual_host = virtual_host
