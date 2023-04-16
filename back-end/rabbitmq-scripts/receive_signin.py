@@ -20,7 +20,7 @@ def main():
 
     while True:
         elapsed_time = time.time() - start_time
-        if elapsed_time > 14:
+        if elapsed_time > 60:
             break  
         result = rabbitmq.consume_messages("signin")
         rabbitmq.close()
