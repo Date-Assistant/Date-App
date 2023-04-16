@@ -96,3 +96,16 @@ class RabbitMQClient:
         self.channel.start_consuming()
 
         return self.message
+    
+
+    def consume_messages(self, queue_name, received_event, message_container):
+        def callback(ch, method, properties, body):
+            decoded_message = body.decode('utf-8')
+            message_container[0] = json.loads(decoded_message)
+            print(" [x] Received %r" % message_container[0])
+            ch.stop_consuming() # stop consuming after first message is received
+            received_event.set() # signal that the message has been received
+
+        self.channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
+        print(' [*] Waiting for messages. To exit press CTRL+C')
+        self.channel.start_consuming()

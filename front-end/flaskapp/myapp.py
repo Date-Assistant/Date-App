@@ -8,6 +8,7 @@ import os
 import tempfile
 import time
 import requests
+import threading
 
 
 app = Flask(__name__)
@@ -15,12 +16,10 @@ app = Flask(__name__)
 #api_key = open('API_KEY.txt').read() 
 api_key = 'C6oVTJvz932BtQjLQroxFp_dgk4gRkVJMD0Tthr0ThYI7W1RDuFR5p2I2ipKnBWvkvjF4LEehQZ-Fh5DcdRDCJvEPlx8A6h4OZY8eAO4Q5DvlYcl2GkT93ZYGXsTZHYx'
 
-"""
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = tempfile.gettempdir()
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'fallback secret key')  # Use fallback secret key if not found in environment variables
 Session(app)
-"""
 
 @app.route('/')
 def index():
@@ -156,18 +155,15 @@ def signin():
         rabbitmq.send_message(exchange="", routing_key="signin", body=son_user_data)
         rabbitmq.close()
 
-        print("waiting for response")
-        rabbitmq.connect()
+        received_event = threading.Event() # to signal when the message is received
+        message_container = [None] # to store the received message
 
-        while True:
-            result = rabbitmq.consume_messages("redirectlogin")
-            if result:
-                rabbitmq.close()
-                print(result)
-                break
-            else:
-                print('connection does not work')
-            time.sleep(1)
+        rabbitmq.connect()
+        print("waiting for response")
+        rabbitmq.consume_messages("redirectlogin", received_event, message_container)
+        received_event.wait() # wait for the message to be received
+        result = message_container[0] # get the received message
+        rabbitmq.close()
 
         for key in result:
             if key == "Yes":
@@ -284,12 +280,11 @@ def register2():
 
         # Print the form data
         try:
-            rabbitmq = send(
-                    "b-6a393830-73ed-476c-9530-c0b5029109d0",
+            rabbitmq = RabbitMQClient(
                     "it490admin",
                     "c7dvcdbtgpue",
-                    "us-east-1"
                 )
+            rabbitmq.connect()
             rabbitmq.declare_queue("register2")
             json_user_data = json.dumps(user_data)
             rabbitmq.send_message(exchange="", routing_key="register2", body=json_user_data)
