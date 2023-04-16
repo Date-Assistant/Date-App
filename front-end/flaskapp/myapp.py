@@ -15,12 +15,10 @@ app = Flask(__name__)
 #api_key = open('API_KEY.txt').read() 
 api_key = 'C6oVTJvz932BtQjLQroxFp_dgk4gRkVJMD0Tthr0ThYI7W1RDuFR5p2I2ipKnBWvkvjF4LEehQZ-Fh5DcdRDCJvEPlx8A6h4OZY8eAO4Q5DvlYcl2GkT93ZYGXsTZHYx'
 
-"""
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = tempfile.gettempdir()
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'fallback secret key')  # Use fallback secret key if not found in environment variables
 Session(app)
-"""
 
 @app.route('/')
 def index():
