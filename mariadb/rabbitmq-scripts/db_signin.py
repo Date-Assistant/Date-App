@@ -1,6 +1,7 @@
 import pika
 import sys
 import json
+import time
 from RabbitMQClient import RabbitMQClient
 import mysql.connector as mariadb
 
@@ -17,53 +18,58 @@ mariadb_connection = mariadb.connect(host='localhost', user='admin', password='p
 cursor = mariadb_connection.cursor()
 
 def main():
+    start_time = time.time()
     rabbitmq = RabbitMQClient( 
         username='it490admin', 
         password='password'
     )
     rabbitmq.connect()
-    result = rabbitmq.consume_messages("signin2db")
-    rabbitmq.close()
-    # print(result)
+    while True:
+        elapsed_time = time.time() - start_time
+        if elapsed_time > 14:
+            break
+        result = rabbitmq.consume_messages("signin2db")
+        rabbitmq.close()
+        # print(result)
 
 
-    for x in result:
-        if(x == 'insertStatement'):
-            sqlInsert = result[x]
-        elif(x == 'userInfoTuple'):
-            userTuple = result[x]
+        for x in result:
+            if(x == 'insertStatement'):
+                sqlInsert = result[x]
+            elif(x == 'userInfoTuple'):
+                userTuple = result[x]
 
-    cursor.execute(sqlInsert,userTuple)
-    results = cursor.fetchall()
+        cursor.execute(sqlInsert,userTuple)
+        results = cursor.fetchall()
 
-    if not results:
-        return_dict = {
-            'fname':'null',
-            'lname':'null',
-            'password': 'null',
-            'reply':'false'
-        }
-    else:
-        for row in results:
-            if row[2] == userTuple[0] and row[3] == userTuple[1]:
-                fname = row[0]
-                lname = row[1]
-                hpassword = row[3]
-                return_string = 'True'
-                pass
-        return_dict = {'fname':fname,'lname':lname,'reply':return_string,'password':hpassword}
+        if not results:
+            return_dict = {
+                'fname':'null',
+                'lname':'null',
+                'password': 'null',
+                'reply':'false'
+            }
+        else:
+            for row in results:
+                if row[2] == userTuple[0] and row[3] == userTuple[1]:
+                    fname = row[0]
+                    lname = row[1]
+                    hpassword = row[3]
+                    return_string = 'True'
+                    pass
+            return_dict = {'fname':fname,'lname':lname,'reply':return_string,'password':hpassword}
 
-    rabbitmq.connect()
-    rabbitmq.declare_queue("userexists")
-    data_to_be = json.dumps(return_dict)
-    rabbitmq.send_message(exchange="", routing_key="userexists", body=data_to_be)
-    rabbitmq.close()
+        rabbitmq.connect()
+        rabbitmq.declare_queue("userexists")
+        data_to_be = json.dumps(return_dict)
+        rabbitmq.send_message(exchange="", routing_key="userexists", body=data_to_be)
+        rabbitmq.close()
 
+        
+        
+        cursor.close()
+        #mariadb_connection.commit()
     
-    
-    cursor.close()
-    #mariadb_connection.commit()
-  
             
 
 if __name__ == '__main__':
