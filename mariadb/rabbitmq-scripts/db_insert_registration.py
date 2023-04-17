@@ -3,6 +3,7 @@ import sys
 import json
 from RabbitMQClient import RabbitMQClient
 import mysql.connector as mariadb
+import time
 
 mariadb_connection = mariadb.connect(host='localhost', user='admin', password='password', port='3306',database='IT490')
 cursor = mariadb_connection.cursor()
@@ -12,7 +13,7 @@ def main():
         username='it490admin', 
         password='password'
     )
-    rabbitmq.connect()  
+    rabbitmq.connect() 
     result = rabbitmq.consume_messages("register2db")
     rabbitmq.close()
     print(result)
@@ -28,7 +29,7 @@ def main():
         mariadb_connection.commit()
     except:
         tempDict = {'error':'error inserting into db'}
-            
+                
 
 if __name__ == '__main__':
     try:

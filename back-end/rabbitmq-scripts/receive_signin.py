@@ -1,6 +1,7 @@
 import pika
 import sys
 import json
+import time
 from RabbitMQClient import RabbitMQClient
 #import mysql.connector as mariadb
 import hashlib
@@ -14,7 +15,7 @@ def main():
         username='it490admin', 
         password='password'
     )
-    rabbitmq.connect()   
+    rabbitmq.connect() 
     result = rabbitmq.consume_messages("signin")
     rabbitmq.close()
     # print(result)

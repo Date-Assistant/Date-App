@@ -3,6 +3,7 @@ import sys
 import json
 from RabbitMQClient import RabbitMQClient
 import hashlib
+import time
 
 def main():
     fname = ''
@@ -19,7 +20,7 @@ def main():
         username='it490admin', 
         password='password'
     )
-    rabbitmq.connect() 
+    rabbitmq.connect()
     result = rabbitmq.consume_messages("register")
     rabbitmq.close()
     # print(result)

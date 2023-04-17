@@ -1,6 +1,7 @@
 import pika
 import sys
 import json
+import time
 from RabbitMQClient import RabbitMQClient
 import mysql.connector as mariadb
 
@@ -63,7 +64,7 @@ def main():
     
     cursor.close()
     #mariadb_connection.commit()
-  
+    
             
 
 if __name__ == '__main__':
