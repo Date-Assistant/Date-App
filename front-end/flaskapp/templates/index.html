@@ -14,11 +14,11 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
-  <title>Date App</title>
+<title>DateGenius</title>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Date App</a>
+    <a class="navbar-brand" href="/">DateGenius</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -34,25 +34,25 @@
           <a class="nav-link" href="{{ url_for('non_user_pricing') }}">Pricing</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('search_restaurants') }}">Search Restaurants</a>
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li>
       </ul>
     </div>
   </nav>
 
   {% if not session.get('discount_code') %}
-  <!-- Coupon Modal -->
+  <!-- Coupon Module -->
   <div class="modal" tabindex="-1" role="dialog" id="discountModal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Special Offer: 15% off Date App Subscription</h5>
+          <h5 class="modal-title">Special Offer: 15% off DateGenius Subscription</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p>Sign up now and get a 15% discount on your Date App subscription. Use the discount code DATEAPP15 at registration.</p>
+          <p>Sign up now and get a 15% discount on your DateGenius subscription. Use the discount code DATEAPP15 at registration.</p>
         </div>
         <div class="modal-footer">
           <form action="{{ url_for('claim_offer_unauthenticated') }}" method="post">
