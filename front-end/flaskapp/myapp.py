@@ -20,12 +20,11 @@ YELP_API_KEY = "C6oVTJvz932BtQjLQroxFp_dgk4gRkVJMD0Tthr0ThYI7W1RDuFR5p2I2ipKnBWv
 WEATHER_API_KEY = "5d4ff4f2e99e0cce15a54a4f247fcc58"
 yelp_api = YelpAPI(YELP_API_KEY)
 
-"""
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = tempfile.gettempdir()
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'fallback secret key')  # Use fallback secret key if not found in environment variables
 Session(app)
-"""
+
 #helper functions
 def get_weather_data(location, api_key):
     url = f"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={api_key}"
