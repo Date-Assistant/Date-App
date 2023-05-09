@@ -91,7 +91,8 @@ def authenticated_index():
 def pricing():
     if 'user_data' in session:
         fname = session['user_data']['first_name']
-        return render_template('pricing.html', fname=fname)
+        plan = session.get('plan')  # Get the plan from the session
+        return render_template('pricing.html', fname=fname, plan=plan)
     else:
         return redirect(url_for('login'))
     
@@ -165,8 +166,8 @@ def pricing_submit():
     }
     print(payment_info)
 
-    # Redirect to postregister.html if the information is valid
-    return redirect(url_for('postregister'))
+    session.pop('plan', None)  # Remove the plan from the session
+    return redirect(url_for('authenticated_index'))
 
 
 @app.route('/signin/', methods=('GET', 'POST'))
@@ -256,6 +257,9 @@ def business_signin():
 
 @app.route('/register/', methods=('GET', 'POST'))
 def register():
+    plan = request.args.get('plan')
+    if plan:
+        session['plan'] = plan
     basic_price = 5.99
     premium_price = 19.99
     discount_percentage = 0.85
@@ -302,7 +306,10 @@ def register():
             json_user_data = json.dumps(user_data)
             rabbitmq.send_message(exchange="", routing_key="register", body=json_user_data)
             rabbitmq.close()  
-            return render_template('postregister.html')
+            session['user_data'] = user_data
+    
+            # Redirect to pricing page
+            return redirect(url_for('pricing'))
         except BaseException:
             print("error")
 
@@ -315,6 +322,9 @@ def register2():
     basic_price = 39.99
     premium_price = 79.99
     discount_percentage = 0.85
+    plan = request.args.get('plan')
+    if plan:
+        session['plan'] = plan
     if request.method == 'POST':
         # Retrieve the form data
         bname = request.form['bname']
@@ -359,7 +369,10 @@ def register2():
             json_user_data = json.dumps(user_data)
             rabbitmq.send_message(exchange="", routing_key="register2", body=json_user_data)
             rabbitmq.close()  
-            return render_template('postregister.html')
+            session['user_data'] = user_data
+    
+            # Redirect to pricing page
+            return redirect(url_for('pricing'))
         except BaseException:
             print("error")
 
