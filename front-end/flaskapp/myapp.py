@@ -172,7 +172,7 @@ def pricing_submit():
         return "Invalid card number"
 
     payment_info = {
-        'plan': plan,
+        'plan': session['plan'],
         'cardholder_name': cardholder_name,
         'card_number': card_number,
         'expiration_date': expiration_date,
