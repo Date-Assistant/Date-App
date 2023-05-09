@@ -13,6 +13,7 @@
   <title>DateGenius</title>
 </head>
 <body>
+  {% if user_data %}
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">DateGenius</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,6 +49,42 @@
       </ul>
     </div>
   </nav>
+  {% endif %}
+
+  {% if business_data %}
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">DateGenius</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <span class="navbar-text">
+        Welcome, 
+        {% if user_data %}
+            {{ user_data.first_name }} {{ user_data.last_name }}
+        {% elif business_data %}
+            {{ business_data.business_name }}
+        {% endif %}!
+          </span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('signout') }}">Sign Out</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('pricing') }}">Pricing</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Post Restaurants</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  {% endif %}
 
   <div class="jumbotron jumbotron-fluid">
     <div class="container">
