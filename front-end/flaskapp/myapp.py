@@ -306,7 +306,10 @@ def register():
             json_user_data = json.dumps(user_data)
             rabbitmq.send_message(exchange="", routing_key="register", body=json_user_data)
             rabbitmq.close()  
-            return render_template('postregister.html')
+            session['user_data'] = user_data
+    
+            # Redirect to pricing page
+            return redirect(url_for('pricing'))
         except BaseException:
             print("error")
 
@@ -366,7 +369,10 @@ def register2():
             json_user_data = json.dumps(user_data)
             rabbitmq.send_message(exchange="", routing_key="register2", body=json_user_data)
             rabbitmq.close()  
-            return render_template('postregister.html')
+            session['user_data'] = user_data
+    
+            # Redirect to pricing page
+            return redirect(url_for('pricing'))
         except BaseException:
             print("error")
 
