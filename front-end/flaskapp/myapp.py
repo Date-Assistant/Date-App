@@ -255,14 +255,14 @@ def business_signin():
 
         rabbitmq.connect()
         print("waiting for response")
-        rabbitmq.consume_messages("redirectlogin", received_event, message_container)
+        rabbitmq.consume_messages("bredirectlogin", received_event, message_container)
         received_event.wait() # wait for the message to be received
         result = message_container[0] # get the received message
         rabbitmq.close()
 
         for key in result:
             if key == "Yes":
-                session['user_data'] = result
+                session['business_data'] = result
                 return redirect(url_for('authenticated_index'))
             if key == "No":
                 return redirect(url_for('register2'))

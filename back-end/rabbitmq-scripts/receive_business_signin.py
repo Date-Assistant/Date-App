@@ -16,7 +16,7 @@ def main():
         password='password'
     )
     rabbitmq.connect() 
-    result = rabbitmq.consume_messages("signin")
+    result = rabbitmq.consume_messages("bsignin")
     rabbitmq.close()
     # print(result)
 
@@ -47,7 +47,7 @@ def main():
     
     hashed_password = hash_password(temp['password'])
     
-    sqlInsert = "SELECT fname,lname,email,password FROM users WHERE email = %s AND password = %s"
+    sqlInsert = "SELECT bname, email, password FROM businesses WHERE email = %s AND password = %s"
     infoTuple = (temp['email'], hashed_password)
     signin_data = {
         'insertStatement': sqlInsert,
@@ -55,54 +55,50 @@ def main():
     }
 
     rabbitmq.connect()
-    rabbitmq.declare_queue("signin2db")
+    rabbitmq.declare_queue("bsignin2db")
     data_to_db = json.dumps(signin_data)
-    rabbitmq.send_message(exchange="", routing_key="signin2db", body=data_to_db)
+    rabbitmq.send_message(exchange="", routing_key="bsignin2db", body=data_to_db)
     rabbitmq.close() 
 
     rabbitmq.connect()
-    result1 = rabbitmq.consume_messages("userexists")
+    result1 = rabbitmq.consume_messages("businessexists")
     rabbitmq.close() 
     print(result1)
 
     global tempBool
     lastname = ''
-    firstname = ''
+    bname = ''
     for x in result1:
         if x == 'reply':
             if result1[x] == 'True':
                 tempBool = True
             else:
                 tempBool = False
-        if x == 'fname':
-            firstname = result1['fname']
-        if x == 'lname':
-            lastname = result1['lname']
+        if x == 'bname':
+            bname = result1['bname']
 
 
     tempDict = {}
     if(tempBool == True):
         rabbitmq.connect() 
-        tempDict['first_name'] = ''
-        tempDict['first_name'] = firstname
-        tempDict['last_name'] = ''
-        tempDict['last_name'] = lastname
+        tempDict['business_name'] = ''
+        tempDict['business_name'] = bname
         tempDict['email'] = ''
         tempDict['email'] = temp['email']
         tempDict["Yes"] = ""
         tempDict["Yes"] = "Yes"
         tempDict['password'] = ''
         tempDict['password'] += temp['password']
-        rabbitmq.declare_queue("redirectlogin")
+        rabbitmq.declare_queue("bredirectlogin")
         data_to_fe = json.dumps(tempDict)
-        rabbitmq.send_message(exchange="", routing_key="redirectlogin", body=data_to_fe)
+        rabbitmq.send_message(exchange="", routing_key="bredirectlogin", body=data_to_fe)
         rabbitmq.close()
     else:
         tempDict = {"No":"No"}
         rabbitmq.connect()
-        rabbitmq.declare_queue("redirectlogin")
+        rabbitmq.declare_queue("bredirectlogin")
         data_to_fe = json.dumps(tempDict)
-        rabbitmq.send_message(exchange="", routing_key="redirectlogin", body=data_to_fe)
+        rabbitmq.send_message(exchange="", routing_key="bredirectlogin", body=data_to_fe)
         rabbitmq.close()
 
 if __name__ == '__main__':
