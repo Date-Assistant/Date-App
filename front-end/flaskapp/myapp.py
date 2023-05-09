@@ -20,10 +20,12 @@ YELP_API_KEY = "C6oVTJvz932BtQjLQroxFp_dgk4gRkVJMD0Tthr0ThYI7W1RDuFR5p2I2ipKnBWv
 WEATHER_API_KEY = "5d4ff4f2e99e0cce15a54a4f247fcc58"
 yelp_api = YelpAPI(YELP_API_KEY)
 
+"""
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = tempfile.gettempdir()
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'fallback secret key')  # Use fallback secret key if not found in environment variables
 Session(app)
+"""
 
 #helper functions
 def get_weather_data(location, api_key):
@@ -55,6 +57,10 @@ def index():
 def signout():
     session.pop('user_data', None)
     return render_template('signout.html')
+
+@app.route('/profile/')
+def profile():
+    return render_template('profile.html')
 
 @app.route('/claim_offer_unauthenticated', methods=['POST'])
 def claim_offer_unauthenticated():
@@ -125,6 +131,11 @@ def non_user_pricing_submit():
 
     # Redirect to postregister.html if the information is valid
     return redirect(url_for('postregister'))
+
+
+@app.route('/postchangepassword', methods=['GET'])
+def postchangepassword():
+    return render_template('postchangepassword.html')
 
 
 @app.route('/pricing_submit', methods=['POST'])
