@@ -156,7 +156,6 @@ def postchangepassword():
 
 @app.route('/pricing_submit', methods=['POST'])
 def pricing_submit():
-    plan = request.form['plan']
     cardholder_name = request.form['cardholderName']
     card_number = request.form['cardNumber']
     expiration_month = request.form.get('expiration-month')
@@ -172,7 +171,6 @@ def pricing_submit():
         return "Invalid card number"
 
     payment_info = {
-        'plan': session['plan'],
         'cardholder_name': cardholder_name,
         'card_number': card_number,
         'expiration_date': expiration_date,

@@ -19,8 +19,8 @@ def main():
         payment_data = json.loads(result)
 
         # Prepare the data for database insertion
-        sqlInsert = "INSERT INTO payments (name, plan, cardholder_name, card_number, expiration_date, cvc, saveCardInfo) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-        userTuple = (payment_data['name'], payment_data['plan'], payment_data['cardholder_name'], payment_data['card_number'], payment_data['expiration_date'], payment_data['cvc'], payment_data['saveCardInfo'])
+        sqlInsert = "INSERT INTO payments (name, cardholder_name, card_number, expiration_date, cvc, saveCardInfo) VALUES (%s, %s, %s, %s, %s, %s)"
+        userTuple = (payment_data['name'], payment_data['cardholder_name'], payment_data['card_number'], payment_data['expiration_date'], payment_data['cvc'], payment_data['saveCardInfo'])
 
         # Create a dictionary to send to the database
         payment_info = {
