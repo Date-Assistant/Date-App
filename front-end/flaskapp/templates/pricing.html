@@ -10,21 +10,47 @@
     <div class="container">
         <h1 class="text-center mt-4">Select the best plan for you, {{ fname }}</h1>
         <form action="{{ url_for('pricing_submit') }}" method="POST">
+            <input type="hidden" id="plan" name="plan" value="{{ plan if plan else '' }}">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="card" style="cursor: pointer;">
+                    <div class="col-md-3">
+                        <div class="card bg-light" style="cursor: pointer;">
                             <div class="card-body">
-                                <h5 class="card-title">Basic Membership</h5>
-                                <input class="form-check-input d-none" type="radio" name="plan" id="basic" value="basic" {% if membership_type == 'basic' %}checked{% endif %}>
+                                <h5 class="card-title">Basic Membership (User)</h5>
+                                <p>Price: $5.99/month</p>
+                                <p>Access to search for restaurants and activities</p>
+                                <a href="{{ url_for('register', plan='user_basic') }}" class="btn btn-secondary signup-btn" data-plan="user_basic" id="user-basic-signup-btn">Sign up</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card" style="cursor: pointer;">
+                    <div class="col-md-3">
+                        <div class="card bg-light" style="cursor: pointer;">
                             <div class="card-body">
-                                <h5 class="card-title">Premium Membership</h5>
-                                <input class="form-check-input d-none" type="radio" name="plan" id="premium" value="premium" {% if membership_type == 'premium' %}checked{% endif %}>
+                                <h5 class="card-title">Premium Membership (User)</h5>
+                                <p>Price: $19.99/month</p>
+                                <p>Save restaurants and activities, and much more</p>
+                                <a href="{{ url_for('register', plan='user_premium') }}" class="btn btn-secondary signup-btn" data-plan="user_premium" id="user-premium-signup-btn">Sign up</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-light" style="cursor: pointer;">
+                            <div class="card-body">
+                                <h5 class="card-title">Basic Membership (Business)</h5>
+                                <p>Price: $39.99/month</p>
+                                <p>Post your restaurant</p>
+                                <a href="{{ url_for('register2', plan='business_basic') }}" class="btn btn-secondary signup-btn" data-plan="business_basic" id="business-basic-signup-btn">Sign up</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-light" style="cursor: pointer;">
+                            <div class="card-body">
+                                <h5 class="card-title">Premium Membership (Business)</h5>
+                                <p>Price: $79.99/month</p>
+                                <p>Boost your restaurant to the top of search results</p>
+                                <!-- Business Premium Card -->
+                                <a href="{{ url_for('register2', plan='business_premium') }}" class="btn btn-secondary signup-btn" data-plan="business_premium" id="business-premium-signup-btn">Sign up</a>
                             </div>
                         </div>
                     </div>
