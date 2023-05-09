@@ -59,8 +59,16 @@ def signout():
     return render_template('signout.html')
 
 @app.route('/profile/')
+
+
 def profile():
-    return render_template('profile.html')
+    if 'user_data' in session:
+        return render_template('profile.html', user_data=session['user_data'])
+    if 'business_data' in session:
+        return render_template('profile.html', business_data=session['business_data'])
+    else:
+        return redirect(url_for('index'))
+
 
 @app.route('/claim_offer_unauthenticated', methods=['POST'])
 def claim_offer_unauthenticated():
