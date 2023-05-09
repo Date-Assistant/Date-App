@@ -345,7 +345,7 @@ def register2():
             return redirect(url_for('register2'))
 
         # Create a dictionary to store the form data
-        user_data = {
+        business_data = {
             'business_name': bname,
             'owner_name': oname,
             'email': email,
@@ -366,10 +366,10 @@ def register2():
                 )
             rabbitmq.connect()
             rabbitmq.declare_queue("register2")
-            json_user_data = json.dumps(user_data)
-            rabbitmq.send_message(exchange="", routing_key="register2", body=json_user_data)
+            json_business_data = json.dumps(business_data)
+            rabbitmq.send_message(exchange="", routing_key="register2", body=json_business_data)
             rabbitmq.close()  
-            session['user_data'] = user_data
+            session['business_data'] = business_data
     
             # Redirect to pricing page
             return redirect(url_for('pricing',plan=session.get('plan')))
