@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, flash, redirect, session
+from flask import Flask, render_template, request, url_for, flash, redirect, session, jsonify
 from flask_session import Session
 import pika
 import sys
@@ -66,6 +66,36 @@ def profile():
         return render_template('profile.html', business_data=session['business_data'])
     else:
         return redirect(url_for('index'))
+    
+@app.route('/get_saved_places')
+def get_saved_places():
+    if 'user_data' in session:
+        email = session['user_data']['email']
+
+        # send a message to RabbitMQ queue to retrieve saved places
+        rabbitmq = RabbitMQClient( 
+            username='it490admin', 
+            password='password'
+        )
+        rabbitmq.connect()
+        rabbitmq.declare_queue("get_favorites")
+        data = {'email': email}
+        json_data = json.dumps(data)
+        rabbitmq.send_message(exchange="", routing_key="get_favorites", body=json_data)
+        rabbitmq.close()
+        rabbitmq.connect()
+        result = rabbitmq.consume_messages("favorites_result")
+        rabbitmq.close()
+
+        # parse the result
+        result_data = json.loads(result)
+        saved_places = result_data['saved_places']
+
+        # return the saved places as JSON
+        return jsonify(saved_places=saved_places)
+    else:
+        return jsonify(saved_places=[])
+
 
 
 @app.route('/claim_offer_unauthenticated', methods=['POST'])

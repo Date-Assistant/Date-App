@@ -71,5 +71,25 @@
     {% endif %}
   </div>
 
+  {% if user_data %}
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Saved</h1>
+      <hr>
+      <div id="saved-places"></div>
+    </div>
+  </div>
+  {% endif %}
+
+  <script>
+    $(document).ready(function() {
+      $.getJSON('/get_saved_places', function(data) {
+        var savedPlacesDiv = $('#saved-places');
+        data.forEach(function(place) {
+          savedPlacesDiv.append('<p>' + place + '</p>');
+        });
+      });
+    });
+    </script>
 </body>
 </html>
