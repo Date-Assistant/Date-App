@@ -5,75 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing Plans</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card {
+            border-radius: 25px;
+            height: 350px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1 class="text-center mt-4">Select the best plan for you, {{ fname }}</h1>
-        <form action="{{ url_for('non_user_pricing_submit') }}" method="POST">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card" style="cursor: pointer;">
-                            <div class="card-body">
-                                <h5 class="card-title">Basic Membership</h5>
-                                <input class="form-check-input d-none" type="radio" name="plan" id="basic" value="basic" checked>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card" style="cursor: pointer;">
-                            <div class="card-body">
-                                <h5 class="card-title">Premium Membership</h5>
-                                <input class="form-check-input d-none" type="radio" name="plan" id="premium" value="premium">
-                            </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card bg-light" style="cursor: pointer;">
+                        <div class="card-body">
+                            <h5 class="card-title">Basic Membership (User)</h5>
+                            <p>Price: $5.99/month</p>
+                            <p>Access to search for restaurants and activities</p>
+                            <a href="{{ url_for('register') }}" class="btn btn-secondary signup-btn" data-plan="user_basic" id="user-basic-signup-btn">Sign up</a>
                         </div>
                     </div>
                 </div>
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <label for="cardholderName" class="form-label">Cardholder Name</label>
-                    <input type="text" class="form-control" id="cardholderName" name="cardholderName" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="cardNumber" class="form-label">Card Number</label>
-                    <input type="text" class="form-control" id="cardNumber" name="cardNumber" minlength="16" maxlength="16" required>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <label for="expiration-month">Expiration Month:</label>
-                    <input type="number" class="form-control" id="expiration-month" name="expiration-month" min="1" max="12" required>
-                </div>
-            
-                <div class="col-md-6">
-                    <label for="expiration-year">Expiration Year:</label>
-                    <input type="number" class="form-control" id="expiration-year" name="expiration-year" min="2023" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="cvc">CVC:</label>
-                    <input type="string" class="form-control" id="cvc" name="cvc" required>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="yes" id="saveCardInfo" name="saveCardInfo">
-                        <label class="form-check-label" for="saveCardInfo">
-                            Save Card Information
-                        </label>
+                <div class="col-md-3">
+                    <div class="card bg-light" style="cursor: pointer;">
+                        <div class="card-body">
+                            <h5 class="card-title">Premium Membership (User)</h5>
+                            <p>Price: $19.99/month</p>
+                            <p>Save restaurants and activities, and much more</p>
+                            <a href="{{ url_for('register') }}" class="btn btn-secondary signup-btn" data-plan="user_premium" id="user-premium-signup-btn">Sign up</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="col-md-3">
+                    <div class="card bg-light" style="cursor: pointer;">
+                        <div class="card-body">
+                            <h5 class="card-title">Basic Membership (Business)</h5>
+                            <p>Price: $39.99/month</p>
+                            <p>Post your restaurant</p>
+                            <a href="{{ url_for('register2') }}" class="btn btn-secondary signup-btn" data-plan="business_basic" id="business-basic-signup-btn">Sign up</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <a href="{{ url_for('index') }}" class="btn btn-danger">Cancel</a>
+                <div class="col-md-3">
+                    <div class="card bg-light" style="cursor: pointer;">
+                        <div class="card-body">
+                            <h5 class="card-title">Premium Membership (Business)</h5>
+                            <p>Price: $79.99/month</p>
+                            <p>Boost your restaurant to the top of search results</p>
+                            <!-- Business Premium Card -->
+                            <a href="{{ url_for('register2') }}" class="btn btn-secondary signup-btn" data-plan="business_premium" id="business-premium-signup-btn">Sign up</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        </form>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -81,12 +67,41 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.card').click(function() {
+            $('.user-plan').click(function() {
                 $('.card').removeClass('border-primary bg-light');
                 $(this).addClass('border-primary bg-light');
-                $(this).find('input[type=radio]').prop('checked', true);
+                $('.user-action').show();
+                $('.business-action').hide();
+            });
+            $('.business-plan').click(function() {
+                $('.card').removeClass('border-primary bg-light');
+                $(this).addClass('border-primary bg-light');
+                $('.user-action').hide();
+                $('.business-action').show();
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            // ...existing card click handler code...
+            
+            $('.signin-btn, .signup-btn').click(function(e) {
+                e.preventDefault();
+                var plan = $(this).data('plan');
+                var isBusiness = plan.startsWith('business');
+                var isSignup = $(this).hasClass('signup-btn');
+    
+                var targetPage = '';
+    
+                if (isBusiness) {
+                    targetPage = isSignup ? 'register2' : 'business_signin';
+                } else {
+                    targetPage = isSignup ? 'register' : 'signin';
+                }
+    
+                window.location.href = `/${targetPage}/?membership_type=${plan}`;
+            });
+        });
+    </script>    
 </body>
 </html>

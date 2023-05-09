@@ -16,7 +16,7 @@
                         <div class="card" style="cursor: pointer;">
                             <div class="card-body">
                                 <h5 class="card-title">Basic Membership</h5>
-                                <input class="form-check-input d-none" type="radio" name="plan" id="basic" value="basic" checked>
+                                <input class="form-check-input d-none" type="radio" name="plan" id="basic" value="basic" {% if membership_type == 'basic' %}checked{% endif %}>
                             </div>
                         </div>
                     </div>
@@ -24,7 +24,7 @@
                         <div class="card" style="cursor: pointer;">
                             <div class="card-body">
                                 <h5 class="card-title">Premium Membership</h5>
-                                <input class="form-check-input d-none" type="radio" name="plan" id="premium" value="premium">
+                                <input class="form-check-input d-none" type="radio" name="plan" id="premium" value="premium" {% if membership_type == 'premium' %}checked{% endif %}>
                             </div>
                         </div>
                     </div>

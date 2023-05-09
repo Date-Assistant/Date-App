@@ -12,6 +12,18 @@
         <div class="row justify-content-center">
             <div class="col-md-6 mt-5">
                 <h1 class="text-center">Join DateGenius</h1>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}
                 <form action="{{ url_for('register') }}" method="post">
                     <div class="form-group">
                       <label for="fname">First Name</label>
@@ -29,6 +41,10 @@
                   <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password">
                   </div>
                   <div class="form-group">
                     <label for="phone">Phone Number</label>
@@ -51,13 +67,11 @@
                         </label>
                       </div>
                     </div>         
-                  <div class="form-group">
-                    <label for="membership_type">Membership Type</label>
-                    <select class="form-control" id="membership_type" name="membership_type">
-                      <option value="basic">Basic - {% if discount_code %}Original Price: ${{ "{:.2f}".format(basic_price) }} | Discounted Price: ${{ "{:.2f}".format(basic_price * discount_percentage) }}{% else %}Price: ${{ "{:.2f}".format(basic_price) }}{% endif %}</option>
-                      <option value="premium" selected>Premium - {% if discount_code %}Original Price: ${{ "{:.2f}".format(premium_price) }} | Discounted Price: ${{ "{:.2f}".format(premium_price * discount_percentage) }}{% else %}Price: ${{ "{:.2f}".format(premium_price) }}{% endif %}</option>
-                    </select>
-                  </div>
+                    <div class="form-group">
+                      <label for="membership_type">Membership Type</label>
+                      <input type="text" class="form-control" id="membership_type" name="membership_type" readonly>
+                      <small class="form-text text-muted">Basic membership is billed monthly, and Premium membership is billed yearly.</small>
+                    </div>                    
                   <div class="form-group">
                     <label for="discountCode">Discount Code</label>
                     <input type="text" class="form-control" id="discountCode" name="discountCode" value="{{ discount_code }}" readonly>
@@ -81,6 +95,17 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var membershipType = urlParams.get('membership_type');
+        if (membershipType) {
+          document.getElementById('membership_type').value = membershipType;
+        }
+      });
+    </script>
+    
+   
 </body>
 </html>
         
