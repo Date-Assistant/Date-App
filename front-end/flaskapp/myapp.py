@@ -20,12 +20,12 @@ YELP_API_KEY = "C6oVTJvz932BtQjLQroxFp_dgk4gRkVJMD0Tthr0ThYI7W1RDuFR5p2I2ipKnBWv
 WEATHER_API_KEY = "5d4ff4f2e99e0cce15a54a4f247fcc58"
 yelp_api = YelpAPI(YELP_API_KEY)
 
-"""
+
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = tempfile.gettempdir()
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'fallback secret key')  # Use fallback secret key if not found in environment variables
 Session(app)
-"""
+
 
 #helper functions
 def get_weather_data(location, api_key):
@@ -420,6 +420,28 @@ def business_details(id):
 
     # Render the HTML template with the business details
     return render_template('details.html', business=business)
+
+@app.route('/saved_idea/<id>')
+def saved_idea(id):
+    print("ID=" + id )
+    #data = {"ID": id , "Email" : session['user_data']['email']}
+    data = {
+        'ID': id,
+        'Email' : "ll452@njit.edu",
+        }
+    print(data)
+
+    rabbitmq = RabbitMQClient( 
+            username='it490admin', 
+            password='password'
+            )
+    rabbitmq.connect()
+    rabbitmq.declare_queue("favorite")
+    son_user_data = json.dumps(data)
+    rabbitmq.send_message(exchange="", routing_key="favorite", body=son_user_data)
+    rabbitmq.close()
+
+    return render_template('savedidea.html')
 
 @app.route('/recommendation', methods=['POST'])
 def recommendation():
