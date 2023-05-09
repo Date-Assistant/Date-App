@@ -118,7 +118,7 @@ def main():
                 temp['membership_type'] = membership_type
     print(temp['business_name'])
         
-    sqlInsert = "INSERT INTO users (bname,oname,email,password,phone,address,zipcode,received_emails,discount,membership) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    sqlInsert = "INSERT INTO businesses (bname,oname,email,password,phone,address,zipcode,received_emails,discount,membership) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     userTuple = (temp['business_name'],temp['owner_name'],temp['email'],str(temp['password']),temp['phone'],temp['address'],temp['zip_code'],temp['receive_emails'],temp['discountCode'],temp['membership_type'])
     registration_data = {
         'insertStatement': sqlInsert,
