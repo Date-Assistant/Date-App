@@ -24,9 +24,7 @@ def main():
     print(result)
 
     for x in result:
-        if(x == 'insertStatement'):
-            sqlInsert = result[x]
-        elif(x == 'userInfoTuple'):
+        if(x == 'userInfoTuple'):
             userTuple = result[x]
 
     name = userTuple[0]  # Get the name from the tuple
