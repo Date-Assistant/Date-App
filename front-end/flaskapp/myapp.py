@@ -93,8 +93,13 @@ def pricing():
         fname = session['user_data']['first_name']
         plan = session.get('plan')  # Get the plan from the session
         return render_template('pricing.html', fname=fname, plan=plan)
+    if 'business_data' in session:
+        bname = session['business_data']['business_name']
+        plan = session.get('plan')  # Get the plan from the session
+        return render_template('pricing.html', bname=bname, plan=plan)
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('signin'))
+    
     
 @app.route('/non_user_pricing', methods=['GET'])
 def non_user_pricing():
