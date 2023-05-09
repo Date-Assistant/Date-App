@@ -14,34 +14,36 @@ def main():
     address = ''
     zip = ''
     receive_emails = ''
-    temp = {'first_name': '','last_name':'','email':'','password':'','phone':'','address':'','zip_code':'','receive_emails':''}
+    discountCode = ''
+    membership_type = ''
+    temp = {'business_name': '','owner_name':'','email':'','password':'','phone':'','address':'','zip_code':'','receive_emails':'', 'discountCode':'','membership_type' : ''}
 
     rabbitmq = RabbitMQClient(
         username='it490admin', 
         password='password'
     )
     rabbitmq.connect()
-    result = rabbitmq.consume_messages("register")
+    result = rabbitmq.consume_messages("register2")
     rabbitmq.close()
     # print(result)
 
     for x in result:
-        if(x == 'first_name'):
+        if(x == 'business_name'):
             fname = result[x]
-            if('first_name' in temp and temp['first_name'] == fname):
+            if('business_name' in temp and temp['business_name'] == fname):
                 pass
-            elif(temp['first_name'] == fname):
+            elif(temp['business_name'] == fname):
                 pass
             else:
-                temp['first_name'] = fname
-        elif(x == 'last_name'):
+                temp['business_name'] = fname
+        elif(x == 'owner_name'):
             lname = result[x]
-            if('last_name' in temp and temp['last_name'] == lname):
+            if('owner_name' in temp and temp['owner_name'] == lname):
                 pass
-            elif(temp['last_name'] == lname):
+            elif(temp['owner_name'] == lname):
                 pass
             else:
-                temp['last_name'] = lname
+                temp['owner_name'] = lname
         elif(x == 'email'):
             email = result[x]
             if(temp['email'] in temp and temp['email'] == email):
@@ -96,19 +98,37 @@ def main():
                 pass
             else:
                 temp['receive_emails'] = receive_emails
-    print(temp['first_name'])
         
-    sqlInsert = "INSERT INTO users (fname,lname,email,password,phone,address,zipcode,received_emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-    userTuple = (temp['first_name'],temp['last_name'],temp['email'],str(temp['password']),temp['phone'],temp['address'],temp['zip_code'],temp['receive_emails'])
+        elif(x == 'discountCode'):
+            discountCode = result[x]
+            if('discountCode' in temp and temp['discountCode'] == discountCode):
+                pass
+            elif(temp['discountCode'] == discountCode):
+                pass
+            else:
+                temp['discountCode'] = discountCode
+
+        elif(x == 'membership_type'):
+            membership_type = result[x]
+            if('membership_type' in temp and temp['membership_type'] == membership_type):
+                pass
+            elif(temp['membership_type'] == membership_type):
+                pass
+            else:
+                temp['membership_type'] = membership_type
+    print(temp['business_name'])
+        
+    sqlInsert = "INSERT INTO users (bname,oname,email,password,phone,address,zipcode,received_emails,discount,membership) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    userTuple = (temp['business_name'],temp['owner_name'],temp['email'],str(temp['password']),temp['phone'],temp['address'],temp['zip_code'],temp['receive_emails'],temp['discountCode'],temp['membership_type'])
     registration_data = {
         'insertStatement': sqlInsert,
         'userInfoTuple' : userTuple
     }
     
     rabbitmq.connect()
-    rabbitmq.declare_queue("register2db")
+    rabbitmq.declare_queue("businessregister2db")
     data_to_db = json.dumps(registration_data)
-    rabbitmq.send_message(exchange="", routing_key="register2db", body=data_to_db)
+    rabbitmq.send_message(exchange="", routing_key="businessregister2db", body=data_to_db)
     rabbitmq.close()  
 
 if __name__ == '__main__':

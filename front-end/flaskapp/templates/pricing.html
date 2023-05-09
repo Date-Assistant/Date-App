@@ -14,7 +14,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="card bg-light" style="cursor: pointer;">
+                        <div class="card bg-light" style="cursor: pointer;" id="user_basic">
                             <div class="card-body">
                                 <h5 class="card-title">Basic Membership (User)</h5>
                                 <p>Price: $5.99/month</p>
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card bg-light" style="cursor: pointer;">
+                        <div class="card bg-light" style="cursor: pointer;" id="user_premium">
                             <div class="card-body">
                                 <h5 class="card-title">Premium Membership (User)</h5>
                                 <p>Price: $19.99/month</p>
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card bg-light" style="cursor: pointer;">
+                        <div class="card bg-light" style="cursor: pointer;" id="business_basic">
                             <div class="card-body">
                                 <h5 class="card-title">Basic Membership (Business)</h5>
                                 <p>Price: $39.99/month</p>
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card bg-light" style="cursor: pointer;">
+                        <div class="card bg-light" style="cursor: pointer;" id="business_premium">
                             <div class="card-body">
                                 <h5 class="card-title">Premium Membership (Business)</h5>
                                 <p>Price: $79.99/month</p>
@@ -107,6 +107,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
+            const plan = $('#plan').val();
+            if (plan) {
+                $(`#${plan}`).addClass('border-primary bg-light');
+            }
             $('.card').click(function() {
                 $('.card').removeClass('border-primary bg-light');
                 $(this).addClass('border-primary bg-light');
