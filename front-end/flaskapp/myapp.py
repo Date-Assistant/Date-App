@@ -455,7 +455,7 @@ def saved_idea(id):
     #data = {"ID": id , "Email" : session['user_data']['email']}
     data = {
         'id': id,
-        'email' : "ll452@njit.edu",
+        'email' : session['user_data']['email'],
         }
     print(data)
 
