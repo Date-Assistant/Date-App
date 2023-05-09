@@ -85,6 +85,14 @@ def main():
                 pass
             else:
                 temp['zip_code'] = zip
+        elif(x == 'zip_code'):
+            zip = result[x]
+            if('zip_code' in temp and temp['zip_code'] == zip):
+                pass
+            elif(temp['zip_code'] == zip):
+                pass
+            else:
+                temp['zip_code'] = zip
         elif(x == 'receive_emails'):
             if(result[x] == 'on'):
                 receive_emails = 'on'
