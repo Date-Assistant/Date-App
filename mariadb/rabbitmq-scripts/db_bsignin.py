@@ -23,7 +23,7 @@ def main():
         password='password'
     )
     rabbitmq.connect()
-    result = rabbitmq.consume_messages("signin2db")
+    result = rabbitmq.consume_messages("bsignin2db")
     rabbitmq.close()
     # print(result)
 
@@ -39,25 +39,23 @@ def main():
 
     if not results:
         return_dict = {
-            'fname':'null',
-            'lname':'null',
+            'bname':'null',
             'password': 'null',
             'reply':'false'
         }
     else:
         for row in results:
-            if row[2] == userTuple[0] and row[3] == userTuple[1]:
-                fname = row[0]
-                lname = row[1]
-                hpassword = row[3]
+            if row[1] == userTuple[0] and row[2] == userTuple[1]:
+                bname = row[0]
+                hpassword = row[2]
                 return_string = 'True'
                 pass
-        return_dict = {'fname':fname,'lname':lname,'reply':return_string,'password':hpassword}
+        return_dict = {'bname':bname,'reply':return_string,'password':hpassword}
 
     rabbitmq.connect()
-    rabbitmq.declare_queue("userexists")
+    rabbitmq.declare_queue("businessexists")
     data_to_be = json.dumps(return_dict)
-    rabbitmq.send_message(exchange="", routing_key="userexists", body=data_to_be)
+    rabbitmq.send_message(exchange="", routing_key="businessexists", body=data_to_be)
     rabbitmq.close()
 
     
