@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for, flash, redirect, session, jsonify
 from flask_session import Session
+import mysql.connector as mariadb
 import pika
 import sys
 import json
@@ -61,8 +62,9 @@ def signout():
 @app.route('/profile/')
 def profile():
     if 'user_data' in session:
-        return render_template('profile.html', user_data=session['user_data'])
-    if 'business_data' in session:
+        saved_restaurants = session.get('saved_restaurants', [])
+        return render_template('profile.html', user_data=session['user_data'], saved_restaurants=saved_restaurants)
+    elif 'business_data' in session:
         return render_template('profile.html', business_data=session['business_data'])
     else:
         return redirect(url_for('index'))
@@ -83,6 +85,7 @@ def get_saved_places():
         json_data = json.dumps(data)
         rabbitmq.send_message(exchange="", routing_key="get_favorites", body=json_data)
         rabbitmq.close()
+
         rabbitmq.connect()
         result = rabbitmq.consume_messages("favorites_result")
         rabbitmq.close()
@@ -504,6 +507,11 @@ def saved_idea(id):
         'email' : session['user_data']['email'],
         }
     print(data)
+
+    # Save restaurant id to the session
+    if 'saved_restaurants' not in session:
+        session['saved_restaurants'] = []
+    session['saved_restaurants'].append(id)
 
     rabbitmq = RabbitMQClient( 
             username='it490admin', 

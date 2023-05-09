@@ -64,22 +64,16 @@
     {% if user_data %}
     <div class="row">
       <div class="col-md-12">
-        <h1>Saved</h1>
+        <h1>Saved Restaurants</h1>
         <hr>
+        <ul>
+          {% for restaurant_id in saved_restaurants %}
+          <li>{{ restaurant_id }}</li>
+          {% endfor %}
+        </ul>
       </div>
     </div>
     {% endif %}
-  </div>
-
-  {% if user_data %}
-  <div class="row">
-    <div class="col-md-12">
-      <h1>Saved</h1>
-      <hr>
-      <div id="saved-places"></div>
-    </div>
-  </div>
-  {% endif %}
 
   <script>
     $(document).ready(function() {
