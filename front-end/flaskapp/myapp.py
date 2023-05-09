@@ -362,7 +362,7 @@ def register2():
         try:
             rabbitmq = RabbitMQClient(
                     "it490admin",
-                    "c7dvcdbtgpue",
+                    "password",
                 )
             rabbitmq.connect()
             rabbitmq.declare_queue("register2")
