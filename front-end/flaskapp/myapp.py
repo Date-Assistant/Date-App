@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, url_for, flash, redirect, session, jsonify
 from flask_session import Session
-import mysql.connector as mariadb
 import pika
 import sys
 import json
