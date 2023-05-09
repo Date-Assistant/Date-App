@@ -230,9 +230,9 @@ def business_signin():
             password='password'
         )
         rabbitmq.connect()
-        rabbitmq.declare_queue("signin")
+        rabbitmq.declare_queue("bsignin")
         son_user_data = json.dumps(user_sign_in)
-        rabbitmq.send_message(exchange="", routing_key="signin", body=son_user_data)
+        rabbitmq.send_message(exchange="", routing_key="bsignin", body=son_user_data)
         rabbitmq.close()
 
         received_event = threading.Event() # to signal when the message is received
@@ -252,7 +252,7 @@ def business_signin():
             if key == "No":
                 return redirect(url_for('register2'))
         
-    return render_template('signin.html')
+    return render_template('business_signin.html')
 
 
 @app.route('/register/', methods=('GET', 'POST'))
@@ -309,7 +309,7 @@ def register():
             session['user_data'] = user_data
     
             # Redirect to pricing page
-            return redirect(url_for('pricing'))
+            return redirect(url_for('pricing'),plan=session.get('plan'))
         except BaseException:
             print("error")
 
@@ -372,7 +372,7 @@ def register2():
             session['user_data'] = user_data
     
             # Redirect to pricing page
-            return redirect(url_for('pricing'))
+            return redirect(url_for('pricing',plan=session.get('plan')))
         except BaseException:
             print("error")
 

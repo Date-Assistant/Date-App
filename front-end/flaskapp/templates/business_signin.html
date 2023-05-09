@@ -8,14 +8,14 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-  <title>Sign In - Date Planning App</title>
+  <title>Sign In Businesses- Date Planning App</title>
 </head>
 <body>
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-6 mt-5">
-        <h1 class="text-center">Sign In</h1>
-        <form action="{{ url_for('signin') }}" method="post">
+        <h1 class="text-center">Business Sign In</h1>
+        <form action="{{ url_for('bussiness_signin') }}" method="post">
           <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
@@ -35,7 +35,7 @@
           <a href="#">Forgot password?</a>
         </div>
         <div class="text-center mt-3">
-          <span>Don't have an account?</span> <a href="{{ url_for('register') }}">Sign up here</a>
+          <span>Don't have an account?</span> <a href="{{ url_for('register2') }}">Sign up here</a>
         </div>
       </div>
     </div>
