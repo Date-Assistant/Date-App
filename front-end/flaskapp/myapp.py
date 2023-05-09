@@ -200,29 +200,47 @@ def signin():
         
     return render_template('signin.html')
 
-'''
-    if json_response:
-        user_data = json.dumps(json_response)
-        print(user_data)
-        tempDict = {}
-        for x in user_data:
-            if(x == 'first_name'):
-                tempDict = {x:user_data[x]}
-            if(x == 'last_name'):
-                tempDict = {x:user_data[x]}
-            if(x == 'email'):
-                tempDict = {x:user_data[x]}
-            if(x == 'password'):
-                tempDict = {x:user_data[x]}
-            else:
-                if(x == 'error'):
-                    print('error')
-                    return redirect(url_for('index'))
-        user_data_final = json.dumps(tempDict)
-        session['user_data'] = json.loads(user_data_final)
-        receive_sign_in.close()
-        return redirect(url_for('authenticated_index'))
-'''
+@app.route('/business_signin/', methods=('GET', 'POST'))
+def business_signin():
+    if request.method == 'POST':
+        # Retrieve the form data
+        email = request.form['email']
+        passwd = request.form['password']
+
+        # Create a dictionary to store the form data
+        user_sign_in = {
+            'email': email,
+            'password' : passwd,
+        }
+
+        rabbitmq = RabbitMQClient( 
+            username='it490admin', 
+            password='password'
+        )
+        rabbitmq.connect()
+        rabbitmq.declare_queue("signin")
+        son_user_data = json.dumps(user_sign_in)
+        rabbitmq.send_message(exchange="", routing_key="signin", body=son_user_data)
+        rabbitmq.close()
+
+        received_event = threading.Event() # to signal when the message is received
+        message_container = [None] # to store the received message
+
+        rabbitmq.connect()
+        print("waiting for response")
+        rabbitmq.consume_messages("redirectlogin", received_event, message_container)
+        received_event.wait() # wait for the message to be received
+        result = message_container[0] # get the received message
+        rabbitmq.close()
+
+        for key in result:
+            if key == "Yes":
+                session['user_data'] = result
+                return redirect(url_for('authenticated_index'))
+            if key == "No":
+                return redirect(url_for('register2'))
+        
+    return render_template('signin.html')
 
 
 @app.route('/register/', methods=('GET', 'POST'))
@@ -237,10 +255,16 @@ def register():
         email = request.form['email']
         phone = request.form['phone']
         passwd = request.form['password']
+        confirm_passwd = request.form['confirmPassword']
         address = request.form['address']
         zip = request.form['zip']
         discountCode = request.form['discountCode']
         email_toggle = request.form.get('email-toggle', 'off')
+        membership_type = request.form['membership_type']
+
+        if passwd != confirm_passwd:
+            flash('Passwords do not match.', 'danger')
+            return redirect(url_for('register'))
 
         # Create a dictionary to store the form data
         user_data = {
@@ -252,7 +276,8 @@ def register():
             'address': address,
             'zip_code': zip,
             'receive_emails': email_toggle,
-            'discountCode' : discountCode
+            'discountCode' : discountCode,
+            'membership_type' : membership_type
         }
 
         # Print the form data
@@ -286,10 +311,17 @@ def register2():
         email = request.form['email']
         phone = request.form['phone']
         passwd = request.form['password']
+        confirm_passwd = request.form['confirmPassword']
         address = request.form['address']
         zip = request.form['zip']
         discountCode = request.form['discountCode']
         email_toggle = request.form.get('email-toggle', 'off')
+        membership_type = request.form['membership_type']
+
+        # Check if the passwords match
+        if passwd != confirm_passwd:
+            flash('Passwords do not match.', 'danger')
+            return redirect(url_for('register2'))
 
         # Create a dictionary to store the form data
         user_data = {
@@ -301,7 +333,8 @@ def register2():
             'address': address,
             'zip_code': zip,
             'receive_emails': email_toggle,
-            'discountCode' : discountCode
+            'discountCode' : discountCode,
+            'membership_type' : membership_type
         }
 
         # Print the form data
