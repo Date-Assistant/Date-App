@@ -181,6 +181,26 @@ def pricing_submit():
     }
     print(payment_info)
 
+    rabbitmq = RabbitMQClient( 
+    username='it490admin', 
+    password='password'
+    )
+    rabbitmq.connect()
+
+    if 'user_data' in session:
+        payment_info['name'] = session['user_data']['first_name'] + " " + session['user_data']['last_name']
+        rabbitmq.declare_queue("user_queue")
+        json_user_data = json.dumps(payment_info)
+        rabbitmq.send_message(exchange="", routing_key="user_queue", body=json_user_data)
+
+    elif 'business_data' in session:
+        payment_info['name'] = session['business_data']['business_name']
+        rabbitmq.declare_queue("business_queue")
+        json_business_data = json.dumps(payment_info)
+        rabbitmq.send_message(exchange="", routing_key="business_queue", body=json_business_data)
+    
+    rabbitmq.close()
+
     session.pop('plan', None)  # Remove the plan from the session
     return redirect(url_for('authenticated_index'))
 
