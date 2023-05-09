@@ -42,6 +42,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('activity_recommender') }}">Activity Recommender</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+        </li>
       </ul>
     </div>
   </nav>
@@ -64,19 +67,34 @@
   <div class="container">
     <div class="row">
       <div class="col-md-4">
-        <h2>Activity 1</h2>
-        <p>Some text goes here.</p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+        <div class="card shadow mb-4">
+          <img src="{{ url_for('static', filename='pictures/stargazing.jpg') }}" alt="Stargazing" class="card-img-top">
+          <div class="card-body">
+            <h2 class="card-title">Stargazing</h2>
+            <p class="card-text">Escape the city lights and spend a romantic evening under the stars. Bring a blanket and some snacks to enjoy while gazing at the constellations.</p>
+            <a href="https://www.go-astronomy.com/dark-sky-sites.php" class="btn btn-secondary">Learn more »</a>
+          </div>
+        </div>
       </div>
       <div class="col-md-4">
-        <h2>Activity 2</h2>
-        <p>Some text goes here.</p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+        <div class="card shadow mb-4">
+          <img src="{{ url_for('static', filename='pictures/winetasting.png') }}" alt="Wine Tasting" class="card-img-top">
+          <div class="card-body">
+            <h2 class="card-title">Wine Tasting</h2>
+            <p class="card-text">Visit a local winery or wine bar and enjoy a tasting experience together. Learn about different wines, how they're made, and find your new favorite.</p>
+            <a href="https://www.winetourism.com/" class="btn btn-secondary">Learn more »</a>
+          </div>
+        </div>
       </div>
       <div class="col-md-4">
-        <h2>Activity 3</h2>
-        <p>Some text goes here.</p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+        <div class="card shadow mb-4">
+          <img src="{{ url_for('static', filename='pictures/cooking-class.jpg') }}" alt="Cooking Class" class="card-img-top">
+          <div class="card-body">
+            <h2 class="card-title">Cooking Class</h2>
+            <p class="card-text">Take a cooking class together and learn how to make a delicious meal from scratch. It's a fun and interactive way to bond while creating something tasty.</p>
+            <a href="https://new-york.selfup.com/" class="btn btn-secondary">Learn more »</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
