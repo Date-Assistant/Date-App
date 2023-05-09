@@ -16,7 +16,7 @@ def main():
 
     # Parse the result
     if result:
-        payment_data = json.loads(result)
+        payment_data = result
 
         # Prepare the data for database insertion
         sqlInsert = "INSERT INTO payments (name, cardholder_name, card_number, expiration_date, cvc, saveCardInfo) VALUES (%s, %s, %s, %s, %s, %s)"
