@@ -8,7 +8,14 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center mt-4">Select the best plan for you, {{ fname }}</h1>
+        <h1 class="text-center mt-4">
+        Select the best plan for you, 
+        {% if fname %}
+            {{ fname }}
+        {% elif bname %}
+            {{ bname }}
+        {% endif %}
+        </h1>
         <form action="{{ url_for('pricing_submit') }}" method="POST">
             <input type="hidden" id="plan" name="plan" value="{{ plan if plan else '' }}">
             <div class="container">
