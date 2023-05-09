@@ -40,7 +40,7 @@ def main():
     if user_id:
         # If the name is in the users table, insert into userpayment table
         userTuple[0] = user_id[0]  # Replace the name with the user_id in the tuple
-        sqlInsert = "INSERT INTO userpayment (user_id, plan, cardholder_name, card_number, expiration_date, cvc, saveCardInfo) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        sqlInsert = "INSERT INTO userpayment (user_id, cardholder_name, card_number, expiration_date, cvc, saveCardInfo) VALUES (%s, %s, %s, %s, %s, %s)"
     else:
         # If the name is not in the users table, check the businesses table
         cursor.execute("SELECT id FROM businesses WHERE bname = %s", (name,))
@@ -49,7 +49,7 @@ def main():
         if business_id:
             # If the name is in the businesses table, insert into businesspayment table
             userTuple[0] = business_id[0]  # Replace the name with the business_id in the tuple
-            sqlInsert = "INSERT INTO businesspayment (business_id, plan, cardholder_name, card_number, expiration_date, cvc, saveCardInfo) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            sqlInsert = "INSERT INTO businesspayment (business_id, cardholder_name, card_number, expiration_date, cvc, saveCardInfo) VALUES (%s, %s, %s, %s, %s, %s)"
 
     try:
         cursor.execute(sqlInsert, userTuple)
