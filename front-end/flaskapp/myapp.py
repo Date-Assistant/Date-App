@@ -84,6 +84,8 @@ def claim_offer():
 def authenticated_index():
     if 'user_data' in session:
         return render_template('authenticated_index.html', user_data=session['user_data'])
+    if 'business_data' in session:
+        return render_template('authenticated_index.html', business_data=session['business_data'])
     else:
         return redirect(url_for('index'))
     
