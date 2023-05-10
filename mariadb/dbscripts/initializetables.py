@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS userpayment (
     cardholder_name VARCHAR(100),
     card_number VARCHAR(100),
     expiration_date VARCHAR(7),
-    cvc VARCHAR(4),
+    cvc VARCHAR(100),
     saveCardInfo VARCHAR(100),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS businesspayment (
     cardholder_name VARCHAR(100),
     card_number VARCHAR(100),
     expiration_date VARCHAR(7),
-    cvc VARCHAR(4),
+    cvc VARCHAR(100),
     saveCardInfo VARCHAR(100),
     FOREIGN KEY (business_id) REFERENCES businesses(id)
 );
