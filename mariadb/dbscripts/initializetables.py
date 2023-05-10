@@ -46,7 +46,7 @@ cursor.execute("""
 CREATE TABLE IF NOT EXISTS userpayment (
     user_id INT NOT NULL PRIMARY KEY,
     cardholder_name VARCHAR(100),
-    card_number VARCHAR(19),
+    card_number VARCHAR(100),
     expiration_date VARCHAR(7),
     cvc VARCHAR(4),
     saveCardInfo VARCHAR(100),
@@ -58,7 +58,7 @@ cursor.execute("""
 CREATE TABLE IF NOT EXISTS businesspayment (
     business_id INT NOT NULL PRIMARY KEY,
     cardholder_name VARCHAR(100),
-    card_number VARCHAR(19),
+    card_number VARCHAR(100),
     expiration_date VARCHAR(7),
     cvc VARCHAR(4),
     saveCardInfo VARCHAR(100),

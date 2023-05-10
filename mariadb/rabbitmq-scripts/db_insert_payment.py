@@ -29,8 +29,8 @@ def main():
             userTuple = result[x]
 
     name = userTuple[0]  # Get the name from the tuple
-    userTuple[2] = str(userTuple[2])  # Encrypt the card number
-    userTuple[3] = str(userTuple[3])  # Encrypt the cvc
+    userTuple[2] = encrypt_info(userTuple[2])  # Encrypt the card number
+    userTuple[4] = encrypt_info(userTuple[4])  # Encrypt the cvc
 
     # Check if the name is in the users table
     cursor.execute("SELECT id FROM users WHERE email = %s", (name,))
