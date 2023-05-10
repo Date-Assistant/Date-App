@@ -14,6 +14,7 @@ def encrypt_info(info):
     return hashlib.sha256(info.encode()).hexdigest()
 
 def main():
+    sqlInsert = None
     rabbitmq = RabbitMQClient( 
         username='it490admin', 
         password='password'
