@@ -27,28 +27,29 @@ def main():
     for x in result:
         if(x == 'userInfoTuple'):
             userTuple = result[x]
+    print(userTuple)
 
     name = userTuple[0]  # Get the name from the tuple
     userTuple[2] = str(userTuple[2])  # Encrypt the card number
     userTuple[3] = str(userTuple[3])  # Encrypt the cvc
 
     # Check if the name is in the users table
-    cursor.execute("SELECT id FROM users WHERE fname = %s", (name,))
+    cursor.execute("SELECT id FROM users WHERE email = %s", (name,))
     user_id = cursor.fetchone()
 
     if user_id:
         # If the name is in the users table, insert into userpayment table
         userTuple[0] = user_id[0]  # Replace the name with the user_id in the tuple
-        sqlInsert = "INSERT INTO userpayment (cardholder_name, card_number, expiration_date, cvc, saveCardInfo) VALUES (%s, %s, %s, %s, %s)"
+        sqlInsert = "INSERT INTO userpayment (user_id, cardholder_name, card_number, expiration_date, cvc, saveCardInfo) VALUES (%s, %s, %s, %s, %s, %s, %s)"
     else:
         # If the name is not in the users table, check the businesses table
-        cursor.execute("SELECT id FROM businesses WHERE bname = %s", (name,))
+        cursor.execute("SELECT id FROM businesses WHERE email = %s", (name,))
         business_id = cursor.fetchone()
 
         if business_id:
             # If the name is in the businesses table, insert into businesspayment table
             userTuple[0] = business_id[0]  # Replace the name with the business_id in the tuple
-            sqlInsert = "INSERT INTO businesspayment (cardholder_name, card_number, expiration_date, cvc, saveCardInfo) VALUES (%s, %s, %s, %s, %s)"
+            sqlInsert = "INSERT INTO businesspayment (business_id, cardholder_name, card_number, expiration_date, cvc, saveCardInfo) VALUES (%s, %s, %s, %s, %s, %s)"
 
     if sqlInsert:
         try:

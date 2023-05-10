@@ -216,13 +216,13 @@ def pricing_submit():
     rabbitmq.connect()
 
     if 'user_data' in session:
-        payment_info['name'] = session['user_data']['first_name'] + " " + session['user_data']['last_name']
+        payment_info['name'] = session['email']
         rabbitmq.declare_queue("user_queue")
         json_user_data = json.dumps(payment_info)
         rabbitmq.send_message(exchange="", routing_key="user_queue", body=json_user_data)
 
     elif 'business_data' in session:
-        payment_info['name'] = session['business_data']['business_name']
+        payment_info['name'] = session['email']
         rabbitmq.declare_queue("user_queue")
         json_business_data = json.dumps(payment_info)
         rabbitmq.send_message(exchange="", routing_key="user_queue", body=json_business_data)
