@@ -1,4 +1,4 @@
-# Date-App
+# DateGenius
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 #### This is a full-stack application for our IT-490 Project using various APIs
