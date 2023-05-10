@@ -20,7 +20,7 @@
                     {{ idea.location.state }} {{ idea.location.zip_code }}
                 </p>
                 <a href="{{ idea.url }}" class="card-link" target="_blank">More details on Yelp</a>
-                <a href="/saved_idea/{{ idea.id }}" class="btn btn-primary float-right">Save</a>
+                <a href="/saved_idea/{{ idea.name }}/" class="btn btn-primary float-right">Save</a>
             </div>
         </div>
         {% endfor %}
