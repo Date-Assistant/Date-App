@@ -45,12 +45,11 @@ CREATE TABLE IF NOT EXISTS businesses (
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS userpayment (
     user_id INT NOT NULL PRIMARY KEY,
-    plan VARCHAR(250),
     cardholder_name VARCHAR(100),
     card_number VARCHAR(19),
     expiration_date VARCHAR(7),
     cvc VARCHAR(4),
-    saveCardInfo BOOLEAN,
+    saveCardInfo VARCHAR(100),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 """)
@@ -58,18 +57,17 @@ CREATE TABLE IF NOT EXISTS userpayment (
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS businesspayment (
     business_id INT NOT NULL PRIMARY KEY,
-    plan VARCHAR(250),
     cardholder_name VARCHAR(100),
     card_number VARCHAR(19),
     expiration_date VARCHAR(7),
     cvc VARCHAR(4),
-    saveCardInfo BOOLEAN,
+    saveCardInfo VARCHAR(100),
     FOREIGN KEY (business_id) REFERENCES businesses(id)
 );
 """)
 
 cursor.execute("""
-CREATE TABLE IF NOT EXISTS userplaces (
+CREATE TABLE IF NOT EXISTS favorites (
     user_id INT NOT NULL,
     place_id VARCHAR(50) NOT NULL,
     PRIMARY KEY (user_id, place_id),
