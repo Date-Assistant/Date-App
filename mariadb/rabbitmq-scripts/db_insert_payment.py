@@ -49,12 +49,15 @@ def main():
             userTuple[0] = business_id[0]  # Replace the name with the business_id in the tuple
             sqlInsert = "INSERT INTO businesspayment (cardholder_name, card_number, expiration_date, cvc, saveCardInfo) VALUES (%s, %s, %s, %s, %s)"
 
-    try:
-        cursor.execute(sqlInsert, userTuple)
-        mariadb_connection.commit()
-    except Exception as e:
-        print("Error:", str(e))
-        tempDict = {'error':'error inserting into db'}
+    if sqlInsert:
+        try:
+            cursor.execute(sqlInsert, userTuple)
+            mariadb_connection.commit()
+        except Exception as e:
+            print("Error:", str(e))
+            tempDict = {'error':'error inserting into db'}
+    else:
+        print(f"No user or business found with name {name}")
 
 if __name__ == '__main__':
     try:
